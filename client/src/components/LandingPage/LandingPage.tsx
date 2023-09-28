@@ -75,6 +75,15 @@ export const NoSignUp = styled.div`
   color: rgb(69, 67, 62);
   font-size: 13px;
   text-align: center;
+  font-weight: bold;
+`;
+
+export const SectionHeader = styled.div`
+  font-family: "Helvetica Neue", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  font-size: 36px;
+  color: rgb(17, 17, 17);
 `;
 
 function LandingPage() {
@@ -92,6 +101,17 @@ function LandingPage() {
           Get started for free <img src={arrowRight} style={svgStyle} />{" "}
         </GetStarted>
         <NoSignUp>No sign up required</NoSignUp>
+        <SectionHeader>
+          AI powered content tailored for all your writing needs
+        </SectionHeader>
+
+        <div>
+          Whether if you are getting started or need some direction while
+          creating content, we are here help you get from the <b>halfway</b>{" "}
+          point to across the finish line.
+        </div>
+
+        <SectionHeader>Helping you create the content needed to:</SectionHeader>
       </Container>
     </div>
   );
