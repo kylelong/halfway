@@ -8,6 +8,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   padding: 48px 0px;
 `;
 export const HeaderContainer = styled.div`
@@ -42,14 +43,15 @@ export const SubText = styled.div`
   }
 `;
 
-export const GetStarted = styled.div`
+export const GetStarted = styled.button`
   display: inline-flex;
   -webkit-box-align: center;
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
   position: relative;
-  max-width: 100%;
+  max-width: 200px;
+  width: 100%;
   border: 0px;
   border-radius: 5px;
   cursor: pointer;
@@ -78,12 +80,45 @@ export const NoSignUp = styled.div`
   font-weight: bold;
 `;
 
-export const SectionHeader = styled.div`
+export const Details = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 32px;
+`;
+export const Section = styled.div`
+  & > div:first-child {
+    flex: 0.5 1 0%;
+  }
+`;
+
+export const SectionHeader = styled.h2`
+  display: flex;
   font-family: "Helvetica Neue", sans-serif;
-  text-align: center;
+  text-align: left;
   font-weight: bold;
-  font-size: 36px;
-  color: rgb(17, 17, 17);
+  font-size: 20px;
+  color: rgb(0, 0, 0);
+  margin-bottom: 12px;
+  @media (min-width: 569px) {
+    font-size: 36px;
+  }
+`;
+export const SectionText = styled.p`
+  text-align: left;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 500;
+  color: #374151;
+  @media (min-width: 569px) {
+    font-size: 22px;
+  }
+`;
+
+export const SectionTextSmallWidth = styled(SectionText)`
+  max-width: 412px;
+  width: 100%;
+  //500px for medium text
 `;
 
 function LandingPage() {
@@ -98,20 +133,48 @@ function LandingPage() {
           <SubText>The best way to generate content.</SubText>
         </HeaderContainer>
         <GetStarted>
-          Get started for free <img src={arrowRight} style={svgStyle} />{" "}
+          Get started for free{" "}
+          <img alt="arrow right" src={arrowRight} style={svgStyle} />{" "}
         </GetStarted>
         <NoSignUp>No sign up required</NoSignUp>
-        <SectionHeader>
-          AI powered content tailored for all your writing needs
-        </SectionHeader>
 
-        <div>
-          Whether if you are getting started or need some direction while
-          creating content, we are here help you get from the <b>halfway</b>{" "}
-          point to across the finish line.
-        </div>
+        <Details>
+          <Section>
+            <SectionHeader>
+              AI powered content tailored for all your writing needs
+            </SectionHeader>
+            <SectionText>
+              Whether if you are getting started or need some direction while
+              creating content &#8212; <br />
+              we help you get from the{" "}
+              <span style={{color: "rgb(93, 93, 255)", fontWeight: "bold"}}>
+                halfway
+              </span>{" "}
+              point to across the finish line.
+            </SectionText>
+          </Section>
+          <Section>
+            <SectionHeader>Content for various reasons</SectionHeader>
+            <SectionTextSmallWidth>
+              Our smart features powered by AI makes it easy to turn your ideas
+              into effective content for every need.
+            </SectionTextSmallWidth>
+          </Section>
+          <Section>
+            <SectionHeader>Writing of all forms</SectionHeader>
+            <SectionTextSmallWidth>
+              Your one stop shop for various mediums.
+            </SectionTextSmallWidth>
+          </Section>
 
-        <SectionHeader>Helping you create the content needed to:</SectionHeader>
+          <Section>
+            <SectionHeader>Share your voice</SectionHeader>
+            <SectionTextSmallWidth>
+              Content that sounds like you with the option to edit using our
+              rich text editor until you are satisfied.
+            </SectionTextSmallWidth>
+          </Section>
+        </Details>
       </Container>
     </div>
   );

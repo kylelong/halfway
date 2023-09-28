@@ -23,7 +23,7 @@ const WordSwitcher = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % words.length);
-    }, 3000);
+    }, 2500);
     return () => clearInterval(interval);
   }, []);
 
@@ -34,7 +34,7 @@ const WordSwitcher = () => {
         initial={{opacity: 0, y: -5}}
         animate={{opacity: 1, y: 0}}
         exit={{opacity: 0, y: 5}}
-        transition={{duration: 0.3}}
+        transition={{duration: 0.5}}
       >
         <Phrase>{words[index]}</Phrase>
       </motion.span>
