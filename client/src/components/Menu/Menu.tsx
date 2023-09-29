@@ -2,18 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import Logo from "../Logo/Logo";
 import {Link} from "react-router-dom";
-import {linkStyle, svgStyle} from "../../styles/common";
-import lifeBuoy from "../../assets/lifeBuoy.svg";
+import {linkStyle} from "../../styles/common";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-`;
-
-export const LogoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
 `;
 
 export const NavButton = styled.button`
@@ -80,15 +74,17 @@ export const CreateButton = styled.button`
 
 export const NavigationMenu = styled.div`
   display: flex;
+  @media (max-width: 568px) {
+    position: relative;
+    left: 32px;
+  }
 `;
 
 const Menu = () => {
   return (
     <Container>
-      <LogoContainer>
-        <Logo />
-        <img src={lifeBuoy} style={svgStyle} />
-      </LogoContainer>
+      <Logo />
+
       <NavigationMenu>
         <Link to="/pricing" style={linkStyle}>
           <PricingButton>Pricing</PricingButton>

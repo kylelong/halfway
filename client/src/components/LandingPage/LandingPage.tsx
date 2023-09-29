@@ -3,18 +3,51 @@ import WordSwitcher from "../WordSwitcher";
 import styled from "styled-components";
 import Menu from "../Menu/Menu";
 import arrowRight from "../../assets/arrowRight.svg";
-import {svgStyle} from "../../styles/common";
+import youtube from "../../assets/youtube.svg";
+import facebook from "../../assets/facebook.svg";
+import linkedin from "../../assets/linkedin.svg";
+import tiktok from "../../assets/tiktok.svg";
+import gmail from "../../assets/gmail.svg";
+import instagram from "../../assets/instagram.svg";
+import twitter from "../../assets/twitter.svg";
+import paper from "../../assets/paper.svg";
+import chart from "../../assets/chart.svg";
+import email from "../../assets/email.svg";
+import person from "../../assets/person.svg";
+import seo from "../../assets/seo.svg";
+import cart from "../../assets/cart.svg";
+import smiling from "../../assets/smiling.svg";
+import laughing from "../../assets/laughing.svg";
+import love from "../../assets/in-love.svg";
+import thinking from "../../assets/thinking.svg";
+import sunglasses from "../../assets/sunglasses.svg";
+import writing from "../../assets/writing.svg";
+import {
+  svgStyle,
+  svgContentStyle,
+  svgMediaStyle,
+  emojiStyle,
+} from "../../styles/common";
+import Logo from "../Logo/Logo";
+
+const svgs = [paper, chart, email, person, seo, cart];
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-
-  padding: 48px 0px;
+  width: 100%;
+  padding: 0px 32px;
+  @media (min-width: 1024px) {
+    flex: 1 1 0%;
+    margin: 0px auto;
+    width: 1024px;
+    padding: 0px 24px;
+  }
 `;
 export const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 32px;
   margin-bottom: 32px;
   @media (min-width: 768px) {
     margin-bottom: 64px;
@@ -51,6 +84,7 @@ export const GetStarted = styled.button`
   justify-content: center;
   position: relative;
   max-width: 200px;
+  margin: 0 auto;
   width: 100%;
   border: 0px;
   border-radius: 5px;
@@ -86,11 +120,7 @@ export const Details = styled.div`
   align-items: flex-start;
   margin-top: 32px;
 `;
-export const Section = styled.div`
-  & > div:first-child {
-    flex: 0.5 1 0%;
-  }
-`;
+export const Section = styled.div``;
 
 export const SectionHeader = styled.h2`
   display: flex;
@@ -104,12 +134,38 @@ export const SectionHeader = styled.h2`
     font-size: 36px;
   }
 `;
+export const SectionHeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 769px) {
+    flex-direction: row;
+  }
+`;
+export const EmojiContainer = styled.div`
+  @media (min-width: 769px) {
+    position: relative;
+    top: 38px;
+    left: 15px;
+  }
+`;
 export const SectionText = styled.p`
   text-align: left;
   font-size: 16px;
   line-height: 1.25;
   font-weight: 500;
   color: #374151;
+  @media (min-width: 569px) {
+    font-size: 22px;
+  }
+`;
+export const UpsellText = styled.p`
+  text-align: left;
+  font-size: 17px;
+  line-height: 1.25;
+  color: #374151;
+  max-width: 550px;
+  width: 100%;
   @media (min-width: 569px) {
     font-size: 22px;
   }
@@ -129,7 +185,7 @@ export const SectionTextLargeWidth = styled(SectionText)`
 export const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(1, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: 10px; /* Optional: defines the space between grid items */
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
     rgba(61, 59, 53, 0.16) 0px 0px 0px 1px,
@@ -139,7 +195,7 @@ export const GridContainer = styled.div`
   background: rgb(254, 254, 254);
   padding: 12px;
   @media (min-width: 769px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
 export const GridItem = styled.div`
@@ -167,6 +223,51 @@ export const GridDescription = styled.div`
   margin-bottom: 6px;
   margin-left: 5px;
 `;
+
+export const MediaGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 10px; /* Optional: defines the space between grid items */
+  position: relative;
+  right: 34px;
+  // box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+  //   rgba(61, 59, 53, 0.16) 0px 0px 0px 1px,
+  //   rgba(61, 59, 53, 0.08) 0px 3px 9px 0px,
+  //   rgba(61, 59, 53, 0.08) 0px 2px 5px 0px;
+  border-radius: 10px;
+  background: rgb(254, 254, 254);
+  padding: 12px;
+  @media (min-width: 769px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+`;
+
+export const MediaGridItem = styled.div`
+  padding: 10px 20px 0px 20px;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const MediaLabel = styled.div`
+  color: rgb(55, 53, 47);
+  font-weight: 600;
+`;
+export const MediaDescription = styled.div`
+  color: rgb(119, 118, 114);
+  font-weight: 500;
+  margin-top: 3px;
+`;
+export const Footer = styled.footer`
+  display: flex;
+  -webkit-box-pack: justify;
+  flex-direction: column;
+  border-top: 1px solid rgba(55, 53, 47, 0.09);
+  margin-top: 32px;
+  padding: 50px 0px;
+  width: 100%;
+`;
+
 //#endregion
 const useCases = {
   Writing: [
@@ -199,6 +300,51 @@ const useCases = {
     "Compelling product titles and descriptions",
     "SEO-friendly content for your catalog",
   ],
+};
+
+const social = {
+  blog: {
+    label: "Blog / Paper",
+    svg: paper,
+    description: "Ideas that effectively convey your message",
+  },
+  twitter: {
+    label: "Twitter",
+    svg: twitter,
+    description: "Generate engaging threads, tweets, and replies",
+  },
+  youtube: {
+    label: "Youtube",
+    svg: youtube,
+    description: "Captivating video ideas, titles, and subtitles",
+  },
+  linkedin: {
+    label: "Linkedin",
+    svg: linkedin,
+    description:
+      "Engaging posts, comments, and hashtags to connect with your professional network",
+  },
+  facebook: {
+    label: "Facebook",
+    svg: facebook,
+    description: "Posts and ads that captivate your audience.",
+  },
+  tiktok: {
+    label: "Tiktok",
+    svg: tiktok,
+    description: "Viral video ideas, titles, and captions, and hashtags.",
+  },
+  instagram: {
+    label: "Instagram",
+    svg: instagram,
+    description: "Expressive ads, captions, reel ideas, bios, and hashtags",
+  },
+  gmail: {
+    label: "Email",
+    svg: gmail,
+    description:
+      "Craft clear and relevant responses for all conversation types.",
+  },
 };
 
 function LandingPage() {
@@ -235,7 +381,7 @@ function LandingPage() {
           </Section>
 
           <Section>
-            <SectionHeader>Content for various reasons</SectionHeader>
+            <SectionHeader>Content for all purposes</SectionHeader>
             <SectionTextSmallWidth>
               Our smart features powered by AI makes it easy to turn your ideas
               into effective content for every need.
@@ -244,7 +390,14 @@ function LandingPage() {
               {Object.entries(useCases).map((item, idx) => {
                 return (
                   <GridItem key={idx}>
-                    <GridHeader>{item[0]}</GridHeader>
+                    <GridHeader>
+                      <img
+                        alt="paper"
+                        src={svgs[idx]}
+                        style={svgContentStyle}
+                      />
+                      {item[0]}
+                    </GridHeader>
                     <div>
                       {item[1].map((e, idx) => {
                         return (
@@ -266,15 +419,67 @@ function LandingPage() {
             <SectionTextSmallWidth>
               Your one stop shop for various mediums.
             </SectionTextSmallWidth>
+            <MediaGrid>
+              {Object.entries(social).map(([key, value]) => {
+                return (
+                  <MediaGridItem key={key}>
+                    <img
+                      alt={value.label}
+                      src={value.svg}
+                      style={svgMediaStyle}
+                    />
+                    <MediaLabel>{value.label}</MediaLabel>
+                    <MediaDescription>{value.description}</MediaDescription>
+                  </MediaGridItem>
+                );
+              })}
+            </MediaGrid>
           </Section>
 
           <Section>
-            <SectionHeader>Share your voice</SectionHeader>
+            <SectionHeaderContainer>
+              <SectionHeader>Maintain your voice </SectionHeader>
+              <EmojiContainer>
+                <img alt="smiling" src={smiling} style={emojiStyle} />{" "}
+                <img alt="laughing" src={laughing} style={emojiStyle} />{" "}
+                <img alt="thinking" src={thinking} style={emojiStyle} />{" "}
+                <img alt="love" src={love} style={emojiStyle} />{" "}
+                <img alt="sunglasses" src={sunglasses} style={emojiStyle} />{" "}
+              </EmojiContainer>
+            </SectionHeaderContainer>
             <SectionTextSmallWidth>
               Content that sounds like you with the option to edit using our
               rich text editor until you are satisfied.
             </SectionTextSmallWidth>
+            <MediaDescription
+              style={{maxWidth: "687px", fontSize: "18px", width: "100%"}}
+            >
+              Choose which tone of voice your content is generated in. Whether
+              that be funny, professional, excited, casual,etc. Whichever tone
+              suits your needs, you have options.
+            </MediaDescription>
           </Section>
+          <Section>
+            <img
+              alt="writing"
+              src={writing}
+              style={{maxWidth: "650px", width: "100%"}}
+            />
+            <SectionHeader>It's time to enhance your writing</SectionHeader>
+            <UpsellText>
+              Starting out or halfway with your writing? Cross the finish line
+              with amazing content today. No account needed to try it out.
+            </UpsellText>
+            <GetStarted>
+              Get started for free{" "}
+              <img alt="arrow right" src={arrowRight} style={svgStyle} />{" "}
+            </GetStarted>
+          </Section>
+          <Footer>
+            <Logo />
+            <p>&copy; Halfway {new Date().getFullYear()}</p>
+            <span>contact@halfway.so</span>
+          </Footer>
         </Details>
       </Container>
     </div>
