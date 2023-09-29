@@ -2,6 +2,7 @@ import {CSSProperties} from "react";
 
 export const linkStyle = {
   textDecoration: "none",
+  margin: "0 auto",
 };
 
 export const svgStyle = {

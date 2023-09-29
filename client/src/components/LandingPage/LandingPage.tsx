@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import WordSwitcher from "../WordSwitcher";
 import styled from "styled-components";
 import Menu from "../Menu/Menu";
@@ -27,6 +28,7 @@ import {
   svgContentStyle,
   svgMediaStyle,
   emojiStyle,
+  linkStyle,
 } from "../../styles/common";
 import Logo from "../Logo/Logo";
 
@@ -172,7 +174,7 @@ export const UpsellText = styled.p`
 `;
 
 export const SectionTextSmallWidth = styled(SectionText)`
-  max-width: 412px;
+  max-width: 430px;
   width: 100%;
   //500px for medium text
 `;
@@ -358,10 +360,12 @@ function LandingPage() {
           </Sentence>
           <SubText>The best way to generate content.</SubText>
         </HeaderContainer>
-        <GetStarted>
-          Get started for free{" "}
-          <img alt="arrow right" src={arrowRight} style={svgStyle} />{" "}
-        </GetStarted>
+        <Link to="/demo" style={linkStyle}>
+          <GetStarted>
+            Get started for free{" "}
+            <img alt="arrow right" src={arrowRight} style={svgStyle} />{" "}
+          </GetStarted>
+        </Link>
         <NoSignUp>No sign up required</NoSignUp>
 
         <Details>
@@ -449,7 +453,7 @@ function LandingPage() {
             </SectionHeaderContainer>
             <SectionTextSmallWidth>
               Content that sounds like you with the option to edit using our
-              rich text editor until you are satisfied.
+              <i> rich text editor </i> until you are satisfied.
             </SectionTextSmallWidth>
             <MediaDescription
               style={{maxWidth: "687px", fontSize: "18px", width: "100%"}}
@@ -467,17 +471,26 @@ function LandingPage() {
             />
             <SectionHeader>It's time to enhance your writing</SectionHeader>
             <UpsellText>
-              Starting out or halfway with your writing? Cross the finish line
-              with amazing content today. No account needed to try it out.
+              Starting out or{" "}
+              <span style={{color: "rgb(93, 93, 255)", fontWeight: "bold"}}>
+                halfway
+              </span>{" "}
+              with your writing? Cross the finish line with amazing content
+              today. No account needed to try it out.
             </UpsellText>
-            <GetStarted>
-              Get started for free{" "}
-              <img alt="arrow right" src={arrowRight} style={svgStyle} />{" "}
-            </GetStarted>
+            <Link to="/demo" style={linkStyle}>
+              <GetStarted>
+                Get started for free{" "}
+                <img alt="arrow right" src={arrowRight} style={svgStyle} />{" "}
+              </GetStarted>
+            </Link>
           </Section>
           <Footer>
             <Logo />
-            <p>&copy; Halfway {new Date().getFullYear()}</p>
+            <p>
+              &copy; Halfway
+              {new Date().getFullYear()}
+            </p>
             <span>contact@halfway.so</span>
           </Footer>
         </Details>
