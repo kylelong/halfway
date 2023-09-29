@@ -121,6 +121,86 @@ export const SectionTextSmallWidth = styled(SectionText)`
   //500px for medium text
 `;
 
+export const SectionTextLargeWidth = styled(SectionText)`
+  width: 100%;
+  max-width: 900px;
+`;
+
+export const GridContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px; /* Optional: defines the space between grid items */
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 1px 0px,
+    rgba(61, 59, 53, 0.16) 0px 0px 0px 1px,
+    rgba(61, 59, 53, 0.08) 0px 3px 9px 0px,
+    rgba(61, 59, 53, 0.08) 0px 2px 5px 0px;
+  border-radius: 10px;
+  background: rgb(254, 254, 254);
+  padding: 12px;
+  @media (min-width: 769px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+`;
+export const GridItem = styled.div`
+  padding: 10px 20px 0px 20px;
+`;
+export const GridHeader = styled.h3`
+  font-size: 18px;
+  margin: 0px 0px 8px;
+  font-weight: 800;
+  color: rgb(0, 0, 0);
+`;
+export const Dot = styled.div`
+  width: 5px;
+  height: 5px;
+  background-color: rgb(93, 93, 255);
+  border-radius: 50%;
+  position: relative;
+  top: 7px;
+`;
+export const GridItemContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+export const GridDescription = styled.div`
+  margin-bottom: 6px;
+  margin-left: 5px;
+`;
+//#endregion
+const useCases = {
+  Writing: [
+    "Overcome writer’s block",
+    "Assistance with  creating paragraphs and sentences",
+    "Spelling, grammar and punctuation checker",
+  ],
+  Marketing: [
+    "Ennhance the your business or personal brand",
+    "Increase user enagagement and revenue",
+    "Customize content for your target audience",
+  ],
+  Email: [
+    "Optimize communication",
+    "Effective marketing campaigns",
+    "Enhance subject lines and message body",
+  ],
+  Advertising: [
+    "Create impactful advertisements",
+    "Captivate your target audience",
+    "Increase brand awareness",
+  ],
+  SEO: [
+    "Effective keywords that convert",
+    "Improve search engine rankings",
+    "Increase traffic to your business",
+  ],
+  "E-commerce": [
+    "Enhance product listings",
+    "Compelling product titles and descriptions",
+    "SEO-friendly content for your catalog",
+  ],
+};
+
 function LandingPage() {
   return (
     <div>
@@ -143,7 +223,7 @@ function LandingPage() {
             <SectionHeader>
               AI powered content tailored for all your writing needs
             </SectionHeader>
-            <SectionText>
+            <SectionTextLargeWidth>
               Whether if you are getting started or need some direction while
               creating content &#8212; <br />
               we help you get from the{" "}
@@ -151,15 +231,36 @@ function LandingPage() {
                 halfway
               </span>{" "}
               point to across the finish line.
-            </SectionText>
+            </SectionTextLargeWidth>
           </Section>
+
           <Section>
             <SectionHeader>Content for various reasons</SectionHeader>
             <SectionTextSmallWidth>
               Our smart features powered by AI makes it easy to turn your ideas
               into effective content for every need.
             </SectionTextSmallWidth>
+            <GridContainer>
+              {Object.entries(useCases).map((item, idx) => {
+                return (
+                  <GridItem key={idx}>
+                    <GridHeader>{item[0]}</GridHeader>
+                    <div>
+                      {item[1].map((e, idx) => {
+                        return (
+                          <GridItemContainer key={idx}>
+                            <Dot></Dot>
+                            <GridDescription>{e}</GridDescription>
+                          </GridItemContainer>
+                        );
+                      })}
+                    </div>
+                  </GridItem>
+                );
+              })}
+            </GridContainer>
           </Section>
+
           <Section>
             <SectionHeader>Writing of all forms</SectionHeader>
             <SectionTextSmallWidth>
