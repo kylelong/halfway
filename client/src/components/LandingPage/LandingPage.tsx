@@ -466,8 +466,8 @@ function LandingPage() {
               <span style={{color: "rgb(93, 93, 255)", fontWeight: "bold"}}>
                 halfway
               </span>{" "}
-              with your writing? Cross the finish line with amazing content
-              today. No account needed to try it out.
+              there with your writing? Cross the finish line with amazing
+              content today. No account needed to try it out.
             </UpsellText>
             <Link to="/demo" style={linkStyle}>
               <GetStarted>
