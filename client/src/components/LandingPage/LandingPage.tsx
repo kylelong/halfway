@@ -23,6 +23,7 @@ import love from "../../assets/in-love.svg";
 import thinking from "../../assets/thinking.svg";
 import sunglasses from "../../assets/sunglasses.svg";
 import writing from "../../assets/writing.svg";
+import Footer from "./Footer";
 import {
   svgStyle,
   svgContentStyle,
@@ -30,7 +31,6 @@ import {
   emojiStyle,
   linkStyle,
 } from "../../styles/common";
-import Logo from "../Logo/Logo";
 
 const svgs = [paper, chart, email, person, seo, cart];
 export const Container = styled.div`
@@ -260,15 +260,6 @@ export const MediaDescription = styled.div`
   font-weight: 500;
   margin-top: 3px;
 `;
-export const Footer = styled.footer`
-  display: flex;
-  -webkit-box-pack: justify;
-  flex-direction: column;
-  border-top: 1px solid rgba(55, 53, 47, 0.09);
-  margin-top: 32px;
-  padding: 50px 0px;
-  width: 100%;
-`;
 
 //#endregion
 const useCases = {
@@ -485,14 +476,7 @@ function LandingPage() {
               </GetStarted>
             </Link>
           </Section>
-          <Footer>
-            <Logo />
-            <p>
-              &copy; Halfway
-              {new Date().getFullYear()}
-            </p>
-            <span>contact@halfway.so</span>
-          </Footer>
+          <Footer />
         </Details>
       </Container>
     </div>

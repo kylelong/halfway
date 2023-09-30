@@ -4,6 +4,11 @@ export const linkStyle = {
   textDecoration: "none",
   margin: "0 auto",
 };
+export const linkStyleRow: CSSProperties = {
+  textDecoration: "none",
+  display: "flex",
+  flexDirection: "row",
+};
 
 export const svgStyle = {
   width: "24px",
