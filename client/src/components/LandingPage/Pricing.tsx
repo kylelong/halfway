@@ -122,7 +122,7 @@ export default function Pricing() {
               free
             </span>{" "}
             first but unlock its full potential when you are ready. <br />{" "}
-            <br /> Upgrade for{" "}
+            Upgrade for{" "}
             <span style={{color: "rgb(93, 93, 255)", fontWeight: "bold"}}>
               $19 / month
             </span>
