@@ -360,7 +360,7 @@ function LandingPage() {
         <NoSignUp>No sign up required</NoSignUp>
 
         <Details>
-          <Section>
+          <div className="mb-6">
             <SectionHeader>
               AI powered content tailored for all your writing needs
             </SectionHeader>
@@ -373,43 +373,43 @@ function LandingPage() {
               </span>{" "}
               point to across the finish line.
             </SectionTextLargeWidth>
-          </Section>
+          </div>
 
-          <Section>
+          <div className="mb-12">
             <SectionHeader>Content for all purposes</SectionHeader>
             <SectionTextSmallWidth>
               Our smart features powered by AI makes it easy to turn your ideas
               into effective content for every need.
             </SectionTextSmallWidth>
-            <GridContainer>
+            <div className="mt-6 pl-2 grid grid-cols-1 md:grid-cols-3 gap-10 rounded-xl border-slate-100 border-2 shadow-md shadow-slate-50 pb-3">
               {Object.entries(useCases).map((item, idx) => {
                 return (
-                  <GridItem key={idx}>
-                    <GridHeader>
+                  <div className="pt-3 pr-6 pb-0 pl-3" key={idx}>
+                    <div className="flex flex-row mb-3">
                       <img
                         alt="paper"
                         src={svgs[idx]}
                         style={svgContentStyle}
                       />
-                      {item[0]}
-                    </GridHeader>
+                      <span className="mt-3 ml-0.5">{item[0]}</span>
+                    </div>
                     <div>
                       {item[1].map((e, idx) => {
                         return (
-                          <GridItemContainer key={idx}>
-                            <Dot></Dot>
-                            <GridDescription>{e}</GridDescription>
-                          </GridItemContainer>
+                          <div className="flex flex-row" key={idx}>
+                            <div className="relative top-2 w-1.5 h-1.5 bg-violet-500 rounded-full"></div>
+                            <div className="relative left-2">{e}</div>
+                          </div>
                         );
                       })}
                     </div>
-                  </GridItem>
+                  </div>
                 );
               })}
-            </GridContainer>
-          </Section>
+            </div>
+          </div>
 
-          <Section>
+          <div className="mb-6">
             <SectionHeader>Writing of all forms</SectionHeader>
             <SectionTextSmallWidth>
               Your one stop shop for various mediums.
@@ -429,30 +429,32 @@ function LandingPage() {
                 );
               })}
             </MediaGrid>
-          </Section>
+          </div>
 
           <Section>
             <SectionHeaderContainer>
               <SectionHeader>Maintain your voice </SectionHeader>
-              <EmojiContainer>
+              <div className="flex flex-row mb-4 md:mb-2">
                 <img alt="smiling" src={smiling} style={emojiStyle} />{" "}
                 <img alt="laughing" src={laughing} style={emojiStyle} />{" "}
                 <img alt="thinking" src={thinking} style={emojiStyle} />{" "}
                 <img alt="love" src={love} style={emojiStyle} />{" "}
                 <img alt="sunglasses" src={sunglasses} style={emojiStyle} />{" "}
-              </EmojiContainer>
+              </div>
             </SectionHeaderContainer>
             <SectionTextSmallWidth>
               Content that sounds like you with the option to edit using our
-              <i> rich text editor </i> until you are satisfied.
+              <i style={{color: "rgb(93, 93, 255)", fontWeight: "bold"}}>
+                {" "}
+                rich text editor{" "}
+              </i>{" "}
+              until you are satisfied.
             </SectionTextSmallWidth>
-            <MediaDescription
-              style={{maxWidth: "687px", fontSize: "18px", width: "100%"}}
-            >
+            <div className="max-w-xl text-lg mt-3 text-slate-600">
               Choose which tone of voice your content is generated in. Whether
               that be funny, professional, excited, casual,etc. Whichever tone
               suits your needs, you have options.
-            </MediaDescription>
+            </div>
           </Section>
           <Section>
             <img
@@ -461,14 +463,14 @@ function LandingPage() {
               style={{maxWidth: "650px", width: "100%"}}
             />
             <SectionHeader>It's time to enhance your writing</SectionHeader>
-            <UpsellText>
+            <div className="mb-6 max-w-lg text-lg lg:text-xl text-slate-600">
               Starting out or{" "}
               <span style={{color: "rgb(93, 93, 255)", fontWeight: "bold"}}>
                 halfway
               </span>{" "}
               there with your writing? Cross the finish line with amazing
               content today. No account needed to try it out.
-            </UpsellText>
+            </div>
             <Link to="/demo" style={linkStyle}>
               <GetStarted>
                 Get started for free{" "}

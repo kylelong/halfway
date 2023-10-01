@@ -18,8 +18,10 @@ export const FooterDiv = styled.footer`
 export default function Footer() {
   return (
     <FooterDiv>
-      <Logo />
-      <p>
+      <div className="mb-2">
+        <Logo />
+      </div>
+      <p className="mb-2">
         &copy; Halfway
         {new Date().getFullYear()}
       </p>
@@ -33,7 +35,7 @@ export default function Footer() {
       >
         Pricing
       </Link>
-      <span>contact@halfway.so</span>
+      <span>kyle@halfway.so</span>
     </FooterDiv>
   );
 }
