@@ -342,7 +342,7 @@ const social = {
 
 function LandingPage() {
   return (
-    <div>
+    <div className="py-5 px-6">
       <Menu />
       <Container>
         <HeaderContainer>

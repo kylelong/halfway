@@ -3,12 +3,13 @@ import {Editor} from "@tinymce/tinymce-react";
 
 export default function TinyEditor() {
   const editorRef = useRef(null);
-  const [text, setText] = useState("");
+  const [text, setText] = useState("<h3>hello</h3>");
   const handleChange = (content, editor) => {
     const length = content.length;
-    if (length === 0) {
+    if (length === 0 || typeof content === "object") {
       setText("");
     } else {
+      console.log(content, content.length);
       setText({content});
     }
   };

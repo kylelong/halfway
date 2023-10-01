@@ -27,7 +27,7 @@ export const Header = styled.h1`
 
 export default function Login() {
   return (
-    <div>
+    <div className="py-5 px-6">
       <Logo />
       <Container>
         <Header>Welcome back</Header>

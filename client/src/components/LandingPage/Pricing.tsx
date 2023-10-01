@@ -13,7 +13,7 @@ const includedFeatures = [
 
 export default function Pricing() {
   return (
-    <div className="bg-white py-2">
+    <div className="bg-white py-5 px-6">
       <Menu />
       <div className="mx-auto max-w-7xl px-6 lg:px-8 mt-6">
         <div className="mx-auto max-w-2xl sm:text-center">
@@ -21,7 +21,7 @@ export default function Pricing() {
             Pricing
           </h2>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            Jump start with useful templates. Save hours of your time. Take your
+            Save hours of your time. Jump start with useful templates. Take your
             writing and content to the next level.
           </p>
         </div>
