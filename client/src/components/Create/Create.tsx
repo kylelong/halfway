@@ -1,35 +1,48 @@
 import {Fragment, useState} from "react";
-import {Dialog, Transition} from "@headlessui/react";
+import {Dialog, Transition, Disclosure} from "@headlessui/react";
+import {ChevronRightIcon} from "@heroicons/react/20/solid";
 import lifeBuoyWhite from "../../assets/lifeBuoyWhite.svg";
 import {
   Bars3Icon,
-  CalendarIcon,
   ChartPieIcon,
-  DocumentDuplicateIcon,
-  FolderIcon,
   HomeIcon,
-  UsersIcon,
   XMarkIcon,
+  UserCircleIcon,
+  UserPlusIcon,
+  ChartBarIcon,
+  InboxArrowDownIcon,
+  ShoppingCartIcon,
+  NewspaperIcon,
+  DevicePhoneMobileIcon,
 } from "@heroicons/react/24/outline";
 import TinyEditor from "./TinyEditor";
 import FilterMenu from "./FilterMenu";
 
 const navigation = [
   {id: 0, name: "Dashboard", href: "#", icon: HomeIcon},
-  {id: 1, name: "Writing", href: "#", icon: UsersIcon},
-  {id: 2, name: "Social", href: "#", icon: ChartPieIcon},
-  {id: 3, name: "Marketing", href: "#", icon: FolderIcon},
-  {id: 4, name: "SEO", href: "#", icon: CalendarIcon},
-  {id: 5, name: "Email", href: "#", icon: DocumentDuplicateIcon},
-  {id: 6, name: "Advertising", href: "#", icon: ChartPieIcon},
-  {id: 7, name: "E-commerce", href: "#", icon: ChartPieIcon},
+  {id: 1, name: "Writing", href: "#", icon: NewspaperIcon},
+  {
+    id: 2,
+    name: "Social",
+    href: "#",
+    icon: DevicePhoneMobileIcon,
+    children: [
+      {name: "Twitter", href: "#"},
+      {name: "LinkedIn", href: "#"},
+      {name: "Customer Success", href: "#"},
+    ],
+  },
+  {id: 3, name: "Marketing", href: "#", icon: ChartPieIcon},
+  {id: 4, name: "SEO", href: "#", icon: ChartBarIcon},
+  {id: 5, name: "Email", href: "#", icon: InboxArrowDownIcon},
+  {id: 6, name: "Advertising", href: "#", icon: UserPlusIcon},
+  {id: 7, name: "E-commerce", href: "#", icon: ShoppingCartIcon},
 ];
 const teams = [
   {id: 1, name: "Heroicons", href: "#", initial: "H", current: false},
   {id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false},
   {id: 3, name: "Workcation", href: "#", initial: "W", current: false},
 ];
-
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
@@ -107,52 +120,114 @@ export default function Create() {
                     </div>
                   </Transition.Child>
                   {/* Sidebar component, swap this element with another sidebar if you like */}
-                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
+                  <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-indigo-600 px-6 pb-2">
                     <div className="flex h-16 shrink-0 items-center">
                       <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=white"
+                        src={lifeBuoyWhite}
                         alt="Your Company"
                       />
+                      <div className="text-white ml-2 text-2xl font-bold">
+                        halfway
+                      </div>
                     </div>
                     <nav className="flex flex-1 flex-col">
-                      <ul role="list" className="flex flex-1 flex-col gap-y-7">
+                      <ul className="flex flex-1 flex-col gap-y-7">
                         <li>
-                          <ul role="list" className="-mx-2 space-y-1">
+                          <ul className="-mx-2 space-y-1">
                             {navigation.map((item, idx) => (
                               <li
                                 key={item.name}
                                 onClick={() => handleNavClick(idx)}
                               >
-                                <a
-                                  href={item.href}
-                                  className={classNames(
-                                    item.id === navId
-                                      ? "bg-gray-50 text-indigo-600"
-                                      : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                  )}
-                                >
-                                  <item.icon
+                                {!item.children ? (
+                                  <a
+                                    href={item.href}
                                     className={classNames(
-                                      item.id == navId
-                                        ? "text-indigo-600"
-                                        : "text-gray-400 group-hover:text-indigo-600",
-                                      "h-6 w-6 shrink-0"
+                                      item.id === navId
+                                        ? "bg-gray-50 text-indigo-600"
+                                        : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                                      "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                     )}
-                                    aria-hidden="true"
-                                  />
-                                  {item.name}
-                                </a>
+                                  >
+                                    <item.icon
+                                      className={classNames(
+                                        item.id === navId
+                                          ? "text-indigo-600"
+                                          : "text-indigo-200 group-hover:text-white",
+                                        "h-6 w-6 shrink-0"
+                                      )}
+                                      aria-hidden="true"
+                                    />
+                                    {item.name}
+                                  </a>
+                                ) : (
+                                  <Disclosure as="div">
+                                    {({open}) => (
+                                      <>
+                                        <Disclosure.Button
+                                          className={classNames(
+                                            item.id === navId
+                                              ? "bg-gray-50 text-indigo-700"
+                                              : "hover:bg-indigo-700 text-indigo-200",
+                                            "flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-indigo-200"
+                                          )}
+                                        >
+                                          <item.icon
+                                            className={classNames(
+                                              item.id === navId
+                                                ? "text-indigo-600"
+                                                : "text-indigo-200",
+                                              "h-6 w-6 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                          {item.name}
+                                          <ChevronRightIcon
+                                            className={classNames(
+                                              open
+                                                ? "rotate-90 text-gray-500"
+                                                : "text-gray-400",
+                                              "ml-auto h-5 w-5 shrink-0"
+                                            )}
+                                            aria-hidden="true"
+                                          />
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel
+                                          as="ul"
+                                          className="mt-1 px-2"
+                                        >
+                                          {item.children.map((subItem: any) => (
+                                            <li key={subItem.name}>
+                                              {/* 44px */}
+                                              <Disclosure.Button
+                                                as="a"
+                                                href={subItem.href}
+                                                className={classNames(
+                                                  subItem.current
+                                                    ? "bg-gray-50"
+                                                    : "hover:bg-indigo-700 hover:text-gray-50",
+                                                  "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-indigo-200"
+                                                )}
+                                              >
+                                                {subItem.name}
+                                              </Disclosure.Button>
+                                            </li>
+                                          ))}
+                                        </Disclosure.Panel>
+                                      </>
+                                    )}
+                                  </Disclosure>
+                                )}
                               </li>
                             ))}
                           </ul>
                         </li>
                         <li>
-                          <div className="text-xs font-semibold leading-6 text-gray-400">
-                            Your teams
+                          <div className="text-xs font-semibold leading-6 text-indigo-200">
+                            Your items
                           </div>
-                          <ul role="list" className="-mx-2 mt-2 space-y-1">
+                          <ul className="-mx-2 mt-2 space-y-1">
                             {teams.map((team) => (
                               <li key={team.name}>
                                 <a
@@ -160,7 +235,7 @@ export default function Create() {
                                   className={classNames(
                                     team.current
                                       ? "bg-gray-50 text-indigo-600"
-                                      : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
+                                      : "text-indigo-200 hover:text-white hover:bg-indigo-700",
                                     "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                                   )}
                                 >
@@ -168,8 +243,8 @@ export default function Create() {
                                     className={classNames(
                                       team.current
                                         ? "text-indigo-600 border-indigo-600"
-                                        : "text-gray-400 border-gray-200 group-hover:border-indigo-600 group-hover:text-indigo-600",
-                                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"
+                                        : "text-gray-400 border-indigo-400 group-hover:border-indigo-400 group-hover:text-gray-400",
+                                      "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-indigo-500"
                                     )}
                                   >
                                     {team.initial}
@@ -202,31 +277,87 @@ export default function Create() {
               <div className="text-white ml-2 text-2xl font-bold">halfway</div>
             </div>
             <nav className="flex flex-1 flex-col">
-              <ul role="list" className="flex flex-1 flex-col gap-y-7">
+              <ul className="flex flex-1 flex-col gap-y-7">
                 <li>
-                  <ul role="list" className="-mx-2 space-y-1">
+                  <ul className="-mx-2 space-y-1">
                     {navigation.map((item, idx) => (
                       <li key={item.name} onClick={() => handleNavClick(idx)}>
-                        <a
-                          href={item.href}
-                          className={classNames(
-                            item.id === navId
-                              ? "bg-gray-50 text-indigo-600"
-                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                          )}
-                        >
-                          <item.icon
+                        {!item.children ? (
+                          <a
+                            href={item.href}
                             className={classNames(
                               item.id === navId
-                                ? "text-indigo-600"
-                                : "text-indigo-200 group-hover:text-white",
-                              "h-6 w-6 shrink-0"
+                                ? "bg-gray-50 text-indigo-600"
+                                : "text-indigo-200 hover:text-white hover:bg-indigo-700",
+                              "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
                             )}
-                            aria-hidden="true"
-                          />
-                          {item.name}
-                        </a>
+                          >
+                            <item.icon
+                              className={classNames(
+                                item.id === navId
+                                  ? "text-indigo-600"
+                                  : "text-indigo-200 group-hover:text-white",
+                                "h-6 w-6 shrink-0"
+                              )}
+                              aria-hidden="true"
+                            />
+                            {item.name}
+                          </a>
+                        ) : (
+                          <Disclosure as="div">
+                            {({open}) => (
+                              <>
+                                <Disclosure.Button
+                                  className={classNames(
+                                    item.id === navId
+                                      ? "bg-gray-50 text-indigo-700"
+                                      : "hover:bg-indigo-700 text-indigo-200",
+                                    "flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-indigo-200"
+                                  )}
+                                >
+                                  <item.icon
+                                    className={classNames(
+                                      item.id === navId
+                                        ? "text-indigo-600"
+                                        : "text-indigo-200",
+                                      "h-6 w-6 shrink-0"
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                  {item.name}
+                                  <ChevronRightIcon
+                                    className={classNames(
+                                      open
+                                        ? "rotate-90 text-gray-500"
+                                        : "text-gray-400",
+                                      "ml-auto h-5 w-5 shrink-0"
+                                    )}
+                                    aria-hidden="true"
+                                  />
+                                </Disclosure.Button>
+                                <Disclosure.Panel as="ul" className="mt-1 px-2">
+                                  {item.children.map((subItem: any) => (
+                                    <li key={subItem.name}>
+                                      {/* 44px */}
+                                      <Disclosure.Button
+                                        as="a"
+                                        href={subItem.href}
+                                        className={classNames(
+                                          subItem.current
+                                            ? "bg-gray-50"
+                                            : "hover:bg-indigo-700 hover:text-gray-50",
+                                          "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-indigo-200"
+                                        )}
+                                      >
+                                        {subItem.name}
+                                      </Disclosure.Button>
+                                    </li>
+                                  ))}
+                                </Disclosure.Panel>
+                              </>
+                            )}
+                          </Disclosure>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -235,7 +366,7 @@ export default function Create() {
                   <div className="text-xs font-semibold leading-6 text-indigo-200">
                     Your items
                   </div>
-                  <ul role="list" className="-mx-2 mt-2 space-y-1">
+                  <ul className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
                       <li key={team.name}>
                         <a
@@ -266,15 +397,17 @@ export default function Create() {
                 <li className="-mx-6 mt-auto">
                   <a
                     href="#"
-                    className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
+                    className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-indigo-500 rounded-md"
                   >
-                    <img
+                    {/* <img
                       className="h-8 w-8 rounded-full bg-gray-50"
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                       alt=""
-                    />
+                    /> */}
+
+                    <UserCircleIcon className="h-8 w-8 shrink-0 text-gray-200" />
                     <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">Tom Cook</span>
+                    <span aria-hidden="true">Kyle Long</span>
                   </a>
                 </li>
               </ul>
@@ -296,11 +429,12 @@ export default function Create() {
           </div>
           <a href="#">
             <span className="sr-only">Your profile</span>
-            <img
+            {/* <img
               className="h-8 w-8 rounded-full bg-gray-50"
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
               alt=""
-            />
+            /> */}
+            <UserCircleIcon className="h-8 w-8 shrink-0 text-indigo-400" />
           </a>
         </div>
 

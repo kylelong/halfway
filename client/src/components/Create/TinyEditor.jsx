@@ -13,11 +13,11 @@ export default function TinyEditor() {
       setText({content});
     }
   };
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
+  // const log = () => {
+  //   if (editorRef.current) {
+  //     console.log(editorRef.current.getContent());
+  //   }
+  // };
   useEffect(() => {}, []);
   return (
     <>
@@ -59,7 +59,6 @@ export default function TinyEditor() {
         value={text}
         onEditorChange={handleChange}
       />
-      <button onClick={log}>Log editor content</button>
     </>
   );
 }
