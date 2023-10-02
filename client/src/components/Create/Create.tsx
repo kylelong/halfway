@@ -20,7 +20,17 @@ import FilterMenu from "./FilterMenu";
 
 const navigation = [
   {id: 0, name: "Dashboard", href: "#", icon: HomeIcon},
-  {id: 1, name: "Writing", href: "#", icon: NewspaperIcon},
+  {
+    id: 1,
+    name: "Writing",
+    href: "#",
+    icon: NewspaperIcon,
+    children: [
+      {name: "Blog", href: "#"},
+      {name: "Paper", href: "#"},
+      {name: "Newsletter", href: "#"},
+    ],
+  },
   {
     id: 2,
     name: "Social",
@@ -29,7 +39,10 @@ const navigation = [
     children: [
       {name: "Twitter", href: "#"},
       {name: "LinkedIn", href: "#"},
-      {name: "Customer Success", href: "#"},
+      {name: "Youtube", href: "#"},
+      {name: "Instagram", href: "#"},
+      {name: "Tiktok", href: "#"},
+      {name: "Facebook", href: "#"},
     ],
   },
   {id: 3, name: "Marketing", href: "#", icon: ChartPieIcon},
@@ -39,9 +52,7 @@ const navigation = [
   {id: 7, name: "E-commerce", href: "#", icon: ShoppingCartIcon},
 ];
 const teams = [
-  {id: 1, name: "Heroicons", href: "#", initial: "H", current: false},
-  {id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false},
-  {id: 3, name: "Workcation", href: "#", initial: "W", current: false},
+  {id: 1, name: "Templates", href: "#", initial: "T", current: false},
 ];
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
@@ -343,7 +354,7 @@ export default function Create() {
                                         as="a"
                                         href={subItem.href}
                                         className={classNames(
-                                          subItem.current
+                                          subItem.id === navId
                                             ? "bg-gray-50"
                                             : "hover:bg-indigo-700 hover:text-gray-50",
                                           "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-indigo-200"
@@ -443,6 +454,9 @@ export default function Create() {
             <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
               {/* Main area */}
               <TinyEditor />
+              <div className="w-2/4 xl:hidden mt-6">
+                <FilterMenu />
+              </div>
             </div>
           </div>
         </main>

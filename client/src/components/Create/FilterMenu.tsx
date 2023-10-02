@@ -1,35 +1,55 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+import InputBox from "./InputBox";
+import SelectMenu from "./SelectMenu";
+import DropDownMenu from "./DropDownMenu";
+import {TONE, LENGTH} from "../../types/basics";
+
 export default function FilterMenu() {
+  const tonesArray = Object.entries(TONE).map(([key, value], index) => {
+    return {
+      id: index + 1,
+      data: value as string,
+    };
+  });
+
+  const lengthsArray = Object.values(LENGTH);
+  const options = [
+    "complete paper",
+    "outline",
+    "ideas",
+    "sentence",
+    "paragraph",
+  ];
   return (
     <div>
-      <label
-        htmlFor="email"
-        className="block text-sm font-medium leading-6 text-gray-900"
-      >
-        Email
-      </label>
-      <div className="mt-2">
-        <input
-          type="email"
-          name="email"
-          id="email"
-          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          placeholder="you@example.com"
+      <div className="mb-4">
+        <InputBox />
+      </div>
+
+      <div className="mb-6">
+        <DropDownMenu
+          options={options}
+          label="Content type"
+          description="Type"
         />
       </div>
+
+      <div className="mb-4">
+        <SelectMenu options={tonesArray} label="Tone" />
+      </div>
+
+      <div className="mb-6">
+        <DropDownMenu
+          options={lengthsArray}
+          label="Length"
+          description="Content Length"
+        />
+      </div>
+      <button
+        type="button"
+        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      >
+        Generate
+      </button>
     </div>
   );
 }

@@ -265,18 +265,18 @@ export const MediaDescription = styled.div`
 const useCases = {
   Writing: [
     "Overcome writer’s block",
-    "Assistance with  creating paragraphs and sentences",
-    "Spelling, grammar and punctuation checker",
+    "Smart paragraphs and sentences",
+    "Spelling and grammar checker",
   ],
   Marketing: [
-    "Ennhance the your business or personal brand",
-    "Increase user enagagement and revenue",
-    "Customize content for your target audience",
+    "Enhance your brand",
+    "Increase revenue and user activity",
+    "Content tailored for your audience",
   ],
   Email: [
     "Optimize communication",
     "Effective marketing campaigns",
-    "Enhance subject lines and message body",
+    "Smart subjects and messages",
   ],
   Advertising: [
     "Create impactful advertisements",
@@ -290,8 +290,8 @@ const useCases = {
   ],
   "E-commerce": [
     "Enhance product listings",
-    "Compelling product titles and descriptions",
-    "SEO-friendly content for your catalog",
+    "Compelling product details",
+    "SEO-friendly content",
   ],
 };
 
@@ -381,7 +381,7 @@ function LandingPage() {
               Our smart features powered by AI makes it easy to turn your ideas
               into effective content for every need.
             </SectionTextSmallWidth>
-            <div className="mt-6 pl-2 grid grid-cols-1 md:grid-cols-3 gap-10 rounded-xl border-slate-100 border-2 shadow-md shadow-slate-50 pb-3">
+            <div className="mt-6 pl-2 grid grid-cols-1 md:grid-cols-3 gap-8 rounded-xl border-slate-100 border-2 shadow-md shadow-slate-50 pb-3">
               {Object.entries(useCases).map((item, idx) => {
                 return (
                   <div className="pt-3 pr-6 pb-0 pl-3" key={idx}>
@@ -396,8 +396,11 @@ function LandingPage() {
                     <div>
                       {item[1].map((e, idx) => {
                         return (
-                          <div className="flex flex-row" key={idx}>
-                            <div className="relative top-2 w-1.5 h-1.5 bg-violet-500 rounded-full"></div>
+                          <div
+                            className="flex flex-row flex-wrap items-center"
+                            key={idx}
+                          >
+                            <div className="w-1.5 h-1.5 bg-violet-500 rounded-full"></div>
                             <div className="relative left-2">{e}</div>
                           </div>
                         );
@@ -452,8 +455,8 @@ function LandingPage() {
             </SectionTextSmallWidth>
             <div className="max-w-xl text-lg mt-3 text-slate-600">
               Choose which tone of voice your content is generated in. Whether
-              that be funny, professional, excited, casual,etc. Whichever tone
-              suits your needs, you have options.
+              that be humorous, professional, casual, persuasive, etc. Whichever
+              tone suits your needs, you have options.
             </div>
           </Section>
           <Section>
