@@ -5,7 +5,7 @@ import lifeBuoyWhite from "../../assets/lifeBuoyWhite.svg";
 import {
   Bars3Icon,
   ChartPieIcon,
-  HomeIcon,
+  // HomeIcon,
   XMarkIcon,
   UserCircleIcon,
   UserPlusIcon,
@@ -20,7 +20,7 @@ import FilterMenu from "./FilterMenu";
 import {CONTENT_TYPE} from "../../types/basics";
 
 const navigation = [
-  {id: 0, name: "Dashboard", href: "#", icon: HomeIcon},
+  // {id: 0, name: "Dashboard", href: "#", icon: HomeIcon},
   {
     id: 1,
     name: "Writing",
@@ -29,15 +29,16 @@ const navigation = [
     type: CONTENT_TYPE.Writing,
     children: [
       {
-        name: "Blog",
-        href: "#",
-        options: ["idea", "outline", "sentence", "paragraph"],
-      },
-      {
         name: "Paper",
         href: "#",
         options: ["idea", "outline", "sentence", "paragraph"],
       },
+      {
+        name: "Blog",
+        href: "#",
+        options: ["idea", "outline", "sentence", "paragraph"],
+      },
+
       {
         name: "Newsletter",
         href: "#",
@@ -123,9 +124,9 @@ function classNames(...classes: any) {
 
 export default function Create() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [navId, setNavId] = useState(0);
+  const [navId, setNavId] = useState(1);
   const [childIndex, setChildIndex] = useState(0);
-  const [selectedItem, setSelectedItem] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(navigation[0]);
 
   const handleNavClick = (idx: number, item: any) => {
     // TODO: child index
