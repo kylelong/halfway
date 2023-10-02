@@ -1,4 +1,4 @@
-import {Fragment, useState} from "react";
+import {Fragment, useState, useEffect} from "react";
 import {Menu, Transition} from "@headlessui/react";
 import {ChevronDownIcon} from "@heroicons/react/20/solid";
 
@@ -6,14 +6,23 @@ type Props = {
   options: string[];
   label: string;
   description: string; // describes drop down menu
+  updateSelectedType: React.Dispatch<React.SetStateAction<string>>;
 };
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-const DropDownMenu: React.FC<Props> = ({options, label, description}) => {
+const DropDownMenu: React.FC<Props> = ({
+  options,
+  label,
+  description,
+  updateSelectedType,
+}) => {
   const [labelText, setLabelText] = useState<string>(label);
+  useEffect(() => {
+    setLabelText(label);
+  }, [label]);
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div className="block text-sm font-medium leading-6 text-gray-900 mb-2">
@@ -50,7 +59,10 @@ const DropDownMenu: React.FC<Props> = ({options, label, description}) => {
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block px-4 py-2 text-sm"
                       )}
-                      onClick={() => setLabelText(item)}
+                      onClick={() => {
+                        setLabelText(item);
+                        updateSelectedType(item);
+                      }}
                     >
                       {item}
                     </a>

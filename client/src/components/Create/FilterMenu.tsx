@@ -1,10 +1,18 @@
-import InputBox from "./InputBox";
+import React, {useEffect, useState, useRef} from "react";
 import SelectMenu from "./SelectMenu";
 import DropDownMenu from "./DropDownMenu";
-import Example from "./TextArea";
+import TextArea from "./TextArea";
 import {TONE, LENGTH} from "../../types/basics";
 
-export default function FilterMenu() {
+type Props = {
+  item: any;
+  childIndex: number;
+};
+
+const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
+  const [optionsMenu, setOptionsMenu] = useState([]);
+  const [selectedType, setSelectedType] = useState("");
+  const itemNameRef = useRef(item.name);
   const tonesArray = Object.entries(TONE).map(([key, value], index) => {
     return {
       id: index + 1,
@@ -13,24 +21,57 @@ export default function FilterMenu() {
   });
 
   const lengthsArray = Object.values(LENGTH);
-  const options = [
-    "complete paper",
-    "outline",
-    "ideas",
-    "sentence",
-    "paragraph",
-  ];
+
+  useEffect(() => {
+    let menu = item.options || [];
+    const {children} = item;
+    if (children) {
+      let {options} = children[childIndex];
+      menu = options;
+    }
+    setOptionsMenu(menu);
+
+    if (
+      !selectedType ||
+      selectedType === undefined ||
+      item.name != itemNameRef.current
+    ) {
+      setSelectedType(menu[0]);
+    }
+    itemNameRef.current = item.name;
+  }, [item, childIndex, selectedType]);
+
   return (
     <div>
+      <div>
+        {item && (
+          <div className="flex flex-row">
+            <div>{item.type} </div>
+            {item.children && (
+              <>
+                <span className="ml-1"> - </span>
+                <span className="ml-1">{item.children[childIndex].name}</span>
+              </>
+            )}
+          </div>
+        )}
+      </div>
       <div className="mb-4">
-        <Example />
+        <TextArea
+          item={item}
+          options={optionsMenu}
+          childIndex={childIndex}
+          selectedType={selectedType}
+        />
       </div>
 
+      {/* dymanic options */}
       <div className="mb-6">
         <DropDownMenu
-          options={options}
-          label="Content type"
+          options={optionsMenu}
+          label={optionsMenu ? optionsMenu[0] : "Content type"}
           description="Type"
+          updateSelectedType={setSelectedType}
         />
       </div>
 
@@ -43,6 +84,7 @@ export default function FilterMenu() {
           options={lengthsArray}
           label="Length"
           description="Content Length"
+          updateSelectedType={setSelectedType}
         />
       </div>
       <button
@@ -53,4 +95,5 @@ export default function FilterMenu() {
       </button>
     </div>
   );
-}
+};
+export default FilterMenu;

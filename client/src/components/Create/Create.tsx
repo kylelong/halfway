@@ -17,6 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 import TinyEditor from "./TinyEditor";
 import FilterMenu from "./FilterMenu";
+import {CONTENT_TYPE} from "../../types/basics";
 
 const navigation = [
   {id: 0, name: "Dashboard", href: "#", icon: HomeIcon},
@@ -25,10 +26,23 @@ const navigation = [
     name: "Writing",
     href: "#",
     icon: NewspaperIcon,
+    type: CONTENT_TYPE.Writing,
     children: [
-      {name: "Blog", href: "#"},
-      {name: "Paper", href: "#"},
-      {name: "Newsletter", href: "#"},
+      {
+        name: "Blog",
+        href: "#",
+        options: ["idea", "outline", "sentence", "paragraph"],
+      },
+      {
+        name: "Paper",
+        href: "#",
+        options: ["idea", "outline", "sentence", "paragraph"],
+      },
+      {
+        name: "Newsletter",
+        href: "#",
+        options: ["idea", "outline", "sentence", "paragraph"],
+      },
     ],
   },
   {
@@ -36,20 +50,68 @@ const navigation = [
     name: "Social",
     href: "#",
     icon: DevicePhoneMobileIcon,
+    type: CONTENT_TYPE.Social,
     children: [
-      {name: "Twitter", href: "#"},
-      {name: "LinkedIn", href: "#"},
-      {name: "Youtube", href: "#"},
-      {name: "Instagram", href: "#"},
-      {name: "Tiktok", href: "#"},
-      {name: "Facebook", href: "#"},
+      {name: "Twitter", href: "#", options: ["thread", "tweet", "reply"]},
+      {name: "LinkedIn", href: "#", options: ["post", "article", "hashtags"]},
+      {
+        name: "Youtube",
+        href: "#",
+        options: ["video idea", "title", "subtitle", "description"],
+      },
+      {
+        name: "Instagram",
+        href: "#",
+        options: ["caption", "bio", "ad", "dm", "comment", "hashtags"],
+      },
+      {name: "Tiktok", href: "#", options: ["video idea", "title", "caption"]},
+      {
+        name: "Facebook",
+        href: "#",
+        options: ["post", "message", "ad"],
+      },
     ],
   },
-  {id: 3, name: "Marketing", href: "#", icon: ChartPieIcon},
-  {id: 4, name: "SEO", href: "#", icon: ChartBarIcon},
-  {id: 5, name: "Email", href: "#", icon: InboxArrowDownIcon},
-  {id: 6, name: "Advertising", href: "#", icon: UserPlusIcon},
-  {id: 7, name: "E-commerce", href: "#", icon: ShoppingCartIcon},
+  {
+    id: 3,
+    name: "Marketing",
+    type: CONTENT_TYPE.Marketing,
+    href: "#",
+    icon: ChartPieIcon,
+    options: ["campaign", "slogan", "affiliate"],
+  },
+  {
+    id: 4,
+    name: "SEO",
+    href: "#",
+    type: CONTENT_TYPE.Seo,
+    icon: ChartBarIcon,
+    options: ["keywords", "content"],
+  },
+  {
+    id: 5,
+    name: "Email",
+    href: "#",
+    type: CONTENT_TYPE.Email,
+    icon: InboxArrowDownIcon,
+    options: ["subject", "message"],
+  },
+  {
+    id: 6,
+    name: "Advertising",
+    href: "#",
+    type: CONTENT_TYPE.Advertising,
+    icon: UserPlusIcon,
+    options: ["campaign", "slogan", "affiliate"],
+  },
+  {
+    id: 7,
+    name: "E-commerce",
+    href: "#",
+    type: CONTENT_TYPE.Ecommerce,
+    icon: ShoppingCartIcon,
+    options: ["product title", "product description", "keywords"],
+  },
 ];
 const teams = [
   {id: 1, name: "Templates", href: "#", initial: "T", current: false},
@@ -62,9 +124,16 @@ function classNames(...classes: any) {
 export default function Create() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navId, setNavId] = useState(0);
+  const [childIndex, setChildIndex] = useState(0);
+  const [selectedItem, setSelectedItem] = useState([]);
 
-  const handleNavClick = (idx: number) => {
+  const handleNavClick = (idx: number, item: any) => {
+    // TODO: child index
     setNavId(idx);
+    setSelectedItem(item);
+  };
+  const handleChildClick = (index: number) => {
+    setChildIndex(index);
   };
 
   return (
@@ -149,7 +218,7 @@ export default function Create() {
                             {navigation.map((item, idx) => (
                               <li
                                 key={item.name}
-                                onClick={() => handleNavClick(idx)}
+                                onClick={() => handleNavClick(idx, item)}
                               >
                                 {!item.children ? (
                                   <a
@@ -208,23 +277,30 @@ export default function Create() {
                                           as="ul"
                                           className="mt-1 px-2"
                                         >
-                                          {item.children.map((subItem: any) => (
-                                            <li key={subItem.name}>
-                                              {/* 44px */}
-                                              <Disclosure.Button
-                                                as="a"
-                                                href={subItem.href}
-                                                className={classNames(
-                                                  subItem.current
-                                                    ? "bg-gray-50"
-                                                    : "hover:bg-indigo-700 hover:text-gray-50",
-                                                  "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-indigo-200"
-                                                )}
+                                          {item.children.map(
+                                            (subItem: any, index: number) => (
+                                              <li
+                                                key={subItem.name}
+                                                onClick={() =>
+                                                  handleChildClick(index)
+                                                }
                                               >
-                                                {subItem.name}
-                                              </Disclosure.Button>
-                                            </li>
-                                          ))}
+                                                {/* 44px */}
+                                                <Disclosure.Button
+                                                  as="a"
+                                                  href={subItem.href}
+                                                  className={classNames(
+                                                    subItem.current
+                                                      ? "bg-gray-50"
+                                                      : "hover:bg-indigo-700 hover:text-gray-50",
+                                                    "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-indigo-200"
+                                                  )}
+                                                >
+                                                  {subItem.name}
+                                                </Disclosure.Button>
+                                              </li>
+                                            )
+                                          )}
                                         </Disclosure.Panel>
                                       </>
                                     )}
@@ -292,7 +368,10 @@ export default function Create() {
                 <li>
                   <ul className="-mx-2 space-y-1">
                     {navigation.map((item, idx) => (
-                      <li key={item.name} onClick={() => handleNavClick(idx)}>
+                      <li
+                        key={item.name}
+                        onClick={() => handleNavClick(idx, item)}
+                      >
                         {!item.children ? (
                           <a
                             href={item.href}
@@ -347,23 +426,28 @@ export default function Create() {
                                   />
                                 </Disclosure.Button>
                                 <Disclosure.Panel as="ul" className="mt-1 px-2">
-                                  {item.children.map((subItem: any) => (
-                                    <li key={subItem.name}>
-                                      {/* 44px */}
-                                      <Disclosure.Button
-                                        as="a"
-                                        href={subItem.href}
-                                        className={classNames(
-                                          subItem.id === navId
-                                            ? "bg-gray-50"
-                                            : "hover:bg-indigo-700 hover:text-gray-50",
-                                          "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-indigo-200"
-                                        )}
+                                  {item.children.map(
+                                    (subItem: any, index: number) => (
+                                      <li
+                                        key={subItem.name}
+                                        onClick={() => handleChildClick(index)}
                                       >
-                                        {subItem.name}
-                                      </Disclosure.Button>
-                                    </li>
-                                  ))}
+                                        {/* 44px */}
+                                        <Disclosure.Button
+                                          as="a"
+                                          href={subItem.href}
+                                          className={classNames(
+                                            subItem.id === navId
+                                              ? "bg-gray-50"
+                                              : "hover:bg-indigo-700 hover:text-gray-50",
+                                            "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-indigo-200"
+                                          )}
+                                        >
+                                          {subItem.name}
+                                        </Disclosure.Button>
+                                      </li>
+                                    )
+                                  )}
                                 </Disclosure.Panel>
                               </>
                             )}
@@ -455,7 +539,7 @@ export default function Create() {
               {/* Main area w-full sm:w-4/6 lg:2/6 */}
               <TinyEditor />
               <div className="xl:hidden mt-6">
-                <FilterMenu />
+                <FilterMenu item={selectedItem} childIndex={childIndex} />
               </div>
             </div>
           </div>
@@ -463,7 +547,7 @@ export default function Create() {
 
         <aside className="fixed inset-y-0 right-0 hidden w-96 overflow-y-auto border-l border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
           {/* Secondary column (hidden on smaller screens) */}
-          <FilterMenu />
+          <FilterMenu item={selectedItem} childIndex={childIndex} />
         </aside>
       </div>
     </>

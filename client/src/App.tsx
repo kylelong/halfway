@@ -5,12 +5,12 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import Pricing from "./components/LandingPage/Pricing";
 import Login from "./components/LandingPage/Login";
 import Create from "./components/Create/Create";
-// import {ClerkProvider} from "@clerk/clerk-react";
+import {ClerkProvider} from "@clerk/clerk-react";
 
 if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
 }
-// const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
+const clerkPubKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
 
 function App() {
   return (

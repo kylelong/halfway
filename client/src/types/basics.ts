@@ -1,12 +1,13 @@
-enum CONTENT_TYPE {
+export enum CONTENT_TYPE {
   Writing = "Writing",
   Marketing = "Marketing",
   Email = "Email",
   Advertising = "Advertising",
   Seo = "Seo",
   Ecommerce = "E-commerce ",
+  Social = "Social",
 }
-enum CONTENT_SUB_TYPE {
+export enum CONTENT_SUB_TYPE {
   LinkedIn = "LinkedIn",
   Youtube = "Youtube",
   Instagram = "Instagram",
