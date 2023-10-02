@@ -59,6 +59,5 @@ const content: Content = {
   tone: TONE.Sarcastic,
   length: LENGTH.short,
 };
-console.log(content);
 
 // what are you writing about ?

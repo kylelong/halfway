@@ -3,27 +3,20 @@ import {Editor} from "@tinymce/tinymce-react";
 
 export default function TinyEditor() {
   const editorRef = useRef(null);
-  const [text, setText] = useState("<h3>hello</h3>");
+  const [text, setText] = useState("");
   const handleChange = (content, editor) => {
-    const length = content.length;
-    if (length === 0 || typeof content === "object") {
-      setText("");
-    } else {
-      console.log(content, content.length);
-      setText({content});
+    if (editorRef.current) {
+      setText(editorRef.current.getContent());
     }
   };
-  // const log = () => {
-  //   if (editorRef.current) {
-  //     console.log(editorRef.current.getContent());
-  //   }
-  // };
+
   useEffect(() => {}, []);
   return (
     <>
       <Editor
         apiKey={process.env.REACT_APP_TINY_API_KEY}
         onInit={(evt, editor) => (editorRef.current = editor)}
+        initialValue=""
         init={{
           height: 500,
           placeholder: "Edit your content here...",
