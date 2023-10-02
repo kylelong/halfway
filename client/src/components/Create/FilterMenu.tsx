@@ -1,6 +1,7 @@
 import InputBox from "./InputBox";
 import SelectMenu from "./SelectMenu";
 import DropDownMenu from "./DropDownMenu";
+import Example from "./TextArea";
 import {TONE, LENGTH} from "../../types/basics";
 
 export default function FilterMenu() {
@@ -22,7 +23,7 @@ export default function FilterMenu() {
   return (
     <div>
       <div className="mb-4">
-        <InputBox />
+        <Example />
       </div>
 
       <div className="mb-6">

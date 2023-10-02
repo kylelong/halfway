@@ -452,9 +452,9 @@ export default function Create() {
         <main className="lg:pl-72">
           <div className="xl:pr-96">
             <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
-              {/* Main area */}
+              {/* Main area w-full sm:w-4/6 lg:2/6 */}
               <TinyEditor />
-              <div className="w-2/4 xl:hidden mt-6">
+              <div className="xl:hidden mt-6">
                 <FilterMenu />
               </div>
             </div>
