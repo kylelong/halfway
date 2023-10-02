@@ -7,6 +7,7 @@ type Props = {
   label: string;
   description: string; // describes drop down menu
   updateSelectedType: React.Dispatch<React.SetStateAction<string>>;
+  subText?: string[];
 };
 
 function classNames(...classes: any) {
@@ -18,6 +19,7 @@ const DropDownMenu: React.FC<Props> = ({
   label,
   description,
   updateSelectedType,
+  subText,
 }) => {
   const [labelText, setLabelText] = useState<string>(label);
   useEffect(() => {
@@ -65,6 +67,13 @@ const DropDownMenu: React.FC<Props> = ({
                       }}
                     >
                       {item}
+                      <>
+                        {subText && (
+                          <div className="text-xs text-indigo-700">
+                            {subText[index]}
+                          </div>
+                        )}
+                      </>
                     </a>
                   )}
                 </Menu.Item>

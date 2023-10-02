@@ -2,7 +2,8 @@ import React, {useEffect, useState, useRef} from "react";
 import SelectMenu from "./SelectMenu";
 import DropDownMenu from "./DropDownMenu";
 import TextArea from "./TextArea";
-import {TONE, LENGTH} from "../../types/basics";
+import {TONE, LENGTH, LENGTH_SUB_TEXT} from "../../types/basics";
+import Modal from "./Modal";
 
 type Props = {
   item: any;
@@ -43,6 +44,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
 
   return (
     <div>
+      <Modal />
       <div>
         {item && (
           <div className="flex flex-row">
@@ -85,6 +87,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
           label="Length"
           description="Content Length"
           updateSelectedType={setSelectedType}
+          subText={LENGTH_SUB_TEXT}
         />
       </div>
       <button

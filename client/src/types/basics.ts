@@ -19,6 +19,7 @@ export enum CONTENT_SUB_TYPE {
   Newsletter = "Newsletter",
 }
 export enum TONE {
+  Generic = "Generic",
   Argumentative = "Argumentative",
   Analytical = "Analytical",
   Casual = "Casual",
@@ -46,9 +47,15 @@ const PARAGRAPH_LARGE_LENGTH = [4, 6];
 /*
  LONG FORM CONTENT: Writing, Social(Facebook, twitter, linkedin)
 */
-const SHORT_RANGE_WORDS = [100, 250];
-const MEDIUM_RANGE = [250, 500];
-const LARGE_RANGE = [500, 750];
+export const SHORT_RANGE = [100, 250];
+export const MEDIUM_RANGE = [250, 500];
+export const LARGE_RANGE = [500, 750];
+
+export const LENGTH_SUB_TEXT = [
+  `${SHORT_RANGE[0]} - ${SHORT_RANGE[1]} words`,
+  `${MEDIUM_RANGE[0]} - ${MEDIUM_RANGE[1]} words`,
+  `${LARGE_RANGE[0]} - ${LARGE_RANGE[1]} words`,
+];
 
 interface Content {
   contentType: CONTENT_TYPE;
