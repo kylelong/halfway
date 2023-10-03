@@ -2,7 +2,15 @@ import React, {useEffect, useState, useRef} from "react";
 import SelectMenu from "./SelectMenu";
 import DropDownMenu from "./DropDownMenu";
 import TextArea from "./TextArea";
-import {TONE, LENGTH, LENGTH_SUB_TEXT} from "../../types/basics";
+import {
+  TONE,
+  LENGTH,
+  LENGTH_SUB_TEXT,
+  BRIEF_RANGE,
+  SHORT_RANGE,
+  MEDIUM_RANGE,
+  LONG_RANGE,
+} from "../../types/basics";
 import Modal from "./Modal";
 
 type Props = {
@@ -11,16 +19,6 @@ type Props = {
 };
 
 const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
-  const [optionsMenu, setOptionsMenu] = useState([]);
-  const [selectedType, setSelectedType] = useState("");
-  const [data, setData] = useState({
-    description: "",
-    type: "",
-    tone: "",
-    length: "",
-  });
-  const itemNameRef = useRef(item.name);
-  const childIndexRef = useRef(0);
   const tonesArray = Object.entries(TONE).map(([key, value], index) => {
     return {
       id: index + 1,
@@ -30,7 +28,55 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
 
   const lengthsArray = Object.values(LENGTH);
 
+  const [optionsMenu, setOptionsMenu] = useState([]);
+  const [selectedType, setSelectedType] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [selectedLength, setSelectedLength] = useState<string>(lengthsArray[0]);
+  const [tone, setTone] = useState(tonesArray[0].data);
+  const [data, setData] = useState({
+    description: "",
+    childIndex: 0,
+    item: item,
+    selectedType: "", // sub type
+    tone: tonesArray[0].data,
+    textLength: selectedLength, // how long content will be [short, medium, long]
+  });
+
+  const itemNameRef = useRef(item.name);
+  const childIndexRef = useRef(childIndex);
+  const selectedTypeRef = useRef("");
+  const selectedLengthRef = useRef(selectedLength);
+  const toneRef = useRef(tone);
+  const descriptionRef = useRef("");
+
+  const generateQuery = () => {
+    const {description, childIndex, item, selectedType, tone, textLength} =
+      data;
+    // TODO: Error checking
+    /**
+     *  description is empty
+     *  textLength is not short, medium, long (hackers)
+     *  child or selectedType is not valid
+     */
+    // selectedType is the specific of the medium email : message, subject
+    const type = item.children ? item.children[childIndex].name : item.type;
+    console.log(data);
+    let wordRange: any = [];
+    if (textLength === "Brief") {
+      wordRange = BRIEF_RANGE;
+    } else if (textLength === "Short") {
+      wordRange = SHORT_RANGE;
+    } else if (textLength === "Medium") {
+      wordRange = MEDIUM_RANGE;
+    } else if (textLength === "Long") {
+      wordRange = LONG_RANGE;
+    }
+    let message = `generate a ${type} ${selectedType} in a ${tone} tone that is between ${wordRange[0]} and ${wordRange[1]} words described as ${description}`;
+    console.log(message);
+  };
+
   useEffect(() => {
+    // sub type can come from parent or the child
     let menu = item.options || [];
     const {children} = item;
     if (children) {
@@ -38,23 +84,48 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
       menu = options;
     }
     setOptionsMenu(menu);
-    console.log(menu);
 
     if (
       !selectedType ||
       selectedType === undefined ||
       item.name !== itemNameRef.current ||
-      childIndex != childIndexRef.current
+      childIndex !== childIndexRef.current
     ) {
       setSelectedType(menu[0]);
     }
+    if (item.name !== itemNameRef.current) {
+      setData({...data, item: item});
+      setDescription("");
+    }
+    if (selectedType !== selectedTypeRef.current) {
+      setData({...data, selectedType: selectedType});
+    }
+    if (selectedLength !== selectedLengthRef.current) {
+      setData({...data, textLength: selectedLength});
+    }
+    if (tone !== toneRef.current) {
+      setData({...data, tone: tone});
+    }
+    if (description !== descriptionRef.current) {
+      setData({...data, description: description});
+    }
+    if (childIndex !== childIndexRef.current) {
+      setData({...data, childIndex: childIndex});
+      setDescription("");
+    }
+
     itemNameRef.current = item.name;
     childIndexRef.current = childIndex;
-  }, [item, childIndex, selectedType]);
+    selectedTypeRef.current = selectedType;
+    selectedLengthRef.current = selectedLength;
+    toneRef.current = tone;
+    descriptionRef.current = description;
+  }, [item, childIndex, selectedType, data, selectedLength, tone, description]);
 
   return (
     <div>
       <Modal />
+
       <div>
         {item && (
           <div className="flex flex-row">
@@ -81,6 +152,8 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
           options={optionsMenu}
           childIndex={childIndex}
           selectedType={selectedType}
+          updateText={setDescription}
+          defaultText={description}
         />
       </div>
 
@@ -90,25 +163,30 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
           options={optionsMenu}
           label={optionsMenu ? optionsMenu[0] : "Content type"}
           description="Type"
-          updateSelectedType={setSelectedType}
+          updateSelection={setSelectedType}
         />
       </div>
 
       <div className="mb-4">
-        <SelectMenu options={tonesArray} label="Tone" />
+        <SelectMenu
+          options={tonesArray}
+          updateSelection={setTone}
+          label="Tone"
+        />
       </div>
 
       <div className="mb-6">
         <DropDownMenu
           options={lengthsArray}
-          label="Length"
+          label={lengthsArray[0]}
           description="Content Length"
-          updateSelectedType={setSelectedType}
+          updateSelection={setSelectedLength}
           subText={LENGTH_SUB_TEXT}
         />
       </div>
       <button
         type="button"
+        onClick={generateQuery}
         className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
         Generate

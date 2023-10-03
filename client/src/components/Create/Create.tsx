@@ -68,7 +68,7 @@ const navigation = [
       {
         name: "Twitter",
         href: "#",
-        options: ["thread", "tweet", "reply"],
+        options: ["tweet", "thread", "reply"],
         icon: twitterBlank,
         coloredIcon: twitter,
       },
@@ -96,7 +96,7 @@ const navigation = [
       {
         name: "Tiktok",
         href: "#",
-        options: ["video idea", "title", "caption"],
+        options: ["video idea", "title", "caption", "hashtags"],
         icon: tiktokBlank,
         coloredIcon: tiktok,
       },
@@ -536,7 +536,7 @@ export default function Create() {
                 </li>
                 <li className="-mx-6 mt-auto">
                   <a
-                    href="#"
+                    href="/profile"
                     className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-indigo-500 rounded-md"
                   >
                     {/* <img
@@ -567,7 +567,7 @@ export default function Create() {
           <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
             Dashboard
           </div>
-          <a href="#">
+          <a href="/profile">
             <span className="sr-only">Your profile</span>
             {/* <img
               className="h-8 w-8 rounded-full bg-gray-50"

@@ -19,7 +19,7 @@ const Modal: React.FC = () => {
                 Then select from the filters to tailor the content to meet your
                 needs.
                 <br /> <br /> Then edit the generated content in the text editor
-                if you'd like
+                to your satisfaction
               </p>
             </div>
             <div className="mt-5 flex flex-row xl:justify-between">

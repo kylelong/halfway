@@ -9,13 +9,14 @@ interface Data {
 type Props = {
   options: Data[];
   label: string;
+  updateSelection: React.Dispatch<React.SetStateAction<string>>;
 };
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-const SelectMenu: React.FC<Props> = ({options, label}) => {
+const SelectMenu: React.FC<Props> = ({options, label, updateSelection}) => {
   const [selected, setSelected] = useState(options[0]);
 
   return (
@@ -64,6 +65,7 @@ const SelectMenu: React.FC<Props> = ({options, label}) => {
                             selected ? "font-semibold" : "font-normal",
                             "block truncate"
                           )}
+                          onClick={() => updateSelection(option.data)}
                         >
                           {option.data}
                         </span>

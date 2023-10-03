@@ -6,7 +6,7 @@ type Props = {
   options: string[];
   label: string;
   description: string; // describes drop down menu
-  updateSelectedType: React.Dispatch<React.SetStateAction<string>>;
+  updateSelection: React.Dispatch<React.SetStateAction<string>>;
   subText?: string[];
 };
 
@@ -18,7 +18,7 @@ const DropDownMenu: React.FC<Props> = ({
   options,
   label,
   description,
-  updateSelectedType,
+  updateSelection,
   subText,
 }) => {
   const [labelText, setLabelText] = useState<string>(label);
@@ -62,7 +62,7 @@ const DropDownMenu: React.FC<Props> = ({
                       )}
                       onClick={() => {
                         setLabelText(item);
-                        updateSelectedType(item);
+                        updateSelection(item);
                       }}
                     >
                       {item}

@@ -29,12 +29,14 @@ export enum TONE {
   Formal = "Formal",
   Friendly = "Friendly",
   Humorous = "Humorous",
+  Informational = "Informational",
   Inspirational = "Inspirational",
   Narratice = "Narrative",
   Persuasive = "Persuasive",
   Sarcastic = "Sarcastic",
 }
 export enum LENGTH {
+  breif = "Brief",
   short = "Short",
   medium = "Medium",
   long = "Long",
@@ -47,14 +49,16 @@ export enum LENGTH {
 /*
  LONG FORM CONTENT: Writing, Social(Facebook, twitter, linkedin)
 */
+export const BRIEF_RANGE = [50, 75];
 export const SHORT_RANGE = [100, 250];
 export const MEDIUM_RANGE = [250, 500];
-export const LARGE_RANGE = [500, 750];
+export const LONG_RANGE = [500, 750];
 
 export const LENGTH_SUB_TEXT = [
+  `${BRIEF_RANGE[0]} - ${BRIEF_RANGE[1]} words`,
   `${SHORT_RANGE[0]} - ${SHORT_RANGE[1]} words`,
   `${MEDIUM_RANGE[0]} - ${MEDIUM_RANGE[1]} words`,
-  `${LARGE_RANGE[0]} - ${LARGE_RANGE[1]} words`,
+  `${LONG_RANGE[0]} - ${LONG_RANGE[1]} words`,
 ];
 
 // interface Content {
