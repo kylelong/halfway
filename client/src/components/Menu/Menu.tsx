@@ -89,15 +89,12 @@ const Menu = () => {
         <Link to="/pricing" style={linkStyle}>
           <PricingButton>Pricing</PricingButton>
         </Link>
-        <Link to="/login" style={linkStyle}>
-          <NavButton>Log in</NavButton>
+
+        <Link to="/about" style={linkStyle}>
+          <PricingButton>About</PricingButton>
         </Link>
 
-        <Link to="/signup" style={linkStyle}>
-          <NavButton>Sign up</NavButton>
-        </Link>
-
-        <Link to="/create" style={linkStyle}>
+        <Link to="/" style={linkStyle}>
           <CreateButton>Create content</CreateButton>
         </Link>
       </NavigationMenu>

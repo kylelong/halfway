@@ -1,7 +1,9 @@
+import OpenAI from "openai";
 import React, {useEffect, useState, useRef} from "react";
 import SelectMenu from "./SelectMenu";
 import DropDownMenu from "./DropDownMenu";
 import TextArea from "./TextArea";
+
 import {
   TONE,
   LENGTH,
@@ -12,6 +14,33 @@ import {
   LONG_RANGE,
 } from "../../types/basics";
 import Modal from "./Modal";
+import ChatGPTSVG from "../../assets/chatgpt.svg";
+import OpenAIModal from "./OpenAIModal";
+
+const openai = new OpenAI({
+  apiKey: "sk-asdfsdf", // It's better to use this from a backend server
+  dangerouslyAllowBrowser: true, // Use with caution
+});
+
+const generate = async () => {
+  try {
+    const completion = await openai.completions.create({
+      model: "gpt-3.5-turbo-instruct",
+      prompt: "what is virginia tech",
+      max_tokens: 100,
+      temperature: 0,
+    });
+
+    console.log(completion);
+  } catch (err) {
+    const error: any = JSON.parse(JSON.stringify(err));
+    const {status, type, code} = error;
+    const {message} = error.error;
+    console.log(status, type, code);
+  }
+};
+
+generate();
 
 type Props = {
   item: any;
@@ -33,6 +62,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
   const [description, setDescription] = useState<string>("");
   const [selectedLength, setSelectedLength] = useState<string>(lengthsArray[0]);
   const [tone, setTone] = useState(tonesArray[0].data);
+  const [showOpenAIModal, setShowOpenAIModal] = useState<boolean>(false);
   const [data, setData] = useState({
     description: "",
     childIndex: 0,
@@ -48,8 +78,15 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
   const selectedLengthRef = useRef(selectedLength);
   const toneRef = useRef(tone);
   const descriptionRef = useRef("");
+  const toggleModal = () => {
+    setShowOpenAIModal((prevOpen) => !prevOpen);
+  };
 
   const generateQuery = () => {
+    if (!localStorage.getItem("hw_openai_apikey")) {
+      setShowOpenAIModal(true);
+      return;
+    }
     const {description, childIndex, item, selectedType, tone, textLength} =
       data;
     // TODO: Error checking
@@ -111,6 +148,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
     }
     if (childIndex !== childIndexRef.current) {
       setData({...data, childIndex: childIndex});
+      setSelectedType(menu[0]);
       setDescription("");
     }
 
@@ -120,12 +158,34 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
     selectedLengthRef.current = selectedLength;
     toneRef.current = tone;
     descriptionRef.current = description;
-  }, [item, childIndex, selectedType, data, selectedLength, tone, description]);
+  }, [
+    item,
+    childIndex,
+    selectedType,
+    data,
+    selectedLength,
+    tone,
+    description,
+    showOpenAIModal,
+  ]);
 
   return (
     <div>
-      <Modal />
+      <button
+        style={{backgroundColor: "#00A67E"}}
+        type="button"
+        onClick={toggleModal}
+        className="flex flex-row mb-2 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+      >
+        <img alt="chatgpt" src={ChatGPTSVG} className="w-5 h-5 mr-1.5" />
+        Add OpenAI API Key
+      </button>
+      <OpenAIModal
+        showModal={showOpenAIModal}
+        onClose={() => setShowOpenAIModal(false)}
+      />
 
+      <Modal />
       <div>
         {item && (
           <div className="flex flex-row">

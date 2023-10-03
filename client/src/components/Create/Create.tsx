@@ -5,15 +5,15 @@ import lifeBuoyWhite from "../../assets/lifeBuoyWhite.svg";
 import {
   Bars3Icon,
   ChartPieIcon,
-  // HomeIcon,
+  HomeIcon,
   XMarkIcon,
-  UserCircleIcon,
   UserPlusIcon,
   ChartBarIcon,
   InboxArrowDownIcon,
   ShoppingCartIcon,
   NewspaperIcon,
   DevicePhoneMobileIcon,
+  GiftIcon,
 } from "@heroicons/react/24/outline";
 import facebookBlank from "../../assets/facebook_blank.svg";
 import instagramBlank from "../../assets/instagram_blank.svg";
@@ -30,9 +30,11 @@ import twitter from "../../assets/twitter.svg";
 import TinyEditor from "./TinyEditor";
 import FilterMenu from "./FilterMenu";
 import {CONTENT_TYPE} from "../../types/basics";
+import Modal from "./Modal";
 
 const navigation = [
-  // {id: 0, name: "Dashboard", href: "#", icon: HomeIcon},
+  // {id: 0, name: "About", href: "/about", icon: HomeIcon},
+  // {id: 1, name: "Purchase", href: "/pricing", icon: GiftIcon},
   {
     id: 0,
     name: "Writing",
@@ -160,7 +162,7 @@ function classNames(...classes: any) {
 
 export default function Create() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [navId, setNavId] = useState(1);
+  const [navId, setNavId] = useState(0);
   const [childIndex, setChildIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState(navigation[0]);
 
@@ -404,6 +406,25 @@ export default function Create() {
               <ul className="flex flex-1 flex-col gap-y-7">
                 <li>
                   <ul className="-mx-2 space-y-1">
+                    <li>
+                      <a
+                        href="/about"
+                        className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-indigo-200 hover:text-white hover:bg-indigo-700"
+                      >
+                        <HomeIcon className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white" />
+                        About
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="/pricing"
+                        className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-indigo-200 hover:text-white hover:bg-indigo-700"
+                      >
+                        <span className="animate-ping absolute inline-flex h-6 w-6 rounded-full bg-white opacity-75"></span>
+                        <GiftIcon className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white" />
+                        Purchase
+                      </a>
+                    </li>
                     {navigation.map((item, idx) => (
                       <li
                         key={item.name}
@@ -535,20 +556,20 @@ export default function Create() {
                   </ul>
                 </li>
                 <li className="-mx-6 mt-auto">
-                  <a
+                  {/* <a
                     href="/profile"
                     className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-indigo-500 rounded-md"
                   >
-                    {/* <img
+                     <img
                       className="h-8 w-8 rounded-full bg-gray-50"
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                       alt=""
-                    /> */}
+                    /> 
 
-                    <UserCircleIcon className="h-8 w-8 shrink-0 text-gray-200" />
+                     <UserCircleIcon className="h-8 w-8 shrink-0 text-gray-200" />
                     <span className="sr-only">Your profile</span>
-                    <span aria-hidden="true">Kyle Long</span>
-                  </a>
+                    <span aria-hidden="true">Kyle Long</span> 
+                  </a> */}
                 </li>
               </ul>
             </nav>
@@ -567,15 +588,15 @@ export default function Create() {
           <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
             Dashboard
           </div>
-          <a href="/profile">
+          {/* <a href="/profile">
             <span className="sr-only">Your profile</span>
-            {/* <img
+             <img
               className="h-8 w-8 rounded-full bg-gray-50"
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
               alt=""
-            /> */}
+            /> 
             <UserCircleIcon className="h-8 w-8 shrink-0 text-indigo-400" />
-          </a>
+          </a> */}
         </div>
 
         <main className="lg:pl-72">
@@ -583,6 +604,7 @@ export default function Create() {
             <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
               {/* Main area w-full sm:w-4/6 lg:2/6 */}
               <TinyEditor />
+
               <div className="xl:hidden mt-6">
                 <FilterMenu item={selectedItem} childIndex={childIndex} />
               </div>
