@@ -55,11 +55,10 @@ const DropDownMenu: React.FC<Props> = ({
               return (
                 <Menu.Item key={index}>
                   {({active}) => (
-                    <a
-                      href="#"
+                    <div
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                        "block px-4 py-2 text-sm"
+                        "block px-4 py-2 text-sm hover:cursor-pointer"
                       )}
                       onClick={() => {
                         setLabelText(item);
@@ -74,7 +73,7 @@ const DropDownMenu: React.FC<Props> = ({
                           </div>
                         )}
                       </>
-                    </a>
+                    </div>
                   )}
                 </Menu.Item>
               );

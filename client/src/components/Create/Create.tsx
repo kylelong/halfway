@@ -34,7 +34,7 @@ import {CONTENT_TYPE} from "../../types/basics";
 const navigation = [
   // {id: 0, name: "Dashboard", href: "#", icon: HomeIcon},
   {
-    id: 1,
+    id: 0,
     name: "Writing",
     href: "#",
     icon: NewspaperIcon,
@@ -59,7 +59,7 @@ const navigation = [
     ],
   },
   {
-    id: 2,
+    id: 1,
     name: "Social",
     href: "#",
     icon: DevicePhoneMobileIcon,
@@ -110,7 +110,7 @@ const navigation = [
     ],
   },
   {
-    id: 3,
+    id: 2,
     name: "Marketing",
     type: CONTENT_TYPE.Marketing,
     href: "#",
@@ -118,7 +118,7 @@ const navigation = [
     options: ["campaign", "slogan", "affiliate"],
   },
   {
-    id: 4,
+    id: 3,
     name: "SEO",
     href: "#",
     type: CONTENT_TYPE.Seo,
@@ -126,7 +126,7 @@ const navigation = [
     options: ["keywords", "content"],
   },
   {
-    id: 5,
+    id: 4,
     name: "Email",
     href: "#",
     type: CONTENT_TYPE.Email,
@@ -134,7 +134,7 @@ const navigation = [
     options: ["subject", "message"],
   },
   {
-    id: 6,
+    id: 5,
     name: "Advertising",
     href: "#",
     type: CONTENT_TYPE.Advertising,
@@ -142,7 +142,7 @@ const navigation = [
     options: ["campaign", "slogan", "affiliate"],
   },
   {
-    id: 7,
+    id: 6,
     name: "E-commerce",
     href: "#",
     type: CONTENT_TYPE.Ecommerce,
@@ -318,6 +318,7 @@ export default function Create() {
                                                 {/* 44px */}
                                                 {subItem.icon && (
                                                   <img
+                                                    alt="icon"
                                                     src={subItem.icon}
                                                     className="w-8"
                                                   />
@@ -472,6 +473,7 @@ export default function Create() {
                                         {/* 44px */}
                                         {subItem.icon && (
                                           <img
+                                            alt="icon"
                                             src={subItem.icon}
                                             className="w-6"
                                           />

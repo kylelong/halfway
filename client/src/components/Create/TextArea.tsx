@@ -14,6 +14,7 @@ const TextArea: React.FC<Props> = ({
   const [placeHolderText, setPlaceHolderText] = useState(
     "Describe what you are working on..."
   );
+  console.log(selectedType);
   useEffect(() => {
     if (item && item.name && options) {
       let itemName = item.name;

@@ -13,7 +13,14 @@ type Props = {
 const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
   const [optionsMenu, setOptionsMenu] = useState([]);
   const [selectedType, setSelectedType] = useState("");
+  const [data, setData] = useState({
+    description: "",
+    type: "",
+    tone: "",
+    length: "",
+  });
   const itemNameRef = useRef(item.name);
+  const childIndexRef = useRef(0);
   const tonesArray = Object.entries(TONE).map(([key, value], index) => {
     return {
       id: index + 1,
@@ -31,15 +38,18 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
       menu = options;
     }
     setOptionsMenu(menu);
+    console.log(menu);
 
     if (
       !selectedType ||
       selectedType === undefined ||
-      item.name != itemNameRef.current
+      item.name !== itemNameRef.current ||
+      childIndex != childIndexRef.current
     ) {
       setSelectedType(menu[0]);
     }
     itemNameRef.current = item.name;
+    childIndexRef.current = childIndex;
   }, [item, childIndex, selectedType]);
 
   return (
@@ -55,6 +65,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
                 <span className="ml-1">{item.children[childIndex].name}</span>
                 {item.children[childIndex].coloredIcon && (
                   <img
+                    alt="icon"
                     src={item.children[childIndex].coloredIcon}
                     className="w-6 ml-2"
                   />

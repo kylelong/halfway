@@ -40,9 +40,9 @@ export enum LENGTH {
   long = "Long",
 }
 
-const PARAGRAPH_SHORT_LENGTH = [1, 2];
-const PARAGRAPH_MEDIUM_LENGTH = [3, 4];
-const PARAGRAPH_LARGE_LENGTH = [4, 6];
+// const PARAGRAPH_SHORT_LENGTH = [1, 2];
+// const PARAGRAPH_MEDIUM_LENGTH = [3, 4];
+// const PARAGRAPH_LARGE_LENGTH = [4, 6];
 
 /*
  LONG FORM CONTENT: Writing, Social(Facebook, twitter, linkedin)
@@ -57,15 +57,15 @@ export const LENGTH_SUB_TEXT = [
   `${LARGE_RANGE[0]} - ${LARGE_RANGE[1]} words`,
 ];
 
-interface Content {
-  contentType: CONTENT_TYPE;
-  tone: TONE;
-  length?: LENGTH;
-}
-const content: Content = {
-  contentType: CONTENT_TYPE.Writing,
-  tone: TONE.Sarcastic,
-  length: LENGTH.short,
-};
+// interface Content {
+//   contentType: CONTENT_TYPE;
+//   tone: TONE;
+//   length?: LENGTH;
+// }
+// const content: Content = {
+//   contentType: CONTENT_TYPE.Writing,
+//   tone: TONE.Sarcastic,
+//   length: LENGTH.short,
+// };
 
 // what are you writing about ?
