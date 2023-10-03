@@ -53,6 +53,12 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
               <>
                 <span className="ml-1"> - </span>
                 <span className="ml-1">{item.children[childIndex].name}</span>
+                {item.children[childIndex].coloredIcon && (
+                  <img
+                    src={item.children[childIndex].coloredIcon}
+                    className="w-6 ml-2"
+                  />
+                )}
               </>
             )}
           </div>

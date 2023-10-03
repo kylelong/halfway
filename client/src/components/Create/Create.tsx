@@ -15,6 +15,18 @@ import {
   NewspaperIcon,
   DevicePhoneMobileIcon,
 } from "@heroicons/react/24/outline";
+import facebookBlank from "../../assets/facebook_blank.svg";
+import instagramBlank from "../../assets/instagram_blank.svg";
+import youtubeBlank from "../../assets/youtube_blank.svg";
+import twitterBlank from "../../assets/twitter_blank.svg";
+import linkedinBlank from "../../assets/linkedin_blank.svg";
+import tiktokBlank from "../../assets/tiktok_blank.svg";
+import youtube from "../../assets/youtube.svg";
+import facebook from "../../assets/facebook.svg";
+import linkedin from "../../assets/linkedin.svg";
+import tiktok from "../../assets/tiktok.svg";
+import instagram from "../../assets/instagram.svg";
+import twitter from "../../assets/twitter.svg";
 import TinyEditor from "./TinyEditor";
 import FilterMenu from "./FilterMenu";
 import {CONTENT_TYPE} from "../../types/basics";
@@ -53,23 +65,47 @@ const navigation = [
     icon: DevicePhoneMobileIcon,
     type: CONTENT_TYPE.Social,
     children: [
-      {name: "Twitter", href: "#", options: ["thread", "tweet", "reply"]},
-      {name: "LinkedIn", href: "#", options: ["post", "article", "hashtags"]},
+      {
+        name: "Twitter",
+        href: "#",
+        options: ["thread", "tweet", "reply"],
+        icon: twitterBlank,
+        coloredIcon: twitter,
+      },
+      {
+        name: "LinkedIn",
+        href: "#",
+        options: ["post", "article", "hashtags"],
+        icon: linkedinBlank,
+        coloredIcon: linkedin,
+      },
       {
         name: "Youtube",
         href: "#",
         options: ["video idea", "title", "subtitle", "description"],
+        icon: youtubeBlank,
+        coloredIcon: youtube,
       },
       {
         name: "Instagram",
         href: "#",
         options: ["caption", "bio", "ad", "dm", "comment", "hashtags"],
+        icon: instagramBlank,
+        coloredIcon: instagram,
       },
-      {name: "Tiktok", href: "#", options: ["video idea", "title", "caption"]},
+      {
+        name: "Tiktok",
+        href: "#",
+        options: ["video idea", "title", "caption"],
+        icon: tiktokBlank,
+        coloredIcon: tiktok,
+      },
       {
         name: "Facebook",
         href: "#",
         options: ["post", "message", "ad"],
+        icon: facebookBlank,
+        coloredIcon: facebook,
       },
     ],
   },
@@ -139,14 +175,6 @@ export default function Create() {
 
   return (
     <>
-      {/*
-        This example requires updating your template:
-
-        ```
-        <html class="h-full bg-white">
-        <body class="h-full">
-        ```
-      */}
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -285,8 +313,15 @@ export default function Create() {
                                                 onClick={() =>
                                                   handleChildClick(index)
                                                 }
+                                                className="flex flex-row pl-7 rounded-md hover:bg-indigo-700 hover:text-gray-50 hover:cursor-pointer"
                                               >
                                                 {/* 44px */}
+                                                {subItem.icon && (
+                                                  <img
+                                                    src={subItem.icon}
+                                                    className="w-8"
+                                                  />
+                                                )}
                                                 <Disclosure.Button
                                                   as="a"
                                                   href={subItem.href}
@@ -294,7 +329,7 @@ export default function Create() {
                                                     subItem.current
                                                       ? "bg-gray-50"
                                                       : "hover:bg-indigo-700 hover:text-gray-50",
-                                                    "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-indigo-200"
+                                                    "block rounded-md py-2 pr-2 pl-2 text-sm leading-6 text-indigo-200"
                                                   )}
                                                 >
                                                   {subItem.name}
@@ -432,8 +467,15 @@ export default function Create() {
                                       <li
                                         key={subItem.name}
                                         onClick={() => handleChildClick(index)}
+                                        className="flex flex-row pl-7 rounded-md text-indigo-200 hover:bg-indigo-700 hover:text-gray-50 hover:cursor-pointer"
                                       >
                                         {/* 44px */}
+                                        {subItem.icon && (
+                                          <img
+                                            src={subItem.icon}
+                                            className="w-6"
+                                          />
+                                        )}
                                         <Disclosure.Button
                                           as="a"
                                           href={subItem.href}
@@ -441,7 +483,7 @@ export default function Create() {
                                             subItem.id === navId
                                               ? "bg-gray-50"
                                               : "hover:bg-indigo-700 hover:text-gray-50",
-                                            "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-indigo-200"
+                                            "block rounded-md py-2 pr-2 pl-2 text-sm leading-6 text-indigo-200"
                                           )}
                                         >
                                           {subItem.name}
