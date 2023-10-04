@@ -50,7 +50,7 @@ const TextArea: React.FC<Props> = ({
         htmlFor="comment"
         className="block text-sm font-medium leading-6 text-gray-900"
       >
-        What are you working on?
+        What is your content about?
       </label>
       <div className="mt-2">
         <textarea

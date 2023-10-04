@@ -8,7 +8,7 @@ const includedFeatures = [
   "Use your own API Key",
   "One time purchase, no monthly fee",
   "Access to GPT-3.5",
-  "Unlimited words",
+  "Save your own custom presets",
   "Several templates",
   "Fast and unlimited support",
   "Rich text editor",

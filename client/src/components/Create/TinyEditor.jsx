@@ -1,16 +1,45 @@
 import React, {useRef, useState, useEffect} from "react";
 import {Editor} from "@tinymce/tinymce-react";
-
-export default function TinyEditor() {
+type Props = {
+  content: String,
+};
+const TinyEditor: React.FC<Props> = ({content}) => {
   const editorRef = useRef(null);
   const [text, setText] = useState("");
+  const [length, setLength] = useState(0);
+  const [speed, setSpeed] = useState(35);
   const handleChange = (content, editor) => {
     if (editorRef.current) {
-      setText(editorRef.current.getContent());
+      setText(editorRef.current.getContent({format: "text"}));
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const timer =
+      length < content.length &&
+      setInterval(() => {
+        if (editorRef.current) {
+          const currentContent = editorRef.current.getContent({format: "text"});
+          const nextChar =
+            content[length] === " "
+              ? "&nbsp;"
+              : content[length] + content[length + 1] === "\n"
+              ? "<br>"
+              : content[length];
+          if (nextChar === ".") {
+            setSpeed(350);
+          } else {
+            setSpeed(35);
+          }
+          editorRef.current.setContent(currentContent + nextChar, {
+            format: "raw",
+          });
+          setLength(length + 1);
+        }
+      }, speed);
+    return () => clearInterval(timer);
+  }, [length, text, speed, content]);
+
   return (
     <>
       <Editor
@@ -49,9 +78,10 @@ export default function TinyEditor() {
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
-        value={text}
+        // value={text}
         onEditorChange={handleChange}
       />
     </>
   );
-}
+};
+export default TinyEditor;

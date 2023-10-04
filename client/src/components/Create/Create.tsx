@@ -1,4 +1,4 @@
-import {Fragment, useState} from "react";
+import {Fragment, useState, useEffect} from "react";
 import {Dialog, Transition, Disclosure} from "@headlessui/react";
 import {ChevronRightIcon} from "@heroicons/react/20/solid";
 import lifeBuoyWhite from "../../assets/lifeBuoyWhite.svg";
@@ -30,7 +30,6 @@ import twitter from "../../assets/twitter.svg";
 import TinyEditor from "./TinyEditor";
 import FilterMenu from "./FilterMenu";
 import {CONTENT_TYPE} from "../../types/basics";
-import Modal from "./Modal";
 
 const navigation = [
   // {id: 0, name: "About", href: "/about", icon: HomeIcon},
@@ -165,16 +164,19 @@ export default function Create() {
   const [navId, setNavId] = useState(0);
   const [childIndex, setChildIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState(navigation[0]);
+  const [content, setContent] = useState("");
 
   const handleNavClick = (idx: number, item: any) => {
     // TODO: child index
     setNavId(idx);
     setSelectedItem(item);
+    setContent("");
   };
   const handleChildClick = (index: number) => {
     setChildIndex(index);
+    setContent("");
   };
-
+  useEffect(() => {}, [content]);
   return (
     <>
       <div>
@@ -603,10 +605,14 @@ export default function Create() {
           <div className="xl:pr-96">
             <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
               {/* Main area w-full sm:w-4/6 lg:2/6 */}
-              <TinyEditor />
+              <TinyEditor content={content} />
 
               <div className="xl:hidden mt-6">
-                <FilterMenu item={selectedItem} childIndex={childIndex} />
+                <FilterMenu
+                  item={selectedItem}
+                  childIndex={childIndex}
+                  updateContent={setContent}
+                />
               </div>
             </div>
           </div>
@@ -614,7 +620,11 @@ export default function Create() {
 
         <aside className="fixed inset-y-0 right-0 hidden w-96 overflow-y-auto border-l border-gray-200 px-4 py-6 sm:px-6 lg:px-8 xl:block">
           {/* Secondary column (hidden on smaller screens) */}
-          <FilterMenu item={selectedItem} childIndex={childIndex} />
+          <FilterMenu
+            item={selectedItem}
+            childIndex={childIndex}
+            updateContent={setContent}
+          />
         </aside>
       </div>
     </>

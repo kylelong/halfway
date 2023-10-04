@@ -15,21 +15,23 @@ const Modal: React.FC = () => {
             <h3 className="text-base font-semibold leading-6 text-gray-900">
               Get started
             </h3>
-            <div className="rounded-md bg-yellow-50 p-4 mt-1.5">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <ExclamationTriangleIcon
-                    className="h-5 w-5 text-yellow-400"
-                    aria-hidden="true"
-                  />
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-xs font-medium text-yellow-800">
-                    After adding your Open AI API Key
-                  </h3>
+            {!localStorage.getItem("hw_openai_apikey") && (
+              <div className="rounded-md bg-yellow-50 p-4 mt-1.5">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <ExclamationTriangleIcon
+                      className="h-5 w-5 text-yellow-400"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div className="ml-3">
+                    <h3 className="text-xs font-medium text-yellow-800">
+                      After adding your Open AI API Key
+                    </h3>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             <div className="mt-2 max-w-xl text-sm text-gray-500">
               <p>
                 Briefly describe your content in the textbox below
@@ -47,13 +49,15 @@ const Modal: React.FC = () => {
               >
                 Close
               </button>
-              <button
-                type="button"
-                className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                onClick={hideForever}
-              >
-                Don't show me this again
-              </button>
+              {localStorage.getItem("hw_openai_apikey") && (
+                <button
+                  type="button"
+                  className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+                  onClick={hideForever}
+                >
+                  Don't show me this again
+                </button>
+              )}
             </div>
           </div>
         </div>

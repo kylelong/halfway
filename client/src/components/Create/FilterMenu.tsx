@@ -17,37 +17,13 @@ import Modal from "./Modal";
 import ChatGPTSVG from "../../assets/chatgpt.svg";
 import OpenAIModal from "./OpenAIModal";
 
-const openai = new OpenAI({
-  apiKey: "sk-asdfsdf", // It's better to use this from a backend server
-  dangerouslyAllowBrowser: true, // Use with caution
-});
-
-const generate = async () => {
-  try {
-    const completion = await openai.completions.create({
-      model: "gpt-3.5-turbo-instruct",
-      prompt: "what is virginia tech",
-      max_tokens: 100,
-      temperature: 0,
-    });
-
-    console.log(completion);
-  } catch (err) {
-    const error: any = JSON.parse(JSON.stringify(err));
-    const {status, type, code} = error;
-    const {message} = error.error;
-    console.log(status, type, code);
-  }
-};
-
-generate();
-
 type Props = {
   item: any;
   childIndex: number;
+  updateContent: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
+const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
   const tonesArray = Object.entries(TONE).map(([key, value], index) => {
     return {
       id: index + 1,
@@ -81,6 +57,28 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
   const toggleModal = () => {
     setShowOpenAIModal((prevOpen) => !prevOpen);
   };
+  const openai = new OpenAI({
+    apiKey: localStorage.getItem("hw_openai_apikey") || "", // It's better to use this from a backend server
+    dangerouslyAllowBrowser: true, // Use with caution
+  });
+
+  const generate = async (query: string) => {
+    try {
+      const completion = await openai.completions.create({
+        model: "gpt-3.5-turbo-instruct",
+        prompt: query,
+        max_tokens: 100,
+        temperature: 0,
+      });
+
+      if (completion) {
+        updateContent(completion.choices[0].text);
+      }
+    } catch (err) {
+      const error: any = JSON.parse(JSON.stringify(err));
+      console.log(error);
+    }
+  };
 
   const generateQuery = () => {
     if (!localStorage.getItem("hw_openai_apikey")) {
@@ -97,7 +95,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
      */
     // selectedType is the specific of the medium email : message, subject
     const type = item.children ? item.children[childIndex].name : item.type;
-    console.log(data);
+    // console.log(data); // TODO: use for template
     let wordRange: any = [];
     if (textLength === "Brief") {
       wordRange = BRIEF_RANGE;
@@ -108,8 +106,9 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
     } else if (textLength === "Long") {
       wordRange = LONG_RANGE;
     }
+    // CALL OPEN AI
     let message = `generate a ${type} ${selectedType} in a ${tone} tone that is between ${wordRange[0]} and ${wordRange[1]} words described as ${description}`;
-    console.log(message);
+    generate(message);
   };
 
   useEffect(() => {
@@ -171,19 +170,24 @@ const FilterMenu: React.FC<Props> = ({item, childIndex}) => {
 
   return (
     <div>
-      <button
-        style={{backgroundColor: "#00A67E"}}
-        type="button"
-        onClick={toggleModal}
-        className="flex flex-row mb-2 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-      >
-        <img alt="chatgpt" src={ChatGPTSVG} className="w-5 h-5 mr-1.5" />
-        Add OpenAI API Key
-      </button>
-      <OpenAIModal
-        showModal={showOpenAIModal}
-        onClose={() => setShowOpenAIModal(false)}
-      />
+      {!localStorage.getItem("hw_openai_apikey") && (
+        <>
+          {" "}
+          <button
+            style={{backgroundColor: "#00A67E"}}
+            type="button"
+            onClick={toggleModal}
+            className="flex flex-row mb-2 rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+          >
+            <img alt="chatgpt" src={ChatGPTSVG} className="w-5 h-5 mr-1.5" />
+            Add OpenAI API Key
+          </button>
+          <OpenAIModal
+            showModal={showOpenAIModal}
+            onClose={() => setShowOpenAIModal(false)}
+          />{" "}
+        </>
+      )}
 
       <Modal />
       <div>
