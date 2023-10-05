@@ -1,10 +1,13 @@
-import React, {useRef, useState, useEffect} from "react";
+import {useRef, useState, useEffect} from "react";
 import {Editor} from "@tinymce/tinymce-react";
+
 const TinyEditor = ({content}) => {
   const editorRef = useRef(null);
+  const contentRef = useRef("");
   const [text, setText] = useState("");
   const [length, setLength] = useState(0);
   const [speed, setSpeed] = useState(35);
+
   const handleChange = (content, editor) => {
     if (editorRef.current) {
       setText(editorRef.current.getContent({format: "text"}));
@@ -12,11 +15,21 @@ const TinyEditor = ({content}) => {
   };
 
   useEffect(() => {
+    // clear text editor when new content is sent in
+    if (contentRef.current !== content) {
+      contentRef.current = content;
+      setLength(0);
+      if (editorRef.current) {
+        editorRef.current.setContent("", {
+          format: "raw",
+        });
+      }
+    }
+
     const timer =
       length < content.length &&
       setInterval(() => {
         if (editorRef.current) {
-          console.log("inside set interval");
           const currentContent = editorRef.current.getContent({format: "text"});
           const nextChar =
             content[length] === " "
@@ -76,7 +89,6 @@ const TinyEditor = ({content}) => {
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
-        // value={text}
         onEditorChange={handleChange}
       />
       <div>
@@ -99,7 +111,7 @@ const TinyEditor = ({content}) => {
                   cy="12"
                   r="10"
                   stroke="currentColor"
-                  stroke-width="4"
+                  strokeWidth="4"
                 ></circle>
                 <path
                   className="opacity-75"
