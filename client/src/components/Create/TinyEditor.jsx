@@ -46,6 +46,9 @@ const TinyEditor = ({content}) => {
             format: "raw",
           });
           setLength(length + 1);
+          editorRef.current.focus();
+          editorRef.current.selection.select(editorRef.current.getBody(), true); // End of content
+          editorRef.current.selection.collapse(false); // Collapse selection to end
         }
       }, speed);
     return () => clearInterval(timer);
@@ -87,7 +90,7 @@ const TinyEditor = ({content}) => {
             "alignright alignjustify | bullist numlist outdent indent | " +
             "removeformat | help",
           content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; cursor:text }, body::after { content: '|', display: inline-block, margin-left: -1px, width:3px, animation: blink 1s infinite, color: #4F46E5}, @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; }}",
         }}
         onEditorChange={handleChange}
       />

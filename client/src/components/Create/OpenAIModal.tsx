@@ -147,7 +147,7 @@ const OpenAIModal: React.FC<Props> = ({showModal, onClose}) => {
                       </p>
                       <p className="text-sm text-gray-500 text-left">
                         Your OpenAI API Key is stored locally in your browser
-                        and <b>never</b> shared.
+                        and is <b>never</b> shared.
                       </p>
                     </div>
                   </div>
