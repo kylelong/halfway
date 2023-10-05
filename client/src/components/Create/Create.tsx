@@ -176,7 +176,7 @@ export default function Create() {
     setChildIndex(index);
     setContent("");
   };
-  useEffect(() => {}, [content]);
+  useEffect(() => {}, [content, setContent]);
   return (
     <>
       <div>

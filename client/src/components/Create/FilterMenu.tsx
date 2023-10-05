@@ -61,13 +61,17 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     apiKey: localStorage.getItem("hw_openai_apikey") || "", // It's better to use this from a backend server
     dangerouslyAllowBrowser: true, // Use with caution
   });
+  const clearContent = async () => {
+    console.log("clearing content");
+    await updateContent("");
+  };
 
   const generate = async (query: string) => {
     try {
       const completion = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
         prompt: query,
-        max_tokens: 248,
+        max_tokens: 5,
         temperature: 0,
       });
 
@@ -80,11 +84,13 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     }
   };
 
-  const generateQuery = () => {
+  const generateQuery = async () => {
     if (!localStorage.getItem("hw_openai_apikey")) {
       setShowOpenAIModal(true);
       return;
     }
+    clearContent();
+    // reset text area content
     const {description, childIndex, item, selectedType, tone, textLength} =
       data;
     // TODO: Error checking
@@ -109,6 +115,16 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     // CALL OPEN AI
     let message = `generate a ${type} ${selectedType} in a ${tone} tone that is between ${wordRange[0]} and ${wordRange[1]} words described as ${description}`;
     generate(message);
+    // maybe reset data
+    // setData({
+    //   description: "",
+    //   childIndex: 0,
+    //   item: item,
+    //   selectedType: "", // sub type
+    //   tone: tonesArray[0].data,
+    //   textLength: lengthsArray[0],
+    // });
+    setDescription("");
   };
 
   useEffect(() => {
@@ -166,6 +182,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     tone,
     description,
     showOpenAIModal,
+    updateContent,
   ]);
 
   return (
