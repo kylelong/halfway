@@ -18,6 +18,7 @@ const TextArea: React.FC<Props> = ({
   const [placeHolderText, setPlaceHolderText] = useState(
     "Describe what you are working on..."
   );
+  const [verb, setVerb] = useState("is");
   const [text, setText] = useState<string>(defaultText);
   const defaultTextRef = useRef("");
 
@@ -33,16 +34,17 @@ const TextArea: React.FC<Props> = ({
           item.type === "Newsletter";
         itemName = plural ? itemName + "'s" : itemName;
 
-        setPlaceHolderText(`Describe your ${itemName} ${selectedType}...`);
+        setPlaceHolderText(`${itemName} ${selectedType}`);
       } else {
-        setPlaceHolderText(`Describe your ${itemName} ${selectedType}...`);
+        setPlaceHolderText(`${itemName} ${selectedType}`);
       }
+      selectedType.endsWith("s") ? setVerb("are") : setVerb("is");
     }
     if (defaultText !== defaultTextRef.current) {
       defaultTextRef.current = defaultText;
       setText(defaultText);
     }
-  }, [item, options, childIndex, selectedType, text, defaultText]);
+  }, [item, options, childIndex, selectedType, text, defaultText, verb]);
 
   return (
     <div>
@@ -50,14 +52,14 @@ const TextArea: React.FC<Props> = ({
         htmlFor="comment"
         className="block text-sm font-medium leading-6 text-gray-900"
       >
-        What is your content about?
+        What {verb} your {placeHolderText} about?
       </label>
       <div className="mt-2">
         <textarea
           rows={4}
           name="comment"
           id="comment"
-          placeholder={placeHolderText}
+          placeholder={`Describe your ${placeHolderText}...`}
           onChange={(e) => {
             let input = e.target.value;
             setText(input);
