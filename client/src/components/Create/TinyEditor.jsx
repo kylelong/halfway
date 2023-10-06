@@ -31,16 +31,23 @@ const TinyEditor = ({content}) => {
       setInterval(() => {
         if (editorRef.current) {
           const currentContent = editorRef.current.getContent({format: "text"});
-          const nextChar =
-            content[length] === " "
-              ? "&nbsp;"
-              : content[length] + content[length + 1] === "\n"
-              ? "<br>"
-              : content[length];
+          let nextChar = content[length];
+
+          if (nextChar === "\n") {
+            if (content[length + 1] === "\n") {
+              nextChar = "<br><br>";
+              setLength(length + 1); // Skip the next character since we've already processed it
+            } else {
+              nextChar = "<br>";
+            }
+          } else if (nextChar === " ") {
+            nextChar = "&nbsp;";
+          }
+
           if (nextChar === ".") {
             setSpeed(350);
           } else {
-            setSpeed(30);
+            setSpeed(20);
           }
           editorRef.current.setContent(currentContent + nextChar, {
             format: "raw",
@@ -98,8 +105,9 @@ const TinyEditor = ({content}) => {
         {length !== content.length && (
           <div>
             <button
+              style={{fontFamily: "Gaegu"}}
               type="button"
-              className="inline-flex items-center px-4 py-2 mt-4 font-semibold leading-6 text-sm shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 cursor-not-allowed"
+              className="inline-flex items-center px-4 py-2 mt-4 font-semibold leading-6 text-lg shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 cursor-not-allowed"
               disabled
             >
               <svg

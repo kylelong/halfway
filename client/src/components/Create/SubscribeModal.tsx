@@ -7,15 +7,42 @@ type Props = {
 
 const SubscribeModal: React.FC<Props> = ({showModal}) => {
   const [open, setOpen] = useState(showModal);
-  const openRef = useRef(showModal);
+  const [time, setTime] = useState(7);
+  const closeDueToCountdown = useRef(false); // Track if modal closed due to countdown
+
   const cancelButtonRef = useRef(null);
 
+  // Synchronize open state with showModal prop
   useEffect(() => {
-    if (showModal !== openRef.current) {
-      openRef.current = showModal;
-      setOpen(showModal);
+    if (showModal) {
+      if (!closeDueToCountdown.current) {
+        setOpen(true);
+        setTime(7); // reset the timer
+      } else {
+        // Reset the ref for future showModal toggles
+        closeDueToCountdown.current = false;
+      }
+    } else {
+      setOpen(false);
     }
-  }, [open, showModal]);
+  }, [showModal, open]);
+
+  useEffect(() => {
+    if (open && time > 0) {
+      const timer = setTimeout(() => {
+        setTime((prevTime) => {
+          if (prevTime - 1 === 0) {
+            closeDueToCountdown.current = true;
+            setOpen(false);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [open, time]);
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -23,7 +50,7 @@ const SubscribeModal: React.FC<Props> = ({showModal}) => {
         as="div"
         className="fixed inset-0 flex items-center justify-center z-10"
         initialFocus={cancelButtonRef}
-        onClose={setOpen}
+        onClose={() => setOpen(false)}
       >
         <Transition.Child
           as={Fragment}
@@ -51,6 +78,9 @@ const SubscribeModal: React.FC<Props> = ({showModal}) => {
               <Dialog.Panel className="relative transform w-full max-w-md p-4 bg-white rounded-lg shadow-xl transition-all sm:mx-4 sm:p-6">
                 <div>
                   <div className="mt-3 text-center sm:mt-5">
+                    <div className="absolute top-2 right-4 text-center w-8 h-8 flex justify-center items-center font-semibold text-indigo-600 rounded-full bg-slate-200">
+                      {time}
+                    </div>
                     <Dialog.Title
                       as="h3"
                       className="text-base font-semibold leading-6 text-gray-900 items-center flex flex-row"
@@ -65,8 +95,8 @@ const SubscribeModal: React.FC<Props> = ({showModal}) => {
                       </p>
                       <p></p>
                       <p className="text-sm text-gray-500 text-left">
-                        Unlock premium features like saving your search
-                        templates.
+                        Unlock premium features like searching saved content
+                        results and saving your search templates.
                       </p>
                     </div>
                   </div>

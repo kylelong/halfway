@@ -40,6 +40,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
   const [selectedLength, setSelectedLength] = useState<string>(lengthsArray[0]);
   const [tone, setTone] = useState(tonesArray[0].data);
   const [showOpenAIModal, setShowOpenAIModal] = useState<boolean>(false);
+  const [showSubscribeModal, setShowSubscribeModal] = useState<boolean>(false);
   const [data, setData] = useState({
     description: "",
     childIndex: 0,
@@ -68,18 +69,19 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
 
   const generate = async (query: string) => {
     try {
+      // stream: true, top_p: 1
       const completion = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
         prompt: query,
         max_tokens: 248,
-        temperature: 0,
+        top_p: 1,
       });
 
       if (completion) {
         updateContent(completion.choices[0].text);
         const {completion_tokens, prompt_tokens, total_tokens} =
           completion.usage || {};
-
+        // update usage
         if (localStorage.getItem("hw_openai_usage")) {
           let usage = JSON.parse(
             localStorage.getItem("hw_openai_usage") || "{}"
@@ -99,6 +101,19 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
           };
           localStorage.setItem("hw_openai_usage", JSON.stringify(usage));
         }
+
+        // handle showing subscribe modal
+        let count = parseInt(localStorage.getItem("hw-queries") || "0");
+        count = count + 1;
+        if (!localStorage.getItem("hw-queries")) {
+          localStorage.setItem("hw-queries", "1");
+        } else {
+          localStorage.setItem("hw-queries", count.toString());
+        }
+        setShowSubscribeModal(
+          !localStorage.getItem("hw-stripe-payment-license-key") &&
+            count % 2 === 0
+        );
       }
     } catch (err) {
       const error: any = JSON.parse(JSON.stringify(err));
@@ -205,6 +220,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     description,
     showOpenAIModal,
     updateContent,
+    showSubscribeModal,
   ]);
 
   return (
@@ -227,7 +243,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
           />{" "}
         </>
       )}
-      <SubscribeModal showModal={true} />
+      <SubscribeModal showModal={showSubscribeModal} />
       <Modal />
       <div>
         {item && (
@@ -290,7 +306,8 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
       <button
         type="button"
         onClick={generateQuery}
-        className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        style={{fontFamily: "Gaegu"}}
+        className="rounded-md bg-indigo-600 px-3 py-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
         Generate
       </button>

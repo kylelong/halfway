@@ -10,7 +10,7 @@ const includedFeatures = [
   "Access to GPT-3.5",
   "Save your own custom presets",
   "Several templates",
-  "Fast and unlimited support",
+  "Search saved content",
   "Rich text editor",
 ];
 
