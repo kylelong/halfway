@@ -8,7 +8,7 @@ export const Halfway = styled.div`
   font-weight: bold;
   color: rgb(17, 17, 17);
   font-size: 22px;
-  font-family: "Helvetica Neue", sans-serif;
+  font-family: Gaegu, "Helvetica Neue", sans-serif;
 `;
 export const LogoContainer = styled.div`
   display: flex;

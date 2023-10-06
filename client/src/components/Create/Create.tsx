@@ -261,7 +261,10 @@ export default function Create() {
                         src={lifeBuoyWhite}
                         alt="Your Company"
                       />
-                      <div className="text-white ml-2 text-2xl font-bold">
+                      <div
+                        style={{fontFamily: "Gaegu"}}
+                        className="text-white ml-2 text-3xl font-bold"
+                      >
                         halfway
                       </div>
                     </div>
@@ -277,11 +280,12 @@ export default function Create() {
                                 {!item.children ? (
                                   <a
                                     href={item.href}
+                                    style={{fontFamily: "Gaegu"}}
                                     className={classNames(
                                       item.id === navId
                                         ? "bg-gray-50 text-indigo-600"
                                         : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                                      "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                      "group flex gap-x-3 rounded-md p-2 text-xl leading-6 font-semibold"
                                     )}
                                   >
                                     <item.icon
@@ -300,11 +304,12 @@ export default function Create() {
                                     {({open}) => (
                                       <>
                                         <Disclosure.Button
+                                          style={{fontFamily: "Gaegu"}}
                                           className={classNames(
                                             item.id === navId
                                               ? "bg-gray-50 text-indigo-700"
                                               : "hover:bg-indigo-700 text-indigo-200",
-                                            "flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-indigo-200"
+                                            "flex items-center w-full text-left rounded-md p-2 gap-x-3 text-xl leading-6 font-semibold text-indigo-200"
                                           )}
                                         >
                                           <item.icon
@@ -351,11 +356,12 @@ export default function Create() {
                                                 <Disclosure.Button
                                                   as="a"
                                                   href={subItem.href}
+                                                  style={{fontFamily: "Gaegu"}}
                                                   className={classNames(
                                                     subItem.current
                                                       ? "bg-gray-50"
                                                       : "hover:bg-indigo-700 hover:text-gray-50",
-                                                    "block rounded-md py-2 pr-2 pl-2 text-sm leading-6 text-indigo-200"
+                                                    "block rounded-md py-2 pr-2 pl-2 text-xl leading-6 text-indigo-200"
                                                   )}
                                                 >
                                                   {subItem.name}
@@ -423,7 +429,12 @@ export default function Create() {
                 src={lifeBuoyWhite}
                 alt="Your Company"
               />
-              <div className="text-white ml-2 text-2xl font-bold">halfway</div>
+              <div
+                style={{fontFamily: "Gaegu"}}
+                className="text-white ml-2 text-3xl font-bold"
+              >
+                halfway
+              </div>
             </div>
             <nav className="flex flex-1 flex-col">
               <ul className="flex flex-1 flex-col gap-y-7">
@@ -432,7 +443,8 @@ export default function Create() {
                     <li>
                       <a
                         href="/about"
-                        className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-indigo-200 hover:text-white hover:bg-indigo-700"
+                        style={{fontFamily: "Gaegu"}}
+                        className="group flex gap-x-3 rounded-md p-2 text-xl leading-6 font-semibold text-indigo-200 hover:text-white hover:bg-indigo-700"
                       >
                         <HomeIcon className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white" />
                         About
@@ -442,7 +454,8 @@ export default function Create() {
                       <li>
                         <a
                           href="/pricing"
-                          className="group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-indigo-200 hover:text-white hover:bg-indigo-700"
+                          style={{fontFamily: "Gaegu"}}
+                          className="group flex gap-x-3 rounded-md p-2 text-xl leading-6 font-semibold text-indigo-200 hover:text-white hover:bg-indigo-700"
                         >
                           <span className="animate-ping absolute inline-flex h-6 w-6 rounded-full bg-white opacity-75"></span>
                           <GiftIcon className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white" />
@@ -454,15 +467,17 @@ export default function Create() {
                       <li
                         key={item.name}
                         onClick={() => handleNavClick(idx, item)}
+                        style={{fontFamily: "Gaegu"}}
                       >
                         {!item.children ? (
                           <a
                             href={item.href}
+                            style={{fontFamily: "Gaegu"}}
                             className={classNames(
                               item.id === navId
                                 ? "bg-gray-50 text-indigo-600"
                                 : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                              "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                              "group flex gap-x-3 rounded-md p-2 text-xl leading-6 font-semibold"
                             )}
                           >
                             <item.icon
@@ -481,11 +496,12 @@ export default function Create() {
                             {({open}) => (
                               <>
                                 <Disclosure.Button
+                                  style={{fontFamily: "Gaegu"}}
                                   className={classNames(
                                     item.id === navId
                                       ? "bg-gray-50 text-indigo-700"
                                       : "hover:bg-indigo-700 text-indigo-200",
-                                    "flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-indigo-200"
+                                    "flex items-center w-full text-left rounded-md p-2 gap-x-3 text-xl leading-6 font-semibold text-indigo-200"
                                   )}
                                 >
                                   <item.icon
@@ -527,11 +543,12 @@ export default function Create() {
                                         <Disclosure.Button
                                           as="a"
                                           href={subItem.href}
+                                          style={{fontFamily: "Gaegu"}}
                                           className={classNames(
                                             subItem.id === navId
                                               ? "bg-gray-50"
                                               : "hover:bg-indigo-700 hover:text-gray-50",
-                                            "block rounded-md py-2 pr-2 pl-2 text-sm leading-6 text-indigo-200"
+                                            "block rounded-md py-2 pr-2 pl-2 text-xl leading-6 text-indigo-200"
                                           )}
                                         >
                                           {subItem.name}
