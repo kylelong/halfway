@@ -1,7 +1,12 @@
-import {Fragment, useState, useEffect} from "react";
+import {Fragment, useState, useEffect, useRef} from "react";
 import {Dialog, Transition, Disclosure} from "@headlessui/react";
 import {ChevronRightIcon} from "@heroicons/react/20/solid";
 import lifeBuoyWhite from "../../assets/lifeBuoyWhite.svg";
+import {
+  OPENAI_PROMPT_TOKEN_COST,
+  OPENAI_COMPLETION_TOKEN_COST,
+  OPENAI_TOKEN_THRESHOLD,
+} from "../../types/constants";
 import {
   Bars3Icon,
   ChartPieIcon,
@@ -132,7 +137,7 @@ const navigation = [
     href: "#",
     type: CONTENT_TYPE.Email,
     icon: InboxArrowDownIcon,
-    options: ["subject", "message"],
+    options: ["message", "subject"],
   },
   {
     id: 5,
@@ -165,6 +170,12 @@ export default function Create() {
   const [childIndex, setChildIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState(navigation[0]);
   const [content, setContent] = useState("");
+  const [usage, setUsage] = useState(
+    JSON.parse(localStorage.getItem("hw_openai_usage") || "{}")
+  );
+  const usageRef = useRef(
+    JSON.parse(localStorage.getItem("hw_openai_usage") || "{}")
+  );
 
   const handleNavClick = (idx: number, item: any) => {
     // TODO: child index
@@ -176,7 +187,17 @@ export default function Create() {
     setChildIndex(index);
     setContent("");
   };
-  useEffect(() => {}, [content, setContent]);
+  useEffect(() => {
+    // update api usage
+    if (
+      localStorage.getItem("hw_openai_usage") !==
+      JSON.stringify(usageRef.current)
+    ) {
+      const use = JSON.parse(localStorage.getItem("hw_openai_usage") || "{}");
+      setUsage(use);
+      usageRef.current = use;
+    }
+  }, [content, setContent, usage]);
   return (
     <>
       <div>
@@ -531,6 +552,7 @@ export default function Create() {
                   <div className="text-xs font-semibold leading-6 text-indigo-200">
                     Your items
                   </div>
+
                   <ul className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
                       <li key={team.name}>
@@ -559,6 +581,30 @@ export default function Create() {
                     ))}
                   </ul>
                 </li>
+                {localStorage.getItem("hw_openai_usage") && (
+                  <div>
+                    <p className="text-xs font-semibold leading-6 text-indigo-200">
+                      API usage cost: $
+                      <span className="text-xs font-semibold leading-6 text-indigo-100">
+                        {""}
+                        {(
+                          (usage.prompt_tokens / OPENAI_TOKEN_THRESHOLD) *
+                            OPENAI_PROMPT_TOKEN_COST +
+                          (usage.completion_tokens / OPENAI_TOKEN_THRESHOLD) *
+                            OPENAI_COMPLETION_TOKEN_COST
+                        ).toFixed(6)}
+                      </span>
+                    </p>
+                    <a
+                      href="https://openai.com/pricing"
+                      className="text-xs relative bottom-1.5 font-semibold leading-6 text-slate-50"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      GPT-3.5 Turbo pricing explained
+                    </a>
+                  </div>
+                )}
                 <li className="-mx-6 mt-auto">
                   {/* <a
                     href="/profile"

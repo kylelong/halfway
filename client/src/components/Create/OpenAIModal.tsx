@@ -72,9 +72,34 @@ const OpenAIModal: React.FC<Props> = ({showModal, onClose}) => {
       if (completion) {
         setSuccess(true);
         localStorage.setItem("hw_openai_apikey", apiKey);
+        const {completion_tokens, prompt_tokens, total_tokens} =
+          completion.usage || {};
+
+        // store token usage
+
+        if (localStorage.getItem("hw_openai_usage")) {
+          let usage = JSON.parse(
+            localStorage.getItem("hw_openai_usage") || "{}"
+          );
+          usage.completion_tokens = usage.completion_tokens + completion_tokens;
+          usage.prompt_tokens = usage.prompt_tokens + prompt_tokens;
+          usage.total_tokens = usage.total_tokens + total_tokens;
+
+          // update it to new values
+          localStorage.setItem("hw_openai_usage", JSON.stringify(usage));
+        } else {
+          // create storage
+          const usage = {
+            prompt_tokens: prompt_tokens,
+            completion_tokens: completion_tokens,
+            total_tokens: total_tokens,
+          };
+          localStorage.setItem("hw_openai_usage", JSON.stringify(usage));
+        }
         setErrorMessage("");
         setTimeout(() => {
           handleClose();
+          window.location.href = "/";
         }, 2000);
       }
       // if valid
@@ -242,10 +267,13 @@ const OpenAIModal: React.FC<Props> = ({showModal, onClose}) => {
                   associated with your Open AI account. No need for ChatGPT
                   Plus.
                 </p>
+                <p className="text-xs mt-2 text-left">
+                  *** Your API usage will be shown in the menu panel.
+                </p>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
                   <button
                     type="button"
-                    className="mt-3 inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 ring-1 ring-inset sm:col-start-1 sm:mt-0"
+                    className="mt-3 mb-4 sm:mb-0 inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 ring-1 ring-inset sm:col-start-1 sm:mt-0"
                     onClick={() => validateApiKey(apiKey)}
                     ref={cancelButtonRef}
                   >

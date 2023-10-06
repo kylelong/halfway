@@ -16,6 +16,7 @@ import {
 import Modal from "./Modal";
 import ChatGPTSVG from "../../assets/chatgpt.svg";
 import OpenAIModal from "./OpenAIModal";
+import SubscribeModal from "./SubscribeModal";
 
 type Props = {
   item: any;
@@ -76,6 +77,28 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
 
       if (completion) {
         updateContent(completion.choices[0].text);
+        const {completion_tokens, prompt_tokens, total_tokens} =
+          completion.usage || {};
+
+        if (localStorage.getItem("hw_openai_usage")) {
+          let usage = JSON.parse(
+            localStorage.getItem("hw_openai_usage") || "{}"
+          );
+          usage.completion_tokens = usage.completion_tokens + completion_tokens;
+          usage.prompt_tokens = usage.prompt_tokens + prompt_tokens;
+          usage.total_tokens = usage.total_tokens + total_tokens;
+
+          // update it to new values
+          localStorage.setItem("hw_openai_usage", JSON.stringify(usage));
+        } else {
+          // create storage
+          const usage = {
+            prompt_tokens: prompt_tokens,
+            completion_tokens: completion_tokens,
+            total_tokens: total_tokens,
+          };
+          localStorage.setItem("hw_openai_usage", JSON.stringify(usage));
+        }
       }
     } catch (err) {
       const error: any = JSON.parse(JSON.stringify(err));
@@ -204,7 +227,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
           />{" "}
         </>
       )}
-
+      <SubscribeModal showModal={true} />
       <Modal />
       <div>
         {item && (
