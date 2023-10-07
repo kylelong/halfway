@@ -3,6 +3,12 @@ import React, {useEffect, useState, useRef} from "react";
 import SelectMenu from "./SelectMenu";
 import DropDownMenu from "./DropDownMenu";
 import TextArea from "./TextArea";
+import {
+  LOCAL_STORAGE_LICENSE_KEY,
+  LOCAL_STORAGE_USAGE_KEY,
+  LOCAL_STORAGE_API_KEY,
+  LOCAL_STORAGE_QUERIES_KEY,
+} from "../../types/constants";
 
 import {
   TONE,
@@ -62,7 +68,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     setShowOpenAIModal((prevOpen) => !prevOpen);
   };
   const openai = new OpenAI({
-    apiKey: localStorage.getItem("hw_openai_apikey") || "", // It's better to use this from a backend server
+    apiKey: localStorage.getItem(LOCAL_STORAGE_API_KEY) || "", // It's better to use this from a backend server
     dangerouslyAllowBrowser: true, // Use with caution
   });
   const clearContent = async () => {
@@ -75,7 +81,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
       const completion = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
         prompt: query,
-        max_tokens: 248,
+        max_tokens: 20,
         top_p: 1,
       });
 
@@ -84,16 +90,16 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
         const {completion_tokens, prompt_tokens, total_tokens} =
           completion.usage || {};
         // update usage
-        if (localStorage.getItem("hw_openai_usage")) {
+        if (localStorage.getItem(LOCAL_STORAGE_USAGE_KEY)) {
           let usage = JSON.parse(
-            localStorage.getItem("hw_openai_usage") || "{}"
+            localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}"
           );
           usage.completion_tokens = usage.completion_tokens + completion_tokens;
           usage.prompt_tokens = usage.prompt_tokens + prompt_tokens;
           usage.total_tokens = usage.total_tokens + total_tokens;
 
           // update it to new values
-          localStorage.setItem("hw_openai_usage", JSON.stringify(usage));
+          localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
         } else {
           // create storage
           const usage = {
@@ -101,20 +107,21 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
             completion_tokens: completion_tokens,
             total_tokens: total_tokens,
           };
-          localStorage.setItem("hw_openai_usage", JSON.stringify(usage));
+          localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
         }
 
         // handle showing subscribe modal
-        let count = parseInt(localStorage.getItem("hw-queries") || "0");
+        let count = parseInt(
+          localStorage.getItem(LOCAL_STORAGE_QUERIES_KEY) || "0"
+        );
         count = count + 1;
-        if (!localStorage.getItem("hw-queries")) {
-          localStorage.setItem("hw-queries", "1");
+        if (!localStorage.getItem(LOCAL_STORAGE_QUERIES_KEY)) {
+          localStorage.setItem(LOCAL_STORAGE_QUERIES_KEY, "1");
         } else {
-          localStorage.setItem("hw-queries", count.toString());
+          localStorage.setItem(LOCAL_STORAGE_QUERIES_KEY, count.toString());
         }
         setShowSubscribeModal(
-          !localStorage.getItem("hw-stripe-payment-license-key") &&
-            count % 2 === 0
+          !localStorage.getItem(LOCAL_STORAGE_LICENSE_KEY) && count % 2 === 0
         );
       }
     } catch (err) {
@@ -124,7 +131,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
   };
 
   const generateQuery = async () => {
-    if (!localStorage.getItem("hw_openai_apikey")) {
+    if (!localStorage.getItem(LOCAL_STORAGE_API_KEY)) {
       setShowOpenAIModal(true);
       return;
     }
@@ -212,7 +219,10 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     selectedLengthRef.current = selectedLength;
     toneRef.current = tone;
     descriptionRef.current = description;
-    console.log(showSubscribeModal);
+    // TODO: delete
+    console.log(
+      `showSubscribeModal: ${showSubscribeModal} showPricingModal: ${showPricingModal}`
+    );
   }, [
     item,
     childIndex,
@@ -229,7 +239,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
 
   return (
     <div>
-      {!localStorage.getItem("hw_openai_apikey") && (
+      {!localStorage.getItem(LOCAL_STORAGE_API_KEY) && (
         <>
           {" "}
           <button
@@ -251,7 +261,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
         showModal={showSubscribeModal}
         updatePricingModal={setShowPricingModal}
       />
-      <PricingModal />
+      {showPricingModal && <PricingModal />}
       <Modal />
       <div>
         {item && (

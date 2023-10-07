@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import React from "react";
 import Logo from "./Logo/Logo";
 import {CheckIcon} from "@heroicons/react/24/outline";
+import {LOCAL_STORAGE_LICENSE_KEY} from "../types/constants";
 export default function PaymentConfirmation() {
   // Use the useParams hook to get the checkout_session_id from the URL
   const {checkout_session_id} = useParams();
@@ -10,7 +11,7 @@ export default function PaymentConfirmation() {
   let stripe_id = checkout_session_id?.substring(
     checkout_session_id.indexOf("=") + 1
   );
-  localStorage.setItem("hw-stripe-payment-license-key", stripe_id || "");
+  localStorage.setItem(LOCAL_STORAGE_LICENSE_KEY, stripe_id || "");
 
   // Rest of your component logic
   return (

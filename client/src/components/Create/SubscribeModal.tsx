@@ -1,6 +1,7 @@
 import {Fragment, useRef, useState, useEffect} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import chicken from "../../assets/chicken.svg";
+import {LOCAL_STORAGE_LICENSE_KEY} from "../../types/constants";
 type Props = {
   showModal: boolean;
   updatePricingModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -27,7 +28,7 @@ const SubscribeModal: React.FC<Props> = ({showModal, updatePricingModal}) => {
     } else {
       setOpen(false);
     }
-  }, [showModal, open]);
+  }, [showModal, open, updatePricingModal]);
 
   useEffect(() => {
     if (open && time > 0) {
@@ -36,6 +37,10 @@ const SubscribeModal: React.FC<Props> = ({showModal, updatePricingModal}) => {
           if (prevTime - 1 === 0) {
             closeDueToCountdown.current = true;
             setOpen(false);
+            if (!localStorage.getItem(LOCAL_STORAGE_LICENSE_KEY)) {
+              updatePricingModal(true);
+            }
+
             return 0;
           }
           return prevTime - 1;
@@ -44,7 +49,7 @@ const SubscribeModal: React.FC<Props> = ({showModal, updatePricingModal}) => {
 
       return () => clearTimeout(timer);
     }
-  }, [open, time]);
+  }, [open, time, updatePricingModal]);
 
   return (
     <Transition.Root show={open} as={Fragment}>

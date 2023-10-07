@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {ExclamationTriangleIcon} from "@heroicons/react/20/solid";
+import {LOCAL_STORAGE_API_KEY} from "../../types/constants";
 const Modal: React.FC = () => {
   const [show, setShow] = useState(true);
   const hideForever = () => {
@@ -15,7 +16,7 @@ const Modal: React.FC = () => {
             <h3 className="text-base font-semibold leading-6 text-gray-900">
               Get started
             </h3>
-            {!localStorage.getItem("hw_openai_apikey") && (
+            {!localStorage.getItem(LOCAL_STORAGE_API_KEY) && (
               <div className="rounded-md bg-yellow-50 p-4 mt-1.5">
                 <div className="flex">
                   <div className="flex-shrink-0">
@@ -49,7 +50,7 @@ const Modal: React.FC = () => {
               >
                 Close
               </button>
-              {localStorage.getItem("hw_openai_apikey") && (
+              {localStorage.getItem(LOCAL_STORAGE_API_KEY) && (
                 <button
                   type="button"
                   className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"

@@ -13,12 +13,16 @@ import {
   XMarkIcon,
 } from "@heroicons/react/20/solid";
 import OpenAI from "openai";
+import {
+  LOCAL_STORAGE_USAGE_KEY,
+  LOCAL_STORAGE_API_KEY,
+} from "../../types/constants";
 
 type Props = {
   showModal: boolean;
   onClose: () => void;
 };
-
+// let user enter API key
 const OpenAIModal: React.FC<Props> = ({showModal, onClose}) => {
   // !localStorage.getItem("hw_apikey")
   const handleClose = () => {
@@ -71,22 +75,22 @@ const OpenAIModal: React.FC<Props> = ({showModal, onClose}) => {
       });
       if (completion) {
         setSuccess(true);
-        localStorage.setItem("hw_openai_apikey", apiKey);
+        localStorage.setItem(LOCAL_STORAGE_API_KEY, apiKey);
         const {completion_tokens, prompt_tokens, total_tokens} =
           completion.usage || {};
 
         // store token usage
 
-        if (localStorage.getItem("hw_openai_usage")) {
+        if (localStorage.getItem(LOCAL_STORAGE_USAGE_KEY)) {
           let usage = JSON.parse(
-            localStorage.getItem("hw_openai_usage") || "{}"
+            localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}"
           );
           usage.completion_tokens = usage.completion_tokens + completion_tokens;
           usage.prompt_tokens = usage.prompt_tokens + prompt_tokens;
           usage.total_tokens = usage.total_tokens + total_tokens;
 
           // update it to new values
-          localStorage.setItem("hw_openai_usage", JSON.stringify(usage));
+          localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
         } else {
           // create storage
           const usage = {
@@ -94,7 +98,7 @@ const OpenAIModal: React.FC<Props> = ({showModal, onClose}) => {
             completion_tokens: completion_tokens,
             total_tokens: total_tokens,
           };
-          localStorage.setItem("hw_openai_usage", JSON.stringify(usage));
+          localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
         }
         setErrorMessage("");
         setTimeout(() => {

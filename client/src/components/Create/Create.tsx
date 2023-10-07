@@ -3,6 +3,10 @@ import {Dialog, Transition, Disclosure} from "@headlessui/react";
 import {ChevronRightIcon} from "@heroicons/react/20/solid";
 import lifeBuoyWhite from "../../assets/lifeBuoyWhite.svg";
 import {
+  LOCAL_STORAGE_LICENSE_KEY,
+  LOCAL_STORAGE_USAGE_KEY,
+} from "../../types/constants";
+import {
   OPENAI_PROMPT_TOKEN_COST,
   OPENAI_COMPLETION_TOKEN_COST,
   OPENAI_TOKEN_THRESHOLD,
@@ -171,10 +175,10 @@ export default function Create() {
   const [selectedItem, setSelectedItem] = useState(navigation[0]);
   const [content, setContent] = useState("");
   const [usage, setUsage] = useState(
-    JSON.parse(localStorage.getItem("hw_openai_usage") || "{}")
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}")
   );
   const usageRef = useRef(
-    JSON.parse(localStorage.getItem("hw_openai_usage") || "{}")
+    JSON.parse(localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}")
   );
 
   const handleNavClick = (idx: number, item: any) => {
@@ -190,10 +194,14 @@ export default function Create() {
   useEffect(() => {
     // update api usage
     if (
-      localStorage.getItem("hw_openai_usage") !==
-      JSON.stringify(usageRef.current)
+      localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) &&
+      localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) !==
+        JSON.stringify(usageRef.current)
     ) {
-      const use = JSON.parse(localStorage.getItem("hw_openai_usage") || "{}");
+      // is set in FilterMenu.tsx#generate
+      const use = JSON.parse(
+        localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}"
+      );
       setUsage(use);
       usageRef.current = use;
     }
@@ -450,7 +458,7 @@ export default function Create() {
                         About
                       </a>
                     </li>
-                    {!localStorage.getItem("hw-stripe-payment-license-key") && (
+                    {!localStorage.getItem(LOCAL_STORAGE_LICENSE_KEY) && (
                       <li>
                         <a
                           href="/pricing"
@@ -598,7 +606,7 @@ export default function Create() {
                     ))}
                   </ul>
                 </li>
-                {localStorage.getItem("hw_openai_usage") && (
+                {localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) && (
                   <div>
                     <p className="text-xs font-semibold leading-6 text-indigo-200">
                       API usage cost: $

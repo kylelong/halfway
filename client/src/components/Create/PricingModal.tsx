@@ -3,7 +3,7 @@ import checkBadge from "../../assets/checkBadge.svg";
 import {STRIPE_LINK} from "../../types/constants";
 import {Fragment, useRef, useState} from "react";
 import {Dialog, Transition} from "@headlessui/react";
-import {ClockIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import {XMarkIcon} from "@heroicons/react/24/outline";
 
 const includedFeatures = [
   "Content for all your needs",
