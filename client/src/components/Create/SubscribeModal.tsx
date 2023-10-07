@@ -3,9 +3,11 @@ import {Dialog, Transition} from "@headlessui/react";
 import chicken from "../../assets/chicken.svg";
 type Props = {
   showModal: boolean;
+  updatePricingModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const SubscribeModal: React.FC<Props> = ({showModal}) => {
+// encourages people on the free trial to subscribe
+const SubscribeModal: React.FC<Props> = ({showModal, updatePricingModal}) => {
   const [open, setOpen] = useState(showModal);
   const [time, setTime] = useState(7);
   const closeDueToCountdown = useRef(false); // Track if modal closed due to countdown
@@ -105,6 +107,7 @@ const SubscribeModal: React.FC<Props> = ({showModal}) => {
                 <button
                   type="button"
                   className="mt-3 mb-4 sm:mb-0 inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 ring-1 ring-inset sm:col-start-1 sm:mt-0"
+                  onClick={() => updatePricingModal(true)}
                 >
                   Unlock premium features
                 </button>

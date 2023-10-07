@@ -17,6 +17,7 @@ import Modal from "./Modal";
 import ChatGPTSVG from "../../assets/chatgpt.svg";
 import OpenAIModal from "./OpenAIModal";
 import SubscribeModal from "./SubscribeModal";
+import PricingModal from "./PricingModal";
 
 type Props = {
   item: any;
@@ -41,6 +42,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
   const [tone, setTone] = useState(tonesArray[0].data);
   const [showOpenAIModal, setShowOpenAIModal] = useState<boolean>(false);
   const [showSubscribeModal, setShowSubscribeModal] = useState<boolean>(false);
+  const [showPricingModal, setShowPricingModal] = useState<boolean>(false);
   const [data, setData] = useState({
     description: "",
     childIndex: 0,
@@ -210,6 +212,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     selectedLengthRef.current = selectedLength;
     toneRef.current = tone;
     descriptionRef.current = description;
+    console.log(showSubscribeModal);
   }, [
     item,
     childIndex,
@@ -221,6 +224,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     showOpenAIModal,
     updateContent,
     showSubscribeModal,
+    showPricingModal,
   ]);
 
   return (
@@ -243,7 +247,11 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
           />{" "}
         </>
       )}
-      <SubscribeModal showModal={showSubscribeModal} />
+      <SubscribeModal
+        showModal={showSubscribeModal}
+        updatePricingModal={setShowPricingModal}
+      />
+      <PricingModal />
       <Modal />
       <div>
         {item && (
