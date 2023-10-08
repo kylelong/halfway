@@ -82,7 +82,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
       const completion = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
         prompt: query,
-        max_tokens: 20,
+        max_tokens: 248,
         top_p: 1,
       });
 

@@ -186,6 +186,9 @@ export default function Create() {
     setNavId(idx);
     setSelectedItem(item);
     setContent("");
+    if (navigation[idx].children && idx !== navId) {
+      setChildIndex(0);
+    }
   };
   const handleChildClick = (index: number) => {
     setChildIndex(index);
