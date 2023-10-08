@@ -23,7 +23,6 @@ import Modal from "./Modal";
 import ChatGPTSVG from "../../assets/chatgpt.svg";
 import OpenAIModal from "./OpenAIModal";
 import SubscribeModal from "./SubscribeModal";
-import PricingModal from "./PricingModal";
 
 type Props = {
   item: any;
@@ -40,15 +39,17 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
   });
 
   const lengthsArray = Object.values(LENGTH);
-
+  let count = parseInt(localStorage.getItem(LOCAL_STORAGE_QUERIES_KEY) || "0");
   const [optionsMenu, setOptionsMenu] = useState([]);
   const [selectedType, setSelectedType] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [selectedLength, setSelectedLength] = useState<string>(lengthsArray[0]);
   const [tone, setTone] = useState(tonesArray[0].data);
   const [showOpenAIModal, setShowOpenAIModal] = useState<boolean>(false);
-  const [showSubscribeModal, setShowSubscribeModal] = useState<boolean>(false);
-  const [showPricingModal, setShowPricingModal] = useState<boolean>(false);
+  const [showSubscribeModal, setShowSubscribeModal] = useState<boolean>(
+    !localStorage.getItem(LOCAL_STORAGE_LICENSE_KEY) && count % 2 === 0
+  );
+  // !localStorage.getItem(LOCAL_STORAGE_LICENSE_KEY) && count % 2 === 0
   const [data, setData] = useState({
     description: "",
     childIndex: 0,
@@ -129,6 +130,10 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
       console.log(error);
     }
   };
+  const handleModalClose = () => {
+    // console.log("called handleModalClose");
+    setShowSubscribeModal(false);
+  };
 
   const generateQuery = async () => {
     if (!localStorage.getItem(LOCAL_STORAGE_API_KEY)) {
@@ -160,7 +165,6 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     }
     // CALL OPEN AI
     let message = `generate a ${type} ${selectedType} in a ${tone} tone that is between ${wordRange[0]} and ${wordRange[1]} words described as ${description}`;
-    generate(message);
     // maybe reset data
     // setData({
     //   description: "",
@@ -171,7 +175,14 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     //   textLength: lengthsArray[0],
     // });
     setDescription("");
+    generate(message);
   };
+  // useEffect(() => {
+  //   console.log(
+  //     `showSubscribeModal: ${showSubscribeModal} localStorge && count:`,
+  //     !localStorage.getItem(LOCAL_STORAGE_LICENSE_KEY) && count % 2 === 0
+  //   );
+  // }, [showSubscribeModal, count]);
 
   useEffect(() => {
     // sub type can come from parent or the child
@@ -219,10 +230,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     selectedLengthRef.current = selectedLength;
     toneRef.current = tone;
     descriptionRef.current = description;
-    // TODO: delete
-    console.log(
-      `showSubscribeModal: ${showSubscribeModal} showPricingModal: ${showPricingModal}`
-    );
+    // console.log(`showSubscribeModal: ${showSubscribeModal}`);
   }, [
     item,
     childIndex,
@@ -234,7 +242,6 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     showOpenAIModal,
     updateContent,
     showSubscribeModal,
-    showPricingModal,
   ]);
 
   return (
@@ -259,9 +266,9 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
       )}
       <SubscribeModal
         showModal={showSubscribeModal}
-        updatePricingModal={setShowPricingModal}
+        onCloseModal={handleModalClose}
       />
-      {showPricingModal && <PricingModal />}
+
       <Modal />
       <div>
         {item && (

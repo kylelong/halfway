@@ -1,7 +1,7 @@
 import * as React from "react";
 import checkBadge from "../../assets/checkBadge.svg";
 import {STRIPE_LINK} from "../../types/constants";
-import {Fragment, useRef, useState} from "react";
+import {Fragment} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 import {XMarkIcon} from "@heroicons/react/24/outline";
 
@@ -12,17 +12,13 @@ const includedFeatures = [
   "Search saved generated content",
 ];
 
-export default function PricingModal() {
-  const [open, setOpen] = useState(true);
-
-  const cancelButtonRef = useRef(null);
-
+export default function PricingModal({open, onClose}) {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 flex items-center justify-center z-10"
-        onClose={setOpen}
+        onClose={onClose}
       >
         <Transition.Child
           as={Fragment}
@@ -48,11 +44,11 @@ export default function PricingModal() {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform md:ml-20 lg:ml-0 w-full max-w-md xl:max-w-xl p-4 bg-white rounded-lg shadow-xl transition-all sm:mx-4 sm:p-6">
-                <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+                <div className="absolute right-0 top-0 pr-4 pt-4 sm:block">
                   <button
                     type="button"
                     className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    onClick={() => setOpen(false)}
+                    onClick={onClose}
                   >
                     <span className="sr-only">Close</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -67,7 +63,8 @@ export default function PricingModal() {
                       Lifetime Membership
                     </Dialog.Title>
                     <p className="text-base text-sm font-semibold text-gray-600">
-                      Pay once, own it forever
+                      Pay <span className="text-indigo-600">once</span>, own it
+                      forever
                     </p>
                     <p className="mt-6 flex items-baseline justify-center gap-x-2">
                       <span className="text-5xl font-bold tracking-tight text-gray-900">
@@ -84,7 +81,10 @@ export default function PricingModal() {
                     </div>
                     <ul className="mt-8 grid grid-cols-1 gap-4 text-sm leading-6 text-gray-600 xl:grid-cols-2 sm:gap-6">
                       {includedFeatures.map((feature) => (
-                        <li key={feature} className="flex gap-x-3">
+                        <li
+                          key={feature}
+                          className="flex gap-x-3 justify-left sm:justify-left md:justify-normal"
+                        >
                           <img
                             alt="checkBadge"
                             src={checkBadge}
