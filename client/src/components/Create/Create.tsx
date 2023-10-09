@@ -54,17 +54,83 @@ const navigation = [
         name: "Paper",
         href: "#",
         options: ["idea", "outline", "sentence", "paragraph"],
+        examples: {
+          idea: [
+            "factors that influences our music taste",
+            "french cuisine influence on luxury dining",
+            "how having a garden increases life expectancy",
+          ],
+          outline: [
+            "ETFs as an effectve investing stratgey",
+            "determinism vs free will",
+            "history of human computer interaction",
+          ],
+          sentence: [
+            "explain why grit is critical to success",
+            "fasting as an effective weight loss strategy",
+            "strength training impact on muscle mass",
+          ],
+          paragraph: [
+            "how silicon valley became the meca of tech",
+            "red burgundy vs willamette valley pinot noir",
+            "cancel culture in modern comedy",
+          ],
+        },
       },
       {
         name: "Blog",
         href: "#",
         options: ["idea", "outline", "sentence", "paragraph"],
+        examples: {
+          idea: [
+            "factors that influences our music taste",
+            "french cuisine influence on luxury dining",
+            "how having a garden increases life expectancy",
+          ],
+          outline: [
+            "ETFs as an effectve investing stratgey",
+            "determinism vs free will",
+            "history of human computer interaction",
+          ],
+          sentence: [
+            "explain why grit is critical to success",
+            "fasting as an effective weight loss strategy",
+            "strength training impact on muscle mass",
+          ],
+          paragraph: [
+            "how silicon valley became the meca of tech",
+            "red burgundy vs willamette valley pinot noir",
+            "cancel culture in modern comedy",
+          ],
+        },
       },
 
       {
         name: "Newsletter",
         href: "#",
         options: ["idea", "outline", "sentence", "paragraph"],
+        examples: {
+          idea: [
+            "weekly tech news",
+            "daily worldwide news",
+            "inspirational quotes and sayings",
+          ],
+          outline: [
+            "ETFs as an effectve investing stratgey",
+            "determinism vs free will",
+            "history of human computer interaction",
+          ],
+          sentence: [
+            "explain why grit is critical to success",
+            "fasting as an effective weight loss strategy",
+            "strength training impact on muscle mass",
+          ],
+          paragraph: [
+            "how silicon valley became the meca of tech",
+            "red burgundy vs willamette valley pinot noir",
+            "cancel culture in modern comedy",
+          ],
+        },
       },
     ],
   },

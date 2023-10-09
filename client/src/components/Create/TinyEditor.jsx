@@ -1,6 +1,6 @@
 import {useRef, useState, useEffect} from "react";
 import {Editor} from "@tinymce/tinymce-react";
-
+import {CopyToClipboard} from "react-copy-to-clipboard";
 const TinyEditor = ({content}) => {
   const editorRef = useRef(null);
   const contentRef = useRef("");
@@ -133,6 +133,17 @@ const TinyEditor = ({content}) => {
               Assitant typing...
             </button>
           </div>
+        )}
+      </div>
+      <div>
+        {length > 0 && content.length === length && (
+          <>
+            <CopyToClipboard text={content}>
+              <button className="rounded-md bg-indigo-600 px-5 py-2 mt-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                copy
+              </button>
+            </CopyToClipboard>
+          </>
         )}
       </div>
     </>

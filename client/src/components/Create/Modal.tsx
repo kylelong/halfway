@@ -34,12 +34,16 @@ const Modal: React.FC = () => {
               </div>
             )}
             <div className="mt-2 max-w-xl text-sm text-gray-500">
-              <p>
-                Briefly describe your content in the textbox below
-                <br /> <br /> Then select from the filters to tailor the content
-                to meet your needs.
-                <br /> <br /> Then edit the generated content in the text editor
-                to your satisfaction
+              <p className="mb-1">
+                <b>1.</b>{" "}
+                <span>Briefly describe your content in the textbox below</span>
+              </p>
+              <p className="mb-1">
+                <b>2.</b> Add filters to tailor the content to your needs
+              </p>
+              <p className="mb-1">
+                <b>3.</b> Edit the generated content in the text editor to your
+                satisfaction
               </p>
             </div>
             <div className="mt-5 flex flex-row xl:justify-between">
