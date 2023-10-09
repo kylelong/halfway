@@ -47,7 +47,9 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
   const [tone, setTone] = useState(tonesArray[0].data);
   const [showOpenAIModal, setShowOpenAIModal] = useState<boolean>(false);
   const [showSubscribeModal, setShowSubscribeModal] = useState<boolean>(
-    !localStorage.getItem(LOCAL_STORAGE_LICENSE_KEY) && count % 2 === 0
+    count > 0 &&
+      !localStorage.getItem(LOCAL_STORAGE_LICENSE_KEY) &&
+      count % 2 === 0
   );
   // !localStorage.getItem(LOCAL_STORAGE_LICENSE_KEY) && count % 2 === 0
   const [data, setData] = useState({
