@@ -235,11 +235,14 @@ function classNames(...classes: any) {
 //#endregion
 
 export default function Create() {
+  const welcomeMessage = `Welcome to Halfway. Get smart generated content for all your writing needs. Content for writing papers, emails, blogs, newsletters. Also for social media, marketing & advertising campaigns, e-commerce, and seo. To get started, enter the details of the content you want to create.`;
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navId, setNavId] = useState(0);
   const [childIndex, setChildIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState(navigation[0]);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(
+    localStorage.getItem("showedWelcomeMessage") ? "" : welcomeMessage
+  );
   const [usage, setUsage] = useState(
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}")
   );
@@ -273,6 +276,9 @@ export default function Create() {
       );
       setUsage(use);
       usageRef.current = use;
+    }
+    if (!localStorage.getItem("showedWelcomeMessage")) {
+      localStorage.setItem("showedWelcomeMessage", "true");
     }
   }, [content, setContent, usage]);
   return (

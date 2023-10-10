@@ -1,12 +1,14 @@
 import {useRef, useState, useEffect} from "react";
 import {Editor} from "@tinymce/tinymce-react";
 import {CopyToClipboard} from "react-copy-to-clipboard";
+import checkBadge from "../../assets/checkBadge.svg";
 const TinyEditor = ({content}) => {
   const editorRef = useRef(null);
   const contentRef = useRef("");
   const [text, setText] = useState("");
   const [length, setLength] = useState(0);
   const [speed, setSpeed] = useState(35);
+  const [copied, setCopied] = useState(false);
 
   const handleChange = (content, editor) => {
     if (editorRef.current) {
@@ -59,7 +61,7 @@ const TinyEditor = ({content}) => {
         }
       }, speed);
     return () => clearInterval(timer);
-  }, [length, text, speed, content]);
+  }, [length, text, speed, content, copied]);
 
   return (
     <>
@@ -139,10 +141,28 @@ const TinyEditor = ({content}) => {
         {length > 0 && content.length === length && (
           <>
             <CopyToClipboard text={content}>
-              <button className="rounded-md bg-indigo-600 px-5 py-2 mt-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <button
+                onClick={() => {
+                  setCopied(true);
+                  setTimeout(() => {
+                    setCopied(false);
+                  }, 2500);
+                }}
+                className="rounded-md bg-indigo-600 px-5 py-2 mt-2 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
                 copy
               </button>
             </CopyToClipboard>
+            {copied && (
+              <div className="flex flex-row mt-2">
+                <img
+                  alt="checkBadge"
+                  src={checkBadge}
+                  className="h-6 w-5 flex-none"
+                />
+                <span className="ml-0.5">copied to clipboard</span>
+              </div>
+            )}
           </>
         )}
       </div>
