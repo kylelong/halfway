@@ -83,12 +83,12 @@ const navigation = [
         options: ["idea", "outline", "sentence", "paragraph"],
         examples: {
           idea: [
-            "factors that influences our music taste",
+            "how to come up with creative ideas",
             "french cuisine influence on luxury dining",
             "how having a garden increases life expectancy",
           ],
           outline: [
-            "ETFs as an effectve investing stratgey",
+            "why you should solo travel",
             "determinism vs free will",
             "history of human computer interaction",
           ],
@@ -116,19 +116,19 @@ const navigation = [
             "inspirational quotes and sayings",
           ],
           outline: [
-            "ETFs as an effectve investing stratgey",
-            "determinism vs free will",
-            "history of human computer interaction",
+            "tech startups to look out for",
+            "recipes of the week",
+            "paris art musuems",
           ],
           sentence: [
-            "explain why grit is critical to success",
-            "fasting as an effective weight loss strategy",
+            "explain amor fati in stoic philosophy",
+            "investing strategy for retirement",
             "strength training impact on muscle mass",
           ],
           paragraph: [
-            "how silicon valley became the meca of tech",
-            "red burgundy vs willamette valley pinot noir",
-            "cancel culture in modern comedy",
+            "how yoga improved me as a distance runner",
+            "napa chardonnay vs white burgundy",
+            "fashion ideas for fall dressing",
           ],
         },
       },
@@ -147,34 +147,140 @@ const navigation = [
         options: ["tweet", "thread", "reply", "dm"],
         icon: twitterBlank,
         coloredIcon: twitter,
+        examples: {
+          tweet: [
+            "showing love for Drake's new album",
+            "launching my new book",
+            "asking for recs in nyc",
+          ],
+          thread: [
+            "how to build better habits",
+            "steps to make strawberry cobbler",
+            "steps to effective marketing",
+          ],
+          reply: [
+            "answering a feature request from a user",
+            "expanding on the tweet",
+            "follow up question to a tweet",
+          ],
+          dm: [
+            "reaching out to make a connection",
+            "responding to a tweet",
+            "pitching an idea",
+          ],
+        },
       },
       {
         name: "LinkedIn",
         href: "#",
-        options: ["post", "article", "message", "hashtags"],
+        options: ["post", "article", "message"],
         icon: linkedinBlank,
         coloredIcon: linkedin,
+        examples: {
+          post: [
+            "announcing my new role as a software engineer",
+            "launching my new podcast",
+            "announcing my book signing in nyc",
+          ],
+          article: [
+            "how to land your dream job",
+            "how to negotiate effectively",
+            "networking effectively on linkedin",
+          ],
+          message: [
+            "following up on a job",
+            "inquiring about a position",
+            "reaching out to an old colleague",
+          ],
+        },
       },
       {
         name: "Youtube",
         href: "#",
-        options: ["video idea", "title", "subtitle", "description"],
+        options: ["video", "title", "subtitle", "description"],
         icon: youtubeBlank,
         coloredIcon: youtube,
+        examples: {
+          video: [
+            "day in the life vlog in nyc",
+            "cooking show making apple pie",
+            "nike dunks low shoe unboxing",
+          ],
+          title: [
+            "day in the life as a google intern",
+            "top rap albums of the last decade",
+            "golfing at pebble beach",
+          ],
+          subtitle: [
+            "solo travel in positano vlog",
+            "music podcast interviewing erykah badu",
+            "nyc new apartment tour",
+          ],
+          description: [
+            "live show promotion",
+            "golf trip to scottsdale,arizona",
+            "clothing brand pop up in soho nyc",
+          ],
+        },
       },
       {
         name: "Instagram",
         href: "#",
-        options: ["caption", "bio", "ad", "dm", "comment", "hashtags"],
+        options: ["caption", "ad", "dm", "comment", "hashtags"],
         icon: instagramBlank,
         coloredIcon: instagram,
+        examples: {
+          caption: [
+            "weekend trip to nyc",
+            "happy birthday to my friend",
+            "rolling loud recap",
+          ],
+          ad: [
+            "clothing brand fall collection",
+            "speed dating event",
+            "live comedy show tonight",
+          ],
+          dm: [
+            "reaching out for a music collab",
+            "responding to a cool story",
+            "letting a friend know I am in town",
+          ],
+          comment: ["insight on a post", "hyping my friend up"],
+          hashtags: [
+            "wine tour in napa valley",
+            "golf trip to pebble beach",
+            "us open in nyc",
+          ],
+        },
       },
       {
         name: "Tiktok",
         href: "#",
-        options: ["video idea", "title", "caption", "hashtags"],
+        options: ["video", "title", "caption", "hashtags"],
         icon: tiktokBlank,
         coloredIcon: tiktok,
+        examples: {
+          video: [
+            "new hip trendy dance",
+            "get ready with me",
+            "day in the life in nyc",
+          ],
+          title: [
+            "story time about a vacation",
+            "horrible date recap",
+            "ski trip montage",
+          ],
+          caption: [
+            "sharing my favorite songs from an album",
+            "announcing a local wine event",
+            "pranking my sister",
+          ],
+          hashtags: [
+            "helo my video go viral",
+            "dance video",
+            "football game vlog",
+          ],
+        },
       },
       {
         name: "Facebook",
@@ -182,6 +288,23 @@ const navigation = [
         options: ["post", "message", "ad"],
         icon: facebookBlank,
         coloredIcon: facebook,
+        examples: {
+          post: [
+            "recent life update",
+            "announcing my new apparel line",
+            "letting friends and family know I am engaged",
+          ],
+          message: [
+            "inquiring about a product on the marketplace",
+            "reaching out to an old friend",
+            "joking in the group chat",
+          ],
+          ad: [
+            "clothing brand new fall collection",
+            "speed dating event",
+            "live comedy show tonight at 8pm",
+          ],
+        },
       },
     ],
   },
@@ -192,6 +315,23 @@ const navigation = [
     href: "#",
     icon: ChartPieIcon,
     options: ["campaign", "slogan", "affiliate"],
+    examples: {
+      campaign: [
+        "fall 2023 skin care product line",
+        "website analytics SaaS business",
+        "massage therapy",
+      ],
+      slogan: [
+        "for my new jewelry boutique",
+        "fall discounts for retail",
+        "joking in the group chat",
+      ],
+      affiliate: [
+        "collaborating with new balance",
+        "partnering with instagram influencers",
+        "sponsoring a podcast",
+      ],
+    },
   },
   {
     id: 3,
@@ -200,6 +340,18 @@ const navigation = [
     type: CONTENT_TYPE.Seo,
     icon: ChartBarIcon,
     options: ["keywords", "content"],
+    examples: {
+      keywords: [
+        "etsy jewelry store",
+        "SaaS analytics business",
+        "computer science tutoring service",
+      ],
+      content: [
+        "my businesses product page",
+        "tech blog post",
+        "SaaS landing page",
+      ],
+    },
   },
   {
     id: 4,
@@ -208,6 +360,18 @@ const navigation = [
     type: CONTENT_TYPE.Email,
     icon: InboxArrowDownIcon,
     options: ["message", "subject"],
+    examples: {
+      message: [
+        "reschedule meeting with my colleague Kevin for friday at 2pm",
+        "following up with the recruiter about my application",
+        "inquiring about the status of my order",
+      ],
+      subject: [
+        "follow up with a recruiter",
+        "cancel meeting this afternoon with my colleague",
+        "introducing my friend to someone",
+      ],
+    },
   },
   {
     id: 5,
@@ -216,6 +380,23 @@ const navigation = [
     type: CONTENT_TYPE.Advertising,
     icon: UserPlusIcon,
     options: ["campaign", "slogan", "affiliate"],
+    examples: {
+      campaign: [
+        "fall 2023 skin care product line",
+        "site analytics SaaS business",
+        "design agency service",
+      ],
+      slogan: [
+        "for my new jewelry boutique",
+        "fall discounts for retail",
+        "joking in the group chat",
+      ],
+      affiliate: [
+        "collaborating with new balance",
+        "partnering with instagram influencers",
+        "sponsoring a podcast",
+      ],
+    },
   },
   {
     id: 6,
@@ -224,6 +405,23 @@ const navigation = [
     type: CONTENT_TYPE.Ecommerce,
     icon: ShoppingCartIcon,
     options: ["product title", "product description", "keywords"],
+    examples: {
+      title: [
+        "fall 2023 skin care product line",
+        "handle made jewlery items",
+        "custom hoodies",
+      ],
+      description: [
+        "high quality gold necklace",
+        "premium golf polo",
+        "mechanical keyboards",
+      ],
+      keywords: [
+        "collaborating with new balance",
+        "partnering with instagram influencers",
+        "sponsoring a podcast",
+      ],
+    },
   },
 ];
 const teams = [

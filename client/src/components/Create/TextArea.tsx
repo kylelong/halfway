@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
+import {LOCAL_STORAGE_API_KEY} from "../../types/constants";
 type Props = {
   item: any;
   options: any;
@@ -20,7 +21,9 @@ const TextArea: React.FC<Props> = ({
   );
   const [verb, setVerb] = useState("is");
   const [text, setText] = useState<string>(defaultText);
+  const [examples, setExamples] = useState([]);
   const defaultTextRef = useRef("");
+  const hasApiKey = localStorage.getItem(LOCAL_STORAGE_API_KEY);
 
   useEffect(() => {
     if (item && item.name && options) {
@@ -28,9 +31,9 @@ const TextArea: React.FC<Props> = ({
 
       if (item.children && childIndex >= 0) {
         // TODO: set examples here
-        // if (selectedType) {
-        //   console.log(item.children[childIndex].examples[selectedType]);
-        // }
+        if (selectedType) {
+          setExamples(item.children[childIndex].examples[selectedType]);
+        }
         itemName = item.children[childIndex].name;
         const plural =
           item.type === "Writing" ||
@@ -41,6 +44,12 @@ const TextArea: React.FC<Props> = ({
         setPlaceHolderText(`${itemName} ${selectedType}`);
       } else {
         setPlaceHolderText(`${itemName} ${selectedType}`);
+        if (selectedType) {
+          const words = selectedType.split(" ");
+          const type =
+            words.length > 1 ? words[words.length - 1] : selectedType;
+          setExamples(item.examples[type]);
+        }
       }
       selectedType.endsWith("s") ? setVerb("are") : setVerb("is");
     }
@@ -77,19 +86,19 @@ const TextArea: React.FC<Props> = ({
         <h3 className="text-base font-semibold leading-6 text-gray-900">
           Examples
         </h3>
-        {selectedType &&
-          item.children[childIndex].examples[selectedType].map(
-            (example: string, index: number) => {
-              return (
-                <li
-                  className="list-disc text-gray-700 text-semibold"
-                  key={index}
-                >
-                  {example}
-                </li>
-              );
-            }
-          )}
+        {hasApiKey &&
+          selectedType &&
+          examples !== undefined &&
+          examples.map((example: string, index: number) => {
+            return (
+              <li
+                className="list-disc text-sm text-gray-700 text-semibold ml-4"
+                key={index}
+              >
+                {example}
+              </li>
+            );
+          })}
       </ul>
     </div>
   );
