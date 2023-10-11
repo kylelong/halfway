@@ -414,7 +414,7 @@ const navigation = [
       description: [
         "high quality gold necklace",
         "premium golf polo",
-        "mechanical keyboards",
+        "sleek mechanical keyboards",
       ],
       keywords: [
         "collaborating with new balance",
@@ -433,7 +433,7 @@ function classNames(...classes: any) {
 //#endregion
 
 export default function Create() {
-  const welcomeMessage = `Welcome to Halfway. Get smart generated content for all your writing needs. Content for writing papers, emails, blogs, newsletters. Also for social media, marketing & advertising campaigns, e-commerce, and seo. To get started, enter the details of the content you want to create.`;
+  const welcomeMessage = `Welcome to Halfway. Get smart generated content for all your writing needs. Content for writing papers, emails, blogs, newsletters. Also for social media, marketing & advertising campaigns, e-commerce, and seo. To get started, enter the details (below if on mobile, to the right if on desktop) of the content you want to create.`;
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navId, setNavId] = useState(0);
   const [childIndex, setChildIndex] = useState(0);

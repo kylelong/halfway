@@ -82,14 +82,12 @@ const TextArea: React.FC<Props> = ({
           className="block w-full rounded-md border-0 py-1.5 px-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         />
       </div>
-      <ul className="mt-2">
-        <h3 className="text-base font-semibold leading-6 text-gray-900">
-          Examples
-        </h3>
-        {hasApiKey &&
-          selectedType &&
-          examples !== undefined &&
-          examples.map((example: string, index: number) => {
+      {hasApiKey && selectedType && examples !== undefined && (
+        <ul className="mt-2">
+          <h3 className="text-base font-semibold leading-6 text-gray-900">
+            Examples
+          </h3>
+          {examples.map((example: string, index: number) => {
             return (
               <li
                 className="list-disc text-sm text-gray-700 text-semibold ml-4"
@@ -99,7 +97,8 @@ const TextArea: React.FC<Props> = ({
               </li>
             );
           })}
-      </ul>
+        </ul>
+      )}
     </div>
   );
 };
