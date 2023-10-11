@@ -28,39 +28,48 @@ const TinyEditor = ({content}) => {
       }
     }
 
-    const timer =
-      length < content.length &&
-      setInterval(() => {
+    let nextContent = editorRef.current?.getContent({format: "raw"}) || "";
+
+    // Clear the interval right away to prevent overlapping intervals
+    let timer = null;
+
+    if (length < content.length) {
+      timer = setInterval(() => {
         if (editorRef.current) {
-          const currentContent = editorRef.current.getContent({format: "text"});
           let nextChar = content[length];
 
-          if (nextChar === "\n") {
-            if (content[length + 1] === "\n") {
-              nextChar = "<br><br>";
-              setLength(length + 1); // Skip the next character since we've already processed it
-            } else {
-              nextChar = "<br>";
-            }
-          } else if (nextChar === " ") {
-            nextChar = "&nbsp;";
+          // Handle special characters
+          switch (nextChar) {
+            case "\n":
+              nextContent += content[length + 1] === "\n" ? "<br><br>" : "<br>";
+              break;
+            case " ":
+              nextContent += length <= 2 ? " " : "&nbsp;";
+              break;
+            case ".":
+              setSpeed(350);
+              nextContent += nextChar;
+              break;
+            default:
+              setSpeed(20);
+              nextContent += nextChar;
           }
 
-          if (nextChar === ".") {
-            setSpeed(350);
-          } else {
-            setSpeed(20);
-          }
-          editorRef.current.setContent(currentContent + nextChar, {
+          // Update the editor's content and selection
+          editorRef.current.setContent(nextContent, {
             format: "raw",
           });
           setLength(length + 1);
           editorRef.current.focus();
-          editorRef.current.selection.select(editorRef.current.getBody(), true); // End of content
-          editorRef.current.selection.collapse(false); // Collapse selection to end
+          editorRef.current.selection.select(editorRef.current.getBody(), true);
+          editorRef.current.selection.collapse(false);
         }
       }, speed);
-    return () => clearInterval(timer);
+    }
+
+    return () => {
+      clearInterval(timer); // Clear interval when the component unmounts or dependencies change
+    };
   }, [length, text, speed, content, copied]);
 
   return (

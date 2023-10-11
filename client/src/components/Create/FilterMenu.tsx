@@ -84,7 +84,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
       const completion = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
         prompt: query,
-        max_tokens: 248,
+        max_tokens: 750,
         top_p: 1,
       });
 
@@ -165,8 +165,15 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     } else if (textLength === "Long") {
       wordRange = LONG_RANGE;
     }
+    // TODO: message for each item in create array
+    let message = "";
     // CALL OPEN AI
-    let message = `generate a ${type} ${selectedType} in a ${tone} tone that is between ${wordRange[0]} and ${wordRange[1]} words described as ${description}`;
+    if (item.showLength) {
+      message = `generate a ${type} ${selectedType} in a ${tone} tone that is between ${wordRange[0]} and ${wordRange[1]} words described as ${description}`;
+    } else {
+      message = `generate a ${selectedType} for a ${type} in a ${tone} tone described as ${description}`;
+    }
+
     // maybe reset data
     // setData({
     //   description: "",
@@ -321,15 +328,17 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
         />
       </div>
 
-      <div className="mb-6">
-        <DropDownMenu
-          options={lengthsArray}
-          label={lengthsArray[0]}
-          description="Content Length"
-          updateSelection={setSelectedLength}
-          subText={LENGTH_SUB_TEXT}
-        />
-      </div>
+      {item.showLength && (
+        <div className="mb-6">
+          <DropDownMenu
+            options={lengthsArray}
+            label={lengthsArray[0]}
+            description="Content Length"
+            updateSelection={setSelectedLength}
+            subText={LENGTH_SUB_TEXT}
+          />
+        </div>
+      )}
       <button
         type="button"
         onClick={generateQuery}

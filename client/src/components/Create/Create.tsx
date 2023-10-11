@@ -49,6 +49,7 @@ const navigation = [
     href: "#",
     icon: NewspaperIcon,
     type: CONTENT_TYPE.Writing,
+    showLength: false,
     children: [
       {
         name: "Paper",
@@ -56,12 +57,12 @@ const navigation = [
         options: ["idea", "outline", "sentence", "paragraph"],
         examples: {
           idea: [
-            "factors that influences our music taste",
+            "factors that influence our music taste",
             "french cuisine influence on luxury dining",
             "how having a garden increases life expectancy",
           ],
           outline: [
-            "ETFs as an effectve investing stratgey",
+            "ETFs as an effective investing strategy",
             "determinism vs free will",
             "history of human computer interaction",
           ],
@@ -139,6 +140,7 @@ const navigation = [
     name: "Social",
     href: "#",
     icon: DevicePhoneMobileIcon,
+    showLength: true,
     type: CONTENT_TYPE.Social,
     children: [
       {
@@ -314,6 +316,7 @@ const navigation = [
     type: CONTENT_TYPE.Marketing,
     href: "#",
     icon: ChartPieIcon,
+    showLength: false,
     options: ["campaign", "slogan", "affiliate"],
     examples: {
       campaign: [
@@ -339,6 +342,7 @@ const navigation = [
     href: "#",
     type: CONTENT_TYPE.Seo,
     icon: ChartBarIcon,
+    showLength: false,
     options: ["keywords", "content"],
     examples: {
       keywords: [
@@ -359,6 +363,7 @@ const navigation = [
     href: "#",
     type: CONTENT_TYPE.Email,
     icon: InboxArrowDownIcon,
+    showLength: true,
     options: ["message", "subject"],
     examples: {
       message: [
@@ -379,6 +384,7 @@ const navigation = [
     href: "#",
     type: CONTENT_TYPE.Advertising,
     icon: UserPlusIcon,
+    showLength: false,
     options: ["campaign", "slogan", "affiliate"],
     examples: {
       campaign: [
@@ -389,7 +395,7 @@ const navigation = [
       slogan: [
         "for my new jewelry boutique",
         "fall discounts for retail",
-        "joking in the group chat",
+        "fall 2023 skin care product line",
       ],
       affiliate: [
         "collaborating with new balance",
@@ -404,6 +410,7 @@ const navigation = [
     href: "#",
     type: CONTENT_TYPE.Ecommerce,
     icon: ShoppingCartIcon,
+    showLength: false,
     options: ["product title", "product description", "keywords"],
     examples: {
       title: [
@@ -417,9 +424,9 @@ const navigation = [
         "sleek mechanical keyboards",
       ],
       keywords: [
-        "collaborating with new balance",
-        "partnering with instagram influencers",
-        "sponsoring a podcast",
+        "fall 2023 skin care product line",
+        "t-shirt line",
+        "custom air force ones",
       ],
     },
   },
