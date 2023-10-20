@@ -39,8 +39,19 @@ import twitter from "../../assets/twitter.svg";
 import TinyEditor from "./TinyEditor";
 import FilterMenu from "./FilterMenu";
 import {CONTENT_TYPE} from "../../types/basics";
+type Navigation = {
+  id: number;
+  name: string;
+  href: string;
+  icon: any;
+  type: CONTENT_TYPE;
+  showLength: boolean;
+  options?: string[];
+  examples?: any;
+  children?: any[];
+};
 
-const navigation = [
+const navigation: Navigation[] = [
   // {id: 0, name: "About", href: "/about", icon: HomeIcon},
   // {id: 1, name: "Purchase", href: "/pricing", icon: GiftIcon},
   {
@@ -444,7 +455,8 @@ export default function Create() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navId, setNavId] = useState(0);
   const [childIndex, setChildIndex] = useState(0);
-  const [selectedItem, setSelectedItem] = useState(navigation[0]);
+  const [selectedItem, setSelectedItem] = useState<Navigation>(navigation[0]);
+  const [description, setDescription] = useState("");
   const [content, setContent] = useState(
     localStorage.getItem("showedWelcomeMessage") ? "" : welcomeMessage
   );
@@ -485,7 +497,7 @@ export default function Create() {
     if (!localStorage.getItem("showedWelcomeMessage")) {
       localStorage.setItem("showedWelcomeMessage", "true");
     }
-  }, [content, setContent, usage]);
+  }, [content, setContent, usage, description]);
   return (
     <>
       <div>
@@ -624,7 +636,7 @@ export default function Create() {
                                           as="ul"
                                           className="mt-1 px-2"
                                         >
-                                          {item.children.map(
+                                          {item.children?.map(
                                             (subItem: any, index: number) => (
                                               <li
                                                 key={subItem.name}
@@ -813,7 +825,7 @@ export default function Create() {
                                   />
                                 </Disclosure.Button>
                                 <Disclosure.Panel as="ul" className="mt-1 px-2">
-                                  {item.children.map(
+                                  {item.children?.map(
                                     (subItem: any, index: number) => (
                                       <li
                                         key={subItem.name}
@@ -857,6 +869,37 @@ export default function Create() {
                   <div className="text-xs font-semibold leading-6 text-indigo-200">
                     Your items
                   </div>
+                  {localStorage.getItem("hw-templates") &&
+                    JSON.parse(localStorage.getItem("hw-templates") || "").map(
+                      (template: any, index: number) => {
+                        return (
+                          <div
+                            key={index}
+                            onClick={() => {
+                              const {
+                                id,
+                                childIndex,
+                                description,
+                                selectedType,
+                                textLength,
+                                tone,
+                              } = template;
+                              let item: Navigation = navigation.filter(
+                                (nav) => nav.id === id
+                              )[0];
+                              console.log(item);
+                              console.log(item);
+                              setSelectedItem(item);
+                              setNavId(id);
+                              setChildIndex(childIndex);
+                              setDescription(description);
+                            }}
+                          >
+                            Template {index + 1}
+                          </div>
+                        );
+                      }
+                    )}
 
                   <ul className="-mx-2 mt-2 space-y-1">
                     {teams.map((team) => (
@@ -965,6 +1008,7 @@ export default function Create() {
                   item={selectedItem}
                   childIndex={childIndex}
                   updateContent={setContent}
+                  defaultDescription={description}
                 />
               </div>
             </div>
@@ -977,6 +1021,7 @@ export default function Create() {
             item={selectedItem}
             childIndex={childIndex}
             updateContent={setContent}
+            defaultDescription={description}
           />
         </aside>
       </div>

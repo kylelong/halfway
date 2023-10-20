@@ -28,9 +28,15 @@ type Props = {
   item: any;
   childIndex: number;
   updateContent: React.Dispatch<React.SetStateAction<string>>;
+  defaultDescription: string;
 };
 
-const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
+const FilterMenu: React.FC<Props> = ({
+  item,
+  childIndex,
+  updateContent,
+  defaultDescription,
+}) => {
   const tonesArray = Object.entries(TONE).map(([key, value], index) => {
     return {
       id: index + 1,
@@ -42,7 +48,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
   let count = parseInt(localStorage.getItem(LOCAL_STORAGE_QUERIES_KEY) || "0");
   const [optionsMenu, setOptionsMenu] = useState([]);
   const [selectedType, setSelectedType] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
+  const [description, setDescription] = useState<string>(defaultDescription);
   const [selectedLength, setSelectedLength] = useState<string>(lengthsArray[0]);
   const [tone, setTone] = useState(tonesArray[0].data);
   const [showOpenAIModal, setShowOpenAIModal] = useState<boolean>(false);
@@ -84,12 +90,13 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
       const completion = await openai.completions.create({
         model: "gpt-3.5-turbo-instruct",
         prompt: query,
-        max_tokens: 750,
+        max_tokens: 248, //TODO: make it a formula based on selectedLength
         top_p: 1,
       });
 
       if (completion) {
-        updateContent(completion.choices[0].text);
+        let text = completion.choices[0].text;
+        updateContent(text);
         const {completion_tokens, prompt_tokens, total_tokens} =
           completion.usage || {};
         // update usage
@@ -154,7 +161,33 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
      */
     // selectedType is the specific of the medium email : message, subject
     const type = item.children ? item.children[childIndex].name : item.type;
-    // console.log(data); // TODO: use for template
+
+    /**
+     * createx.tsx
+     * setNavId to item.id
+     * textarea defaultText prop to description
+     * childIndex
+     */
+    // TODO: set template only if they click on save template
+    // shows save tempalte button when content.length > 0
+    const template = {
+      id: item.id,
+      description: description,
+      childIndex: childIndex,
+      selectedType: selectedType,
+      tone: tone,
+      textLength: textLength, // may not be there
+    };
+
+    if (!localStorage.getItem("hw-templates")) {
+      const newTemplate = [template];
+      localStorage.setItem("hw-templates", JSON.stringify(newTemplate));
+    } else {
+      let templates = JSON.parse(localStorage.getItem("hw-templates") || "");
+      // TODO: handle duplicates
+      templates.push(template);
+      localStorage.setItem("hw-templates", JSON.stringify(templates));
+    }
     let wordRange: any = [];
     if (textLength === "Brief") {
       wordRange = BRIEF_RANGE;
@@ -194,6 +227,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
   // }, [showSubscribeModal, count]);
 
   useEffect(() => {
+    console.log(description, defaultDescription);
     // sub type can come from parent or the child
     let menu = item.options || [];
     const {children} = item;
@@ -251,6 +285,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     showOpenAIModal,
     updateContent,
     showSubscribeModal,
+    defaultDescription,
   ]);
 
   return (
@@ -306,7 +341,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
           childIndex={childIndex}
           selectedType={selectedType}
           updateText={setDescription}
-          defaultText={description}
+          defaultText={defaultDescription}
         />
       </div>
 

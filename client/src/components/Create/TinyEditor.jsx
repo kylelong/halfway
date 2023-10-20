@@ -15,8 +15,15 @@ const TinyEditor = ({content}) => {
       setText(editorRef.current.getContent({format: "text"}));
     }
   };
-
   useEffect(() => {
+    const shouldUseNbsp = (index) => {
+      // If it's the start of the string or follows a newline, use &nbsp;
+      if (index === 0 || content[index - 1] === "\n") return true;
+      // If the previous character is a space, use &nbsp;
+      if (content[index - 1] === " ") return true;
+      return false;
+    };
+
     // clear text editor when new content is sent in
     if (contentRef.current !== content) {
       contentRef.current = content;
@@ -29,6 +36,8 @@ const TinyEditor = ({content}) => {
     }
 
     let nextContent = editorRef.current?.getContent({format: "raw"}) || "";
+
+    // Helper function to determine if a space should be a non-breaking space
 
     // Clear the interval right away to prevent overlapping intervals
     let timer = null;
@@ -44,7 +53,7 @@ const TinyEditor = ({content}) => {
               nextContent += content[length + 1] === "\n" ? "<br><br>" : "<br>";
               break;
             case " ":
-              nextContent += length <= 2 ? " " : "&nbsp;";
+              nextContent += "&nbsp;";
               break;
             case ".":
               setSpeed(350);

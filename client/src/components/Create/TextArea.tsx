@@ -24,6 +24,13 @@ const TextArea: React.FC<Props> = ({
   const [examples, setExamples] = useState([]);
   const defaultTextRef = useRef("");
   const hasApiKey = localStorage.getItem(LOCAL_STORAGE_API_KEY);
+  useEffect(() => {
+    if (defaultText !== text || defaultTextRef.current !== text) {
+      defaultTextRef.current = defaultText;
+      setText(defaultText);
+      console.log(`updating text: `, defaultText);
+    }
+  }, [defaultText, text]);
 
   useEffect(() => {
     if (item && item.name && options) {
@@ -53,11 +60,7 @@ const TextArea: React.FC<Props> = ({
       }
       selectedType.endsWith("s") ? setVerb("are") : setVerb("is");
     }
-    if (defaultText !== defaultTextRef.current) {
-      defaultTextRef.current = defaultText;
-      setText(defaultText);
-    }
-  }, [item, options, childIndex, selectedType, text, defaultText, verb]);
+  }, [item, options, childIndex, selectedType, text, verb]);
 
   return (
     <div>
