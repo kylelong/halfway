@@ -442,9 +442,9 @@ const navigation: Navigation[] = [
     },
   },
 ];
-const teams = [
-  {id: 1, name: "Templates", href: "#", initial: "T", current: false},
-];
+// const teams = [
+//   {id: 1, name: "Templates", href: "#", initial: "T", current: false},
+// ];
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
@@ -572,6 +572,16 @@ export default function Create() {
                       <ul className="flex flex-1 flex-col gap-y-7">
                         <li>
                           <ul className="-mx-2 space-y-1">
+                            <li>
+                              <a
+                                href="/about"
+                                style={{fontFamily: "Gaegu"}}
+                                className="group flex gap-x-3 rounded-md p-2 text-xl leading-6 font-semibold text-indigo-200 hover:text-white hover:bg-indigo-700"
+                              >
+                                <HomeIcon className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white" />
+                                About
+                              </a>
+                            </li>
                             {navigation.map((item, idx) => (
                               <li
                                 key={item.name}
@@ -678,7 +688,7 @@ export default function Create() {
                             ))}
                           </ul>
                         </li>
-                        <li>
+                        {/* <li>
                           <div className="text-xs font-semibold leading-6 text-indigo-200">
                             Your items
                           </div>
@@ -709,7 +719,7 @@ export default function Create() {
                               </li>
                             ))}
                           </ul>
-                        </li>
+                        </li> */}
                       </ul>
                     </nav>
                   </div>
@@ -865,70 +875,7 @@ export default function Create() {
                     ))}
                   </ul>
                 </li>
-                <li>
-                  <div className="text-xs font-semibold leading-6 text-indigo-200">
-                    Your items
-                  </div>
-                  {localStorage.getItem("hw-templates") &&
-                    JSON.parse(localStorage.getItem("hw-templates") || "").map(
-                      (template: any, index: number) => {
-                        return (
-                          <div
-                            key={index}
-                            onClick={() => {
-                              const {
-                                id,
-                                childIndex,
-                                description,
-                                selectedType,
-                                textLength,
-                                tone,
-                              } = template;
-                              let item: Navigation = navigation.filter(
-                                (nav) => nav.id === id
-                              )[0];
-                              console.log(item);
-                              console.log(item);
-                              setSelectedItem(item);
-                              setNavId(id);
-                              setChildIndex(childIndex);
-                              setDescription(description);
-                            }}
-                          >
-                            Template {index + 1}
-                          </div>
-                        );
-                      }
-                    )}
 
-                  <ul className="-mx-2 mt-2 space-y-1">
-                    {teams.map((team) => (
-                      <li key={team.name}>
-                        <a
-                          href={team.href}
-                          className={classNames(
-                            team.current
-                              ? "bg-gray-50 text-indigo-600"
-                              : "text-indigo-200 hover:text-white hover:bg-indigo-700",
-                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                          )}
-                        >
-                          <span
-                            className={classNames(
-                              team.current
-                                ? "text-indigo-600 border-indigo-600"
-                                : "text-gray-400 border-indigo-400 group-hover:border-indigo-400 bg-indigo-500",
-                              "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border text-[0.625rem] font-medium bg-white"
-                            )}
-                          >
-                            {team.initial}
-                          </span>
-                          <span className="truncate">{team.name}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
                 {localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) && (
                   <div>
                     <p className="text-xs font-semibold leading-6 text-indigo-200">

@@ -132,8 +132,8 @@ const SubscribeModal: React.FC<Props> = ({showModal, onCloseModal}) => {
                           </p>
                           <p></p>
                           <p className="text-sm text-gray-500 text-left">
-                            Unlock premium features like searching saved content
-                            results and saving your search templates.
+                            Unlock premium features and continue with no
+                            interruptions.
                           </p>
                         </div>
                       </div>

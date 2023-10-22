@@ -2,15 +2,18 @@ import Menu from "../Menu/Menu";
 import checkBadge from "../../assets/checkBadge.svg";
 import Footer from "./Footer";
 import {STRIPE_LINK} from "../../types/constants";
-
+/*
+ "Save your own custom presets",
+  "Several templates",
+  "Search saved content", 
+*/
 const includedFeatures = [
   "Content for all your needs",
   "Use your own API Key",
   "One time purchase, no monthly fee",
   "Access to GPT-3.5",
-  "Save your own custom presets",
+  "Unlimited feature updates",
   "Several templates",
-  "Search saved content",
   "Rich text editor",
 ];
 

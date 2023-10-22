@@ -162,32 +162,6 @@ const FilterMenu: React.FC<Props> = ({
     // selectedType is the specific of the medium email : message, subject
     const type = item.children ? item.children[childIndex].name : item.type;
 
-    /**
-     * createx.tsx
-     * setNavId to item.id
-     * textarea defaultText prop to description
-     * childIndex
-     */
-    // TODO: set template only if they click on save template
-    // shows save tempalte button when content.length > 0
-    const template = {
-      id: item.id,
-      description: description,
-      childIndex: childIndex,
-      selectedType: selectedType,
-      tone: tone,
-      textLength: textLength, // may not be there
-    };
-
-    if (!localStorage.getItem("hw-templates")) {
-      const newTemplate = [template];
-      localStorage.setItem("hw-templates", JSON.stringify(newTemplate));
-    } else {
-      let templates = JSON.parse(localStorage.getItem("hw-templates") || "");
-      // TODO: handle duplicates
-      templates.push(template);
-      localStorage.setItem("hw-templates", JSON.stringify(templates));
-    }
     let wordRange: any = [];
     if (textLength === "Brief") {
       wordRange = BRIEF_RANGE;
