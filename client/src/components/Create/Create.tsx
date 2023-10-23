@@ -45,7 +45,7 @@ type Navigation = {
   href: string;
   icon: any;
   type: CONTENT_TYPE;
-  showLength: boolean;
+  showLength?: boolean;
   options?: string[];
   examples?: any;
   children?: any[];
@@ -456,7 +456,6 @@ export default function Create() {
   const [navId, setNavId] = useState(0);
   const [childIndex, setChildIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState<Navigation>(navigation[0]);
-  const [description, setDescription] = useState("");
   const [content, setContent] = useState(
     localStorage.getItem("showedWelcomeMessage") ? "" : welcomeMessage
   );
@@ -497,7 +496,7 @@ export default function Create() {
     if (!localStorage.getItem("showedWelcomeMessage")) {
       localStorage.setItem("showedWelcomeMessage", "true");
     }
-  }, [content, setContent, usage, description]);
+  }, [content, setContent, usage]);
   return (
     <>
       <div>
@@ -955,7 +954,6 @@ export default function Create() {
                   item={selectedItem}
                   childIndex={childIndex}
                   updateContent={setContent}
-                  defaultDescription={description}
                 />
               </div>
             </div>
@@ -968,7 +966,6 @@ export default function Create() {
             item={selectedItem}
             childIndex={childIndex}
             updateContent={setContent}
-            defaultDescription={description}
           />
         </aside>
       </div>

@@ -7,7 +7,7 @@ const Modal: React.FC = () => {
     localStorage.setItem("hideGetStartedModal", "true");
     setShow(false);
   };
-  //TODO: remove p if api key is set
+
   return (
     <>
       {show && !localStorage.getItem("hideGetStartedModal") && (

@@ -6,6 +6,7 @@ import {STRIPE_LINK} from "../../types/constants";
  "Save your own custom presets",
   "Several templates",
   "Search saved content", 
+   "Rich text editor",
 */
 const includedFeatures = [
   "Content for all your needs",
@@ -14,7 +15,6 @@ const includedFeatures = [
   "Access to GPT-3.5",
   "Unlimited feature updates",
   "Several templates",
-  "Rich text editor",
 ];
 
 export default function Pricing() {

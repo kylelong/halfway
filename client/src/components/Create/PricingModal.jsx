@@ -7,9 +7,9 @@ import {XMarkIcon} from "@heroicons/react/24/outline";
 
 const includedFeatures = [
   "Content for all your needs",
-  "Save your own custom presets",
+  "Unlimited feature updates",
   "Several templates",
-  "Search saved generated content",
+  "Rich text editor",
 ];
 
 export default function PricingModal({open, onClose}) {

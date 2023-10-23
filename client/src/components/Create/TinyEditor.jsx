@@ -30,12 +30,12 @@ const TinyEditor = ({content}) => {
       setLength(0);
       if (editorRef.current) {
         editorRef.current.setContent("", {
-          format: "raw",
+          format: "text",
         });
       }
     }
 
-    let nextContent = editorRef.current?.getContent({format: "raw"}) || "";
+    let nextContent = editorRef.current?.getContent({format: "text"}) || "";
 
     // Helper function to determine if a space should be a non-breaking space
 
@@ -49,11 +49,11 @@ const TinyEditor = ({content}) => {
 
           // Handle special characters
           switch (nextChar) {
-            case "\n":
-              nextContent += content[length + 1] === "\n" ? "<br><br>" : "<br>";
-              break;
             case " ":
               nextContent += "&nbsp;";
+              break;
+            case "\n":
+              nextContent += "<br>";
               break;
             case ".":
               setSpeed(350);
@@ -66,7 +66,7 @@ const TinyEditor = ({content}) => {
 
           // Update the editor's content and selection
           editorRef.current.setContent(nextContent, {
-            format: "raw",
+            format: "text",
           });
           setLength(length + 1);
           editorRef.current.focus();
@@ -88,7 +88,7 @@ const TinyEditor = ({content}) => {
         onInit={(evt, editor) => (editorRef.current = editor)}
         initialValue=""
         init={{
-          height: 500,
+          height: 750,
           placeholder: "Edit your content here...",
           menubar: false,
           plugins: [

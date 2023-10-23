@@ -9,3 +9,4 @@ export const LOCAL_STORAGE_LICENSE_KEY = "hw-stripe-payment-license-key";
 export const LOCAL_STORAGE_USAGE_KEY = "hw-openai-usage";
 export const LOCAL_STORAGE_API_KEY = "hw-openai-apikey";
 export const LOCAL_STORAGE_QUERIES_KEY = "hw-queries";
+// Tokens = (words / 75) * 100

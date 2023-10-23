@@ -9,16 +9,7 @@ import {
   LOCAL_STORAGE_API_KEY,
   LOCAL_STORAGE_QUERIES_KEY,
 } from "../../types/constants";
-
-import {
-  TONE,
-  LENGTH,
-  LENGTH_SUB_TEXT,
-  BRIEF_RANGE,
-  SHORT_RANGE,
-  MEDIUM_RANGE,
-  LONG_RANGE,
-} from "../../types/basics";
+import {TONE, LENGTH} from "../../types/basics";
 import Modal from "./Modal";
 import ChatGPTSVG from "../../assets/chatgpt.svg";
 import OpenAIModal from "./OpenAIModal";
@@ -28,15 +19,9 @@ type Props = {
   item: any;
   childIndex: number;
   updateContent: React.Dispatch<React.SetStateAction<string>>;
-  defaultDescription: string;
 };
 
-const FilterMenu: React.FC<Props> = ({
-  item,
-  childIndex,
-  updateContent,
-  defaultDescription,
-}) => {
+const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
   const tonesArray = Object.entries(TONE).map(([key, value], index) => {
     return {
       id: index + 1,
@@ -48,7 +33,7 @@ const FilterMenu: React.FC<Props> = ({
   let count = parseInt(localStorage.getItem(LOCAL_STORAGE_QUERIES_KEY) || "0");
   const [optionsMenu, setOptionsMenu] = useState([]);
   const [selectedType, setSelectedType] = useState<string>("");
-  const [description, setDescription] = useState<string>(defaultDescription);
+  const [description, setDescription] = useState<string>("");
   const [selectedLength, setSelectedLength] = useState<string>(lengthsArray[0]);
   const [tone, setTone] = useState(tonesArray[0].data);
   const [showOpenAIModal, setShowOpenAIModal] = useState<boolean>(false);
@@ -84,19 +69,21 @@ const FilterMenu: React.FC<Props> = ({
     await updateContent("");
   };
 
-  const generate = async (query: string) => {
+  const generate = async (query: string, type: string) => {
+    // type is the subtype like sentence, outline, idea
     try {
-      // stream: true, top_p: 1
-      const completion = await openai.completions.create({
-        model: "gpt-3.5-turbo-instruct",
-        prompt: query,
-        max_tokens: 248, //TODO: make it a formula based on selectedLength
+      const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {role: "system", content: "You are a helpful writing assistant."},
+          {role: "user", content: query},
+        ],
         top_p: 1,
       });
 
       if (completion) {
-        let text = completion.choices[0].text;
-        updateContent(text);
+        let text = completion.choices[0].message.content;
+        updateContent(text || "");
         const {completion_tokens, prompt_tokens, total_tokens} =
           completion.usage || {};
         // update usage
@@ -150,48 +137,15 @@ const FilterMenu: React.FC<Props> = ({
       return;
     }
     clearContent();
-    // reset text area content
-    const {description, childIndex, item, selectedType, tone, textLength} =
-      data;
-    // TODO: Error checking
-    /**
-     *  description is empty
-     *  textLength is not short, medium, long (hackers)
-     *  child or selectedType is not valid
-     */
-    // selectedType is the specific of the medium email : message, subject
-    const type = item.children ? item.children[childIndex].name : item.type;
+    let {description, childIndex, item, selectedType, tone} = data;
 
-    let wordRange: any = [];
-    if (textLength === "Brief") {
-      wordRange = BRIEF_RANGE;
-    } else if (textLength === "Short") {
-      wordRange = SHORT_RANGE;
-    } else if (textLength === "Medium") {
-      wordRange = MEDIUM_RANGE;
-    } else if (textLength === "Long") {
-      wordRange = LONG_RANGE;
-    }
-    // TODO: message for each item in create array
+    const type = item.children ? item.children[childIndex].name : item.type;
     let message = "";
     // CALL OPEN AI
-    if (item.showLength) {
-      message = `generate a ${type} ${selectedType} in a ${tone} tone that is between ${wordRange[0]} and ${wordRange[1]} words described as ${description}`;
-    } else {
-      message = `generate a ${selectedType} for a ${type} in a ${tone} tone described as ${description}`;
-    }
 
-    // maybe reset data
-    // setData({
-    //   description: "",
-    //   childIndex: 0,
-    //   item: item,
-    //   selectedType: "", // sub type
-    //   tone: tonesArray[0].data,
-    //   textLength: lengthsArray[0],
-    // });
+    message = `generate a ${selectedType} in a ${tone.toLocaleLowerCase()} tone for a ${type} described as ${description}`;
     setDescription("");
-    generate(message);
+    generate(message, selectedType);
   };
   // useEffect(() => {
   //   console.log(
@@ -201,7 +155,6 @@ const FilterMenu: React.FC<Props> = ({
   // }, [showSubscribeModal, count]);
 
   useEffect(() => {
-    console.log(description, defaultDescription);
     // sub type can come from parent or the child
     let menu = item.options || [];
     const {children} = item;
@@ -220,8 +173,18 @@ const FilterMenu: React.FC<Props> = ({
       setSelectedType(menu[0]);
     }
     if (item.name !== itemNameRef.current) {
-      setData({...data, item: item});
+      setData({
+        ...data,
+        item: item,
+        tone: tonesArray[0].data,
+        textLength: lengthsArray[0],
+        selectedType: menu[0],
+      });
+      // reset description, length, tone, type
+      setSelectedType(menu[0]);
       setDescription("");
+      setTone(tonesArray[0].data);
+      setSelectedLength(lengthsArray[0]);
     }
     if (selectedType !== selectedTypeRef.current) {
       setData({...data, selectedType: selectedType});
@@ -236,9 +199,18 @@ const FilterMenu: React.FC<Props> = ({
       setData({...data, description: description});
     }
     if (childIndex !== childIndexRef.current) {
-      setData({...data, childIndex: childIndex});
+      setData({
+        ...data,
+        childIndex: childIndex,
+        tone: tonesArray[0].data,
+        textLength: lengthsArray[0],
+        selectedType: menu[0],
+      });
+      // reset description, length, tone, type
       setSelectedType(menu[0]);
       setDescription("");
+      setTone(tonesArray[0].data);
+      setSelectedLength(lengthsArray[0]);
     }
 
     itemNameRef.current = item.name;
@@ -259,7 +231,6 @@ const FilterMenu: React.FC<Props> = ({
     showOpenAIModal,
     updateContent,
     showSubscribeModal,
-    defaultDescription,
   ]);
 
   return (
@@ -315,7 +286,7 @@ const FilterMenu: React.FC<Props> = ({
           childIndex={childIndex}
           selectedType={selectedType}
           updateText={setDescription}
-          defaultText={defaultDescription}
+          defaultText={description}
         />
       </div>
 
@@ -337,7 +308,7 @@ const FilterMenu: React.FC<Props> = ({
         />
       </div>
 
-      {item.showLength && (
+      {/* {item.showLength && (
         <div className="mb-6">
           <DropDownMenu
             options={lengthsArray}
@@ -347,7 +318,7 @@ const FilterMenu: React.FC<Props> = ({
             subText={LENGTH_SUB_TEXT}
           />
         </div>
-      )}
+      )} */}
       <button
         type="button"
         onClick={generateQuery}
