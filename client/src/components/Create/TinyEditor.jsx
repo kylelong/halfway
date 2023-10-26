@@ -6,43 +6,13 @@ import checkBadge from "../../assets/checkBadge.svg";
 const TinyEditor = ({content, completion}) => {
   const editorRef = useRef(null);
   const [text, setText] = useState("");
-  const [length, setLength] = useState(0);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [done, setDone] = useState(false);
 
   const handleChange = (content, editor) => {
     if (editorRef.current) {
       setText(editorRef.current.getContent({format: "text"}));
-    }
-  };
-
-  const processCompletion = async () => {
-    try {
-      if (completion) {
-        setLoading(true);
-        let combinedContent = ""; // Initialize combined content
-        for await (const chunk of completion) {
-          setLength(0);
-          const data = chunk.choices[0].delta.content;
-
-          // Format and append new chunk to combined content
-          if (data) {
-            combinedContent += formatContent(data);
-          }
-          const finished = chunk.choices[0].finish_reason;
-          if (finished || !data) {
-            setLoading(false);
-          }
-          // Update the editor content with the combined content
-          if (editorRef.current) {
-            editorRef.current.setContent(combinedContent, {
-              format: "text",
-            });
-          }
-        }
-      }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -60,13 +30,41 @@ const TinyEditor = ({content, completion}) => {
   };
 
   useEffect(() => {
+    const processCompletion = async () => {
+      try {
+        if (completion) {
+          setLoading(true);
+          let combinedContent = ""; // Initialize combined content
+          for await (const chunk of completion) {
+            const data = chunk.choices[0].delta.content;
+
+            // Format and append new chunk to combined content
+            if (data) {
+              combinedContent += formatContent(data);
+              setText((prev) => (prev += data));
+            }
+            const finished = chunk.choices[0].finish_reason;
+            if (finished) {
+              setLoading(false);
+              setDone(true);
+            }
+            // Update the editor content with the combined content
+            if (editorRef.current) {
+              editorRef.current.setContent(combinedContent, {
+                format: "text",
+              });
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     processCompletion();
   }, [completion]);
 
   return (
     <>
-      <div dangerouslySetInnerHTML={{__html: formatContent(content)}}></div>
-
       <Editor
         apiKey={process.env.REACT_APP_TINY_API_KEY}
         onInit={(evt, editor) => (editorRef.current = editor)}
@@ -106,7 +104,7 @@ const TinyEditor = ({content, completion}) => {
         onEditorChange={handleChange}
       />
       <div>
-        {loading && (
+        {loading && !done && (
           <div>
             <button
               style={{fontFamily: "Gaegu"}}
@@ -140,9 +138,9 @@ const TinyEditor = ({content, completion}) => {
         )}
       </div>
       <div>
-        {length > 0 && content.length === length && (
+        {done && (
           <>
-            <CopyToClipboard text={content}>
+            <CopyToClipboard text={text}>
               <button
                 onClick={() => {
                   setCopied(true);

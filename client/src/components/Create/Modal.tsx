@@ -4,13 +4,13 @@ import {LOCAL_STORAGE_API_KEY} from "../../types/constants";
 const Modal: React.FC = () => {
   const [show, setShow] = useState(true);
   const hideForever = () => {
-    localStorage.setItem("hideGetStartedModal", "true");
+    localStorage.setItem("hw-hide-get-started-modal", "true");
     setShow(false);
   };
 
   return (
     <>
-      {show && !localStorage.getItem("hideGetStartedModal") && (
+      {show && !localStorage.getItem("hw-hide-get-started-modal") && (
         <div className="bg-gray-50 sm:rounded-lg mb-6">
           <div className="px-4 py-5 sm:p-6">
             <h3 className="text-base font-semibold leading-6 text-gray-900">

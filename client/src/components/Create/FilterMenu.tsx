@@ -84,36 +84,46 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateCompletion}) => {
 
       if (completion) {
         updateCompletion(completion);
-        // for await (const chunk of completion) {
-        //   console.log(chunk.choices[0].delta.content);
-        //   console.log(chunk.choices[0].finish_reason);
-        //   //updateCompletion(chunk.choices[0].delta.content || "");
-        // }
-        // TODO: fix usage
-        // let text = completion.choices[0].message.content;
-        // updateCompletion(text || "");
-        // const {completion_tokens, prompt_tokens, total_tokens} =
-        //   completion.usage || {};
-        // // update usage
-        // if (localStorage.getItem(LOCAL_STORAGE_USAGE_KEY)) {
-        //   let usage = JSON.parse(
-        //     localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}"
-        //   );
-        //   usage.completion_tokens = usage.completion_tokens + completion_tokens;
-        //   usage.prompt_tokens = usage.prompt_tokens + prompt_tokens;
-        //   usage.total_tokens = usage.total_tokens + total_tokens;
+        const completionFull = await openai.chat.completions.create({
+          model: "gpt-3.5-turbo",
+          messages: [
+            {role: "system", content: "You are a helpful writing assistant."},
+            {role: "user", content: query},
+          ],
+          top_p: 1,
+        });
+        if (completionFull) {
+          const {completion_tokens, prompt_tokens, total_tokens} =
+            completionFull.usage || {};
+          console.log(completion_tokens, prompt_tokens, total_tokens);
+          // update usage
+          if (localStorage.getItem(LOCAL_STORAGE_USAGE_KEY)) {
+            let usage = JSON.parse(
+              localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}"
+            );
+            usage.completion_tokens =
+              usage.completion_tokens + completion_tokens;
+            usage.prompt_tokens = usage.prompt_tokens + prompt_tokens;
+            usage.total_tokens = usage.total_tokens + total_tokens;
 
-        //   // update it to new values
-        //   localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
-        // } else {
-        //   // create storage
-        //   const usage = {
-        //     prompt_tokens: prompt_tokens,
-        //     completion_tokens: completion_tokens,
-        //     total_tokens: total_tokens,
-        //   };
-        //   localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
-        // }
+            // update it to new values
+            localStorage.setItem(
+              LOCAL_STORAGE_USAGE_KEY,
+              JSON.stringify(usage)
+            );
+          } else {
+            // create storage
+            const usage = {
+              prompt_tokens: prompt_tokens,
+              completion_tokens: completion_tokens,
+              total_tokens: total_tokens,
+            };
+            localStorage.setItem(
+              LOCAL_STORAGE_USAGE_KEY,
+              JSON.stringify(usage)
+            );
+          }
+        }
 
         // handle showing subscribe modal
         let count = parseInt(
@@ -151,7 +161,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateCompletion}) => {
     let message = "";
     // CALL OPEN AI
 
-    message = `generate a ${selectedType} in a ${tone.toLocaleLowerCase()} tone for a ${type} described as ${description}`;
+    message = `write a ${selectedType} in a ${tone.toLocaleLowerCase()} tone for a ${type} described as ${description}`;
     setDescription("");
     generate(message, selectedType);
   };
@@ -238,6 +248,8 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateCompletion}) => {
     description,
     showOpenAIModal,
     showSubscribeModal,
+    lengthsArray,
+    tonesArray,
   ]);
 
   return (

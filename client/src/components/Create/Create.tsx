@@ -457,7 +457,7 @@ export default function Create() {
   const [childIndex, setChildIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState<Navigation>(navigation[0]);
   const [content, setContent] = useState(
-    localStorage.getItem("showedWelcomeMessage") ? "" : welcomeMessage
+    localStorage.getItem("hw-showed-welcome-message") ? "" : welcomeMessage
   );
   const [completion, setCompletion] = useState<any>();
   const [usage, setUsage] = useState(
@@ -494,8 +494,8 @@ export default function Create() {
       setUsage(use);
       usageRef.current = use;
     }
-    if (!localStorage.getItem("showedWelcomeMessage")) {
-      localStorage.setItem("showedWelcomeMessage", "true");
+    if (!localStorage.getItem("hw-showed-welcome-message")) {
+      localStorage.setItem("hw-showed-welcome-message", "true");
     }
   }, [content, setContent, usage]);
   return (
