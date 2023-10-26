@@ -18,10 +18,10 @@ import SubscribeModal from "./SubscribeModal";
 type Props = {
   item: any;
   childIndex: number;
-  updateContent: React.Dispatch<React.SetStateAction<string>>;
+  updateCompletion: React.Dispatch<React.SetStateAction<any>>;
 };
 
-const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
+const FilterMenu: React.FC<Props> = ({item, childIndex, updateCompletion}) => {
   const tonesArray = Object.entries(TONE).map(([key, value], index) => {
     return {
       id: index + 1,
@@ -66,7 +66,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     dangerouslyAllowBrowser: true, // Use with caution
   });
   const clearContent = async () => {
-    await updateContent("");
+    await updateCompletion(null);
   };
 
   const generate = async (query: string, type: string) => {
@@ -74,6 +74,7 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     try {
       const completion = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
+        stream: true,
         messages: [
           {role: "system", content: "You are a helpful writing assistant."},
           {role: "user", content: query},
@@ -82,30 +83,37 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
       });
 
       if (completion) {
-        let text = completion.choices[0].message.content;
-        updateContent(text || "");
-        const {completion_tokens, prompt_tokens, total_tokens} =
-          completion.usage || {};
-        // update usage
-        if (localStorage.getItem(LOCAL_STORAGE_USAGE_KEY)) {
-          let usage = JSON.parse(
-            localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}"
-          );
-          usage.completion_tokens = usage.completion_tokens + completion_tokens;
-          usage.prompt_tokens = usage.prompt_tokens + prompt_tokens;
-          usage.total_tokens = usage.total_tokens + total_tokens;
+        updateCompletion(completion);
+        // for await (const chunk of completion) {
+        //   console.log(chunk.choices[0].delta.content);
+        //   console.log(chunk.choices[0].finish_reason);
+        //   //updateCompletion(chunk.choices[0].delta.content || "");
+        // }
+        // TODO: fix usage
+        // let text = completion.choices[0].message.content;
+        // updateCompletion(text || "");
+        // const {completion_tokens, prompt_tokens, total_tokens} =
+        //   completion.usage || {};
+        // // update usage
+        // if (localStorage.getItem(LOCAL_STORAGE_USAGE_KEY)) {
+        //   let usage = JSON.parse(
+        //     localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}"
+        //   );
+        //   usage.completion_tokens = usage.completion_tokens + completion_tokens;
+        //   usage.prompt_tokens = usage.prompt_tokens + prompt_tokens;
+        //   usage.total_tokens = usage.total_tokens + total_tokens;
 
-          // update it to new values
-          localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
-        } else {
-          // create storage
-          const usage = {
-            prompt_tokens: prompt_tokens,
-            completion_tokens: completion_tokens,
-            total_tokens: total_tokens,
-          };
-          localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
-        }
+        //   // update it to new values
+        //   localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
+        // } else {
+        //   // create storage
+        //   const usage = {
+        //     prompt_tokens: prompt_tokens,
+        //     completion_tokens: completion_tokens,
+        //     total_tokens: total_tokens,
+        //   };
+        //   localStorage.setItem(LOCAL_STORAGE_USAGE_KEY, JSON.stringify(usage));
+        // }
 
         // handle showing subscribe modal
         let count = parseInt(
@@ -229,7 +237,6 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateContent}) => {
     tone,
     description,
     showOpenAIModal,
-    updateContent,
     showSubscribeModal,
   ]);
 

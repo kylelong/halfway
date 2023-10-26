@@ -83,7 +83,7 @@ const navigation: Navigation[] = [
             "strength training impact on muscle mass",
           ],
           paragraph: [
-            "how silicon valley became the meca of tech",
+            "how silicon valley became the mecca of tech",
             "red burgundy vs willamette valley pinot noir",
             "cancel culture in modern comedy",
           ],
@@ -110,7 +110,7 @@ const navigation: Navigation[] = [
             "strength training impact on muscle mass",
           ],
           paragraph: [
-            "how silicon valley became the meca of tech",
+            "how silicon valley became the mecca of tech",
             "red burgundy vs willamette valley pinot noir",
             "cancel culture in modern comedy",
           ],
@@ -459,6 +459,7 @@ export default function Create() {
   const [content, setContent] = useState(
     localStorage.getItem("showedWelcomeMessage") ? "" : welcomeMessage
   );
+  const [completion, setCompletion] = useState<any>();
   const [usage, setUsage] = useState(
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}")
   );
@@ -947,13 +948,13 @@ export default function Create() {
           <div className="xl:pr-96">
             <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
               {/* Main area w-full sm:w-4/6 lg:2/6 */}
-              <TinyEditor content={content} />
+              <TinyEditor content={content} completion={completion} />
 
               <div className="xl:hidden mt-6">
                 <FilterMenu
                   item={selectedItem}
                   childIndex={childIndex}
-                  updateContent={setContent}
+                  updateCompletion={setCompletion}
                 />
               </div>
             </div>
@@ -965,7 +966,7 @@ export default function Create() {
           <FilterMenu
             item={selectedItem}
             childIndex={childIndex}
-            updateContent={setContent}
+            updateCompletion={setCompletion}
           />
         </aside>
       </div>

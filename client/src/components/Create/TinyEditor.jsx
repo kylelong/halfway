@@ -2,12 +2,12 @@ import {useRef, useState, useEffect} from "react";
 import {Editor} from "@tinymce/tinymce-react";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import checkBadge from "../../assets/checkBadge.svg";
-const TinyEditor = ({content}) => {
+
+const TinyEditor = ({content, completion}) => {
   const editorRef = useRef(null);
-  const contentRef = useRef("");
   const [text, setText] = useState("");
   const [length, setLength] = useState(0);
-  const [speed, setSpeed] = useState(35);
+  const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const handleChange = (content, editor) => {
@@ -15,74 +15,58 @@ const TinyEditor = ({content}) => {
       setText(editorRef.current.getContent({format: "text"}));
     }
   };
-  useEffect(() => {
-    const shouldUseNbsp = (index) => {
-      // If it's the start of the string or follows a newline, use &nbsp;
-      if (index === 0 || content[index - 1] === "\n") return true;
-      // If the previous character is a space, use &nbsp;
-      if (content[index - 1] === " ") return true;
-      return false;
-    };
 
-    // clear text editor when new content is sent in
-    if (contentRef.current !== content) {
-      contentRef.current = content;
-      setLength(0);
-      if (editorRef.current) {
-        editorRef.current.setContent("", {
-          format: "text",
-        });
-      }
-    }
+  const processCompletion = async () => {
+    try {
+      if (completion) {
+        setLoading(true);
+        let combinedContent = ""; // Initialize combined content
+        for await (const chunk of completion) {
+          setLength(0);
+          const data = chunk.choices[0].delta.content;
 
-    let nextContent = editorRef.current?.getContent({format: "text"}) || "";
-
-    // Helper function to determine if a space should be a non-breaking space
-
-    // Clear the interval right away to prevent overlapping intervals
-    let timer = null;
-
-    if (length < content.length) {
-      timer = setInterval(() => {
-        if (editorRef.current) {
-          let nextChar = content[length];
-
-          // Handle special characters
-          switch (nextChar) {
-            case " ":
-              nextContent += "&nbsp;";
-              break;
-            case "\n":
-              nextContent += "<br>";
-              break;
-            case ".":
-              setSpeed(350);
-              nextContent += nextChar;
-              break;
-            default:
-              setSpeed(20);
-              nextContent += nextChar;
+          // Format and append new chunk to combined content
+          if (data) {
+            combinedContent += formatContent(data);
           }
-
-          // Update the editor's content and selection
-          editorRef.current.setContent(nextContent, {
-            format: "text",
-          });
-          setLength(length + 1);
-          editorRef.current.focus();
-          editorRef.current.selection.select(editorRef.current.getBody(), true);
-          editorRef.current.selection.collapse(false);
+          const finished = chunk.choices[0].finish_reason;
+          if (finished || !data) {
+            setLoading(false);
+          }
+          // Update the editor content with the combined content
+          if (editorRef.current) {
+            editorRef.current.setContent(combinedContent, {
+              format: "text",
+            });
+          }
         }
-      }, speed);
+      }
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    return () => {
-      clearInterval(timer); // Clear interval when the component unmounts or dependencies change
-    };
-  }, [length, text, speed, content, copied]);
+  const formatContent = (content) => {
+    // Replace spaces with non-breaking spaces for indentation
+    content = content.replace(/ /g, "&nbsp;");
+
+    // Replace line breaks with <br> tags
+    content = content.replace(/\n/g, "<br>");
+
+    // Prevent hyphenated chunks from being separated
+    content = content.replace(/(\S+)-(\S+)/g, "$1&hyphen;$2");
+
+    return content;
+  };
+
+  useEffect(() => {
+    processCompletion();
+  }, [completion]);
 
   return (
     <>
+      <div dangerouslySetInnerHTML={{__html: formatContent(content)}}></div>
+
       <Editor
         apiKey={process.env.REACT_APP_TINY_API_KEY}
         onInit={(evt, editor) => (editorRef.current = editor)}
@@ -122,7 +106,7 @@ const TinyEditor = ({content}) => {
         onEditorChange={handleChange}
       />
       <div>
-        {length !== content.length && (
+        {loading && (
           <div>
             <button
               style={{fontFamily: "Gaegu"}}
@@ -150,7 +134,7 @@ const TinyEditor = ({content}) => {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              Assitant typing...
+              Assistant typing...
             </button>
           </div>
         )}
@@ -187,4 +171,5 @@ const TinyEditor = ({content}) => {
     </>
   );
 };
+
 export default TinyEditor;
