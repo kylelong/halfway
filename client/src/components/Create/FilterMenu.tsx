@@ -95,7 +95,6 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateCompletion}) => {
         if (completionFull) {
           const {completion_tokens, prompt_tokens, total_tokens} =
             completionFull.usage || {};
-          console.log(completion_tokens, prompt_tokens, total_tokens);
           // update usage
           if (localStorage.getItem(LOCAL_STORAGE_USAGE_KEY)) {
             let usage = JSON.parse(

@@ -3,12 +3,14 @@ import {Editor} from "@tinymce/tinymce-react";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import checkBadge from "../../assets/checkBadge.svg";
 
-const TinyEditor = ({content, completion}) => {
+const TinyEditor = ({completion}) => {
   const editorRef = useRef(null);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [done, setDone] = useState(false);
+  const [editorInitialized, setEditorInitialized] = useState(false);
+  const welcomeMessage = `Welcome to Halfway. Get smart generated content for all your writing needs. Content for writing papers, emails, blogs, newsletters. Also for social media, marketing & advertising campaigns, ecommerce, and seo. To get started, enter the details (below if on mobile, to the right if on desktop) of the content you want to create.`;
 
   const handleChange = (content, editor) => {
     if (editorRef.current) {
@@ -31,43 +33,83 @@ const TinyEditor = ({content, completion}) => {
 
   useEffect(() => {
     const processCompletion = async () => {
-      try {
-        if (completion) {
-          setLoading(true);
-          let combinedContent = ""; // Initialize combined content
-          for await (const chunk of completion) {
-            const data = chunk.choices[0].delta.content;
+      if (!localStorage.getItem("hw-showed-welcome-message")) {
+        console.log(welcomeMessage);
 
-            // Format and append new chunk to combined content
-            if (data) {
-              combinedContent += formatContent(data);
-              setText((prev) => (prev += data));
-            }
-            const finished = chunk.choices[0].finish_reason;
-            if (finished) {
-              setLoading(false);
-              setDone(true);
-            }
-            // Update the editor content with the combined content
-            if (editorRef.current) {
-              editorRef.current.setContent(combinedContent, {
-                format: "text",
-              });
+        let currentLength = 0;
+
+        const timer = setInterval(() => {
+          if (editorRef.current && currentLength < welcomeMessage.length) {
+            const currentContent = editorRef.current.getContent({
+              format: "text",
+            });
+            let data = welcomeMessage[currentLength];
+            let nextChar = formatContent(data);
+
+            editorRef.current.setContent(currentContent + nextChar, {
+              format: "raw",
+            });
+            currentLength++;
+            editorRef.current.focus();
+            editorRef.current.selection.select(
+              editorRef.current.getBody(),
+              true
+            ); // End of content
+            editorRef.current.selection.collapse(false); // Collapse selection to end
+          } else {
+            localStorage.setItem("hw-showed-welcome-message", "true");
+            clearInterval(timer);
+          }
+        }, 40);
+
+        return () => {
+          localStorage.setItem("hw-showed-welcome-message", "true");
+          clearInterval(timer);
+        };
+      } else {
+        try {
+          if (completion) {
+            setLoading(true);
+            let combinedContent = ""; // Initialize combined content
+            for await (const chunk of completion) {
+              const data = chunk.choices[0].delta.content;
+
+              // Format and append new chunk to combined content
+              if (data) {
+                combinedContent += formatContent(data);
+                setText((prev) => (prev += data));
+              }
+              const finished = chunk.choices[0].finish_reason;
+              if (finished) {
+                setLoading(false);
+                setDone(true);
+              }
+              // Update the editor content with the combined content
+              if (editorRef.current) {
+                editorRef.current.setContent(combinedContent, {
+                  format: "text",
+                });
+              }
             }
           }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
     };
-    processCompletion();
-  }, [completion]);
+    if (editorInitialized) {
+      processCompletion();
+    }
+  }, [completion, welcomeMessage, editorInitialized]);
 
   return (
     <>
       <Editor
         apiKey={process.env.REACT_APP_TINY_API_KEY}
-        onInit={(evt, editor) => (editorRef.current = editor)}
+        onInit={(evt, editor) => {
+          editorRef.current = editor;
+          setEditorInitialized(true);
+        }}
         initialValue=""
         init={{
           height: 750,

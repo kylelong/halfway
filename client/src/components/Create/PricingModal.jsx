@@ -7,7 +7,7 @@ import {XMarkIcon} from "@heroicons/react/24/outline";
 
 const includedFeatures = [
   "Content for all your needs",
-  "Unlimited feature updates",
+  "Premium only features",
   "Several templates",
   "Rich text editor",
 ];

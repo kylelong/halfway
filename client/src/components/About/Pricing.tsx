@@ -13,7 +13,7 @@ const includedFeatures = [
   "Use your own API Key",
   "One time purchase, no monthly fee",
   "Access to GPT-3.5",
-  "Unlimited feature updates",
+  "Premium only features",
   "Several templates",
 ];
 

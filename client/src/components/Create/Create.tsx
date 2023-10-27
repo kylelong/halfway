@@ -451,14 +451,10 @@ function classNames(...classes: any) {
 //#endregion
 
 export default function Create() {
-  const welcomeMessage = `Welcome to Halfway. Get smart generated content for all your writing needs. Content for writing papers, emails, blogs, newsletters. Also for social media, marketing & advertising campaigns, e-commerce, and seo. To get started, enter the details (below if on mobile, to the right if on desktop) of the content you want to create.`;
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [navId, setNavId] = useState(0);
   const [childIndex, setChildIndex] = useState(0);
   const [selectedItem, setSelectedItem] = useState<Navigation>(navigation[0]);
-  const [content, setContent] = useState(
-    localStorage.getItem("hw-showed-welcome-message") ? "" : welcomeMessage
-  );
   const [completion, setCompletion] = useState<any>();
   const [usage, setUsage] = useState(
     JSON.parse(localStorage.getItem(LOCAL_STORAGE_USAGE_KEY) || "{}")
@@ -471,14 +467,12 @@ export default function Create() {
     // TODO: child index
     setNavId(idx);
     setSelectedItem(item);
-    setContent("");
     if (navigation[idx].children && idx !== navId) {
       setChildIndex(0);
     }
   };
   const handleChildClick = (index: number) => {
     setChildIndex(index);
-    setContent("");
   };
   useEffect(() => {
     // update api usage
@@ -494,10 +488,7 @@ export default function Create() {
       setUsage(use);
       usageRef.current = use;
     }
-    if (!localStorage.getItem("hw-showed-welcome-message")) {
-      localStorage.setItem("hw-showed-welcome-message", "true");
-    }
-  }, [content, setContent, usage]);
+  }, [usage]);
   return (
     <>
       <div>
@@ -948,7 +939,7 @@ export default function Create() {
           <div className="xl:pr-96">
             <div className="px-4 py-10 sm:px-6 lg:px-8 lg:py-6">
               {/* Main area w-full sm:w-4/6 lg:2/6 */}
-              <TinyEditor content={content} completion={completion} />
+              <TinyEditor completion={completion} />
 
               <div className="xl:hidden mt-6">
                 <FilterMenu
