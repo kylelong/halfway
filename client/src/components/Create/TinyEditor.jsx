@@ -70,6 +70,7 @@ const TinyEditor = ({completion}) => {
         try {
           if (completion) {
             setLoading(true);
+            setDone(false);
             let combinedContent = ""; // Initialize combined content
             for await (const chunk of completion) {
               const data = chunk.choices[0].delta.content;
