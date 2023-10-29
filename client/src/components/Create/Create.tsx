@@ -289,7 +289,7 @@ const navigation: Navigation[] = [
             "pranking my sister",
           ],
           hashtags: [
-            "helo my video go viral",
+            "help my video go viral",
             "dance video",
             "football game vlog",
           ],

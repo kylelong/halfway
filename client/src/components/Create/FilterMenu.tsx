@@ -161,6 +161,9 @@ const FilterMenu: React.FC<Props> = ({item, childIndex, updateCompletion}) => {
     // CALL OPEN AI
 
     message = `write a ${selectedType} in a ${tone.toLocaleLowerCase()} tone for a ${type} described as ${description}`;
+    if (selectedType == "keywords" || selectedType == "hashtags") {
+      message = `produce a list of ${selectedType} in a ${tone.toLocaleLowerCase()} tone for a ${type} described as ${description}`;
+    }
     setDescription("");
     generate(message, selectedType);
   };
