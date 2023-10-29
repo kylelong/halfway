@@ -397,11 +397,11 @@ function About() {
                       {item[1].map((e, idx) => {
                         return (
                           <div
-                            className="flex flex-row flex-wrap items-center"
+                            className="flex flex-row flex-nowrap items-center"
                             key={idx}
                           >
-                            <div className="w-1.5 h-1.5 bg-violet-500 rounded-full"></div>
-                            <div className="relative left-2">{e}</div>
+                            <div className="w-1.5 h-1.5 bg-violet-500 rounded-full mr-2"></div>
+                            <div className="text-sm sm:text-base">{e}</div>
                           </div>
                         );
                       })}
