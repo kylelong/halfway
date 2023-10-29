@@ -573,6 +573,21 @@ export default function Create() {
                                 About
                               </a>
                             </li>
+                            {!localStorage.getItem(
+                              LOCAL_STORAGE_LICENSE_KEY
+                            ) && (
+                              <li>
+                                <a
+                                  href="/pricing"
+                                  style={{fontFamily: "Gaegu"}}
+                                  className="group flex gap-x-3 rounded-md p-2 text-xl leading-6 font-semibold text-indigo-200 hover:text-white hover:bg-indigo-700"
+                                >
+                                  <span className="animate-ping absolute inline-flex h-6 w-6 rounded-full bg-white opacity-75"></span>
+                                  <GiftIcon className="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white" />
+                                  Purchase
+                                </a>
+                              </li>
+                            )}
                             {navigation.map((item, idx) => (
                               <li
                                 key={item.name}

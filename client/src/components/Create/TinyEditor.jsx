@@ -34,8 +34,6 @@ const TinyEditor = ({completion}) => {
   useEffect(() => {
     const processCompletion = async () => {
       if (!localStorage.getItem("hw-showed-welcome-message")) {
-        console.log(welcomeMessage);
-
         let currentLength = 0;
 
         const timer = setInterval(() => {
