@@ -9,6 +9,7 @@ const TinyEditor = ({completion}) => {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState(false);
   const [editorInitialized, setEditorInitialized] = useState(false);
   const welcomeMessage = `Welcome to Halfway. Get smart generated content for all your writing needs. Content for writing papers, emails, blogs, newsletters. Also for social media, marketing & advertising campaigns, ecommerce, and seo. To get started, enter the details (below if on mobile, to the right if on desktop) of the content you want to create.`;
 
@@ -93,6 +94,9 @@ const TinyEditor = ({completion}) => {
           }
         } catch (error) {
           console.log(error);
+          setError(true);
+          setLoading(false);
+          setDone(true);
         }
       }
     };
@@ -179,6 +183,7 @@ const TinyEditor = ({completion}) => {
         )}
       </div>
       <div>
+        {error && <div className="mt-2">network error. please try again</div>}
         {done && (
           <>
             <CopyToClipboard text={text}>
